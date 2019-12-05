@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false
+      },
+      "@babel/preset-react"
+    ]
+  ],
+  "plugins": [
+    [
+      "transform-inline-environment-variables",
+      {
+        "include": ["NODE_ENV", "API"]
+      }
+    ],
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-transform-runtime"],
+    ["@babel/plugin-proposal-optional-catch-binding"],
+    ["@babel/plugin-syntax-dynamic-import"],
+    ["@babel/plugin-proposal-class-properties"]
+  ]
+}
