@@ -1,8 +1,6 @@
 {
   "scripts": {
     "build": "roadhog build",
-    "precommit": "npm run lint",
-    "lint": "eslint --ext .js src test",
     "start": "roadhog server",
     "prod": "webpack --config webpack.prod.js",
     "dev": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js"
