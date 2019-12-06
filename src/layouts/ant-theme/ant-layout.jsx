@@ -6,7 +6,7 @@ import BasicLayout, {
    DefaultFooter
 } from "@ant-design/pro-layout";
 import { Icon, Result, Button } from "antd";
-// import UserList from "../components/users/userList";
+import UserList from "../../views/user/usersList";
 const defaultFooterDom = (
    <DefaultFooter
       copyright="2019 蚂蚁金服体验技术部出品"
@@ -115,7 +115,7 @@ class AntLayout extends React.Component {
                {this.props.children}
             </PageHeaderWrapper>
 
-            {/* <UserList>{children}</UserList> */}
+            <UserList></UserList>
          </ProLayout>
       );
    }

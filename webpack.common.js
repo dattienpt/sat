@@ -47,6 +47,8 @@ const config = {
    },
    resolve: {
       extensions: [
+         ".ts",
+         ".tsx",
          ".js",
          ".jsx",
          ".json",
@@ -68,6 +70,11 @@ const config = {
    },
    module: {
       rules: [
+         {
+            test: /\.ts(x)?$/,
+            use: ["awesome-typescript-loader"],
+            exclude: /node_modules/
+         },
          {
             test: /\.less$/,
             use: [
