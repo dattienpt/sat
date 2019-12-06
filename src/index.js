@@ -5,7 +5,7 @@ import { createHashHistory } from "history";
 import modelEntry from "./models/modelEntry";
 import RouterConfig from "./routers/routerConfig.js";
 import { message } from 'antd';
-import './styles/main.less';
+import './styles/index.less';
 
 // 1. Initialize
 const app = dva({
