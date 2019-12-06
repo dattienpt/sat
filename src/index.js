@@ -6,6 +6,8 @@ import modelEntry from "./models/modelEntry";
 import RouterConfig from "./routers/routerConfig.js";
 import { message } from 'antd';
 import './styles/index.less';
+import MainLayout from './views/mainLayout';
+import "antd/dist/antd.css";
 
 // 1. Initialize
 const app = dva({
@@ -33,7 +35,7 @@ modelEntry.forEach(model => app.model(model));
 
 // 4. Router
 //app.router(require('./router.jsx'));
-app.router(RouterConfig);
+app.router(MainLayout);
 
 // 5. Start
 app.start('#root');

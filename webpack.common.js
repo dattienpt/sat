@@ -9,7 +9,7 @@ const target = path.resolve(__dirname, 'src/configs/prod.js');
 const getCurrentEvn = () => {
     const evnConfig = process.env.evnConfig;
     switch (evnConfig) {
-        case 'dev':
+        case 'development':
             return path.resolve(__dirname, 'src/configs/dev.js');
         case 'prod':
             return path.resolve(__dirname, 'src/configs/prod.js');
@@ -41,15 +41,14 @@ copy(conFig, target, (err) => {
 const config = {
     entry: {
         app: './src/index.js',
-
     },
     output: {
-        filename: '[name].[hash:8].bundle.js',
+        filename: '[name].[hash:4].bundle.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/"
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.less', '.json', '.css', '.png', '.jpg', '.gif', '.jpeg', '.svg'],
+        extensions: ['.js', '.jsx', '.json', '.css', '.png', '.jpg', '.gif', '.jpeg', '.svg'],
         alias: {
             "IMAGE": path.resolve(__dirname, './src/assets'),
             "REQUESTS": path.resolve(__dirname, './src/http/requests'),
@@ -93,6 +92,20 @@ const config = {
                 ]
             },
             {
+                test: /\.less$/,
+                use: [{
+                    loader: "style-loader"
+                }, {
+                    loader: "css-loader"
+                }, {
+                    loader: "less-loader",
+                    options: {
+                        javascriptEnabled: true
+                    }
+                }]
+        }
+            ,
+            {
                 test: /\.svg$/,
                 use: 'file-loader'
             },
@@ -106,10 +119,6 @@ const config = {
                         }
                     }
                 ]
-            },
-            {
-                test: /\.less$/,
-                use: ['css-loader', 'less-loader'],
             }
         ]
     },
