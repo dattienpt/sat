@@ -1,21 +1,21 @@
-import { Icon, Tooltip } from 'antd';
-import React from 'react';
-import { formatMessage } from 'umi-plugin-react/locale';
+import { Icon, Tooltip } from "antd";
+import React from "react";
+import { formatMessage } from "umi-plugin-react/locale";
 
-import Avatar from './AvatarDropdown';
-import HeaderSearch from '../HeaderSearch';
-import SelectLang from '../SelectLang';
-import styles from './index.less';
-
-
+import Avatar from "./AvatarDropdown";
+import HeaderSearch from "../HeaderSearch";
+import SelectLang from "../SelectLang";
+import styles from "./index.scss";
 
 const GlobalHeaderRight = props => {
   const { theme, layout } = props;
-  console.log('stype',styles);
-  
-  let className = "right";
+  let className = styles.right;
 
-  if ( theme=== 'dark' && layout === 'topmenu') {
+  if (theme === "dark" && layout === "topmenu") {
+    className = `${styles.right}  ${styles.dark}`;
+  }
+
+  if (theme === "dark" && layout === "topmenu") {
     className = `right dark`;
   }
 
@@ -23,10 +23,7 @@ const GlobalHeaderRight = props => {
     <div className={className}>
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
-        placeholder={formatMessage({
-          id: 'component.globalHeader.search',
-        })}
-        defaultValue="umi ui"
+        placeholder={"seach name"}
         // dataSource={[
         //   formatMessage({
         //     id: 'component.globalHeader.search.example1',
@@ -39,20 +36,20 @@ const GlobalHeaderRight = props => {
         //   }),
         // ]}
         onSearch={value => {
-          console.log('input', value);
+          console.log("input", value);
         }}
         onPressEnter={value => {
-          console.log('enter', value);
+          console.log("enter", value);
         }}
       />
       <Tooltip
         title={formatMessage({
-          id: 'component.globalHeader.help',
+          id: "component.globalHeader.help"
         })}
       >
         <a
           target="_blank"
-          href="https://pro.ant.design/docs/getting-started"
+          href="https://pro.ant.design/docs/getting-started "
           rel="noopener noreferrer"
           className={styles.action}
         >
