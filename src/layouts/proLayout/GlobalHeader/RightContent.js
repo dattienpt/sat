@@ -24,17 +24,9 @@ const GlobalHeaderRight = props => {
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder={"seach name"}
-        // dataSource={[
-        //   formatMessage({
-        //     id: 'component.globalHeader.search.example1',
-        //   }),
-        //   formatMessage({
-        //     id: 'component.globalHeader.search.example2',
-        //   }),
-        //   formatMessage({
-        //     id: 'component.globalHeader.search.example3',
-        //   }),
-        // ]}
+        dataSource={[
+         'test1','test2','test3'
+        ]}
         onSearch={value => {
           console.log("input", value);
         }}
