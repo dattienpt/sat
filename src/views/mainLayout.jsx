@@ -85,7 +85,7 @@ const Layout = props => {
           </PageHeaderWrapper>
       </ProLayout>
 
-      <SettingDrawer settings={settings} onSettingChange={setSettings} />
+      {/* <SettingDrawer settings={settings} onSettingChange={setSettings} /> */}
     </div>
   );
 };
