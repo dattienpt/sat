@@ -47,7 +47,7 @@ export class NetworkAxios {
         return axiosInstance.get(url).then(respone => respone.data)
             .catch(
                 ({ respone }) => {
-                    if (respone.status === 4000 || respone.status === 401) {
+                    if (respone.status === 400 || respone.status === 401) {
                         return respone;
                     }
                     else {
@@ -98,18 +98,57 @@ export class NetworkAxios {
 
     static delete = async (url, options = {}) => {
         return axiosInstance.delete(url, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
-            .then(respnes => { return respnes.data })
+            .then(respone => { return respone.data })
             .catch(respone => {
                 if (respone)
                     return this.checkStatus(respone);
                 else
                     return respone;
             });
+    };
+    static post = async (url, data = {}, options = {}) => {
+        return axiosInstance.post(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
+            .then(respone => { return respone.data })
+            .catch(respone => {
+                if (respone)
+                    return this.checkStatus(respone);
+                else
+                    return respone;
+            })
+    };
+    static put = async (url, data = {}, options = {}) => {
+        return axiosInstance.put(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
+            .then(respone => { return respone.data })
+            .catch(respone => {
+                if (respone)
+                    return this.checkStatus(respone);
+                else
+                    return respone;
+            })
+    }
+    static patch = async (url, data = {}, options = {}) => {
+        return axiosInstance.patch(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
+            .then(respone => { return respone.data })
+            .catch(respone => {
+                if (respone)
+                    return this.checkStatus(respone);
+                else
+                    return respone;
+            })
     }
 }
 export default {
     get(url, data) {
         return NetworkAxios.get(url, data);
+    },
+    post(url, data) {
+        return NetworkAxios.post(url, data)
+    },
+    put(url, data) {
+        return NetworkAxios.post(url, data)
+    },
+    patch(url, data) {
+        return NetworkAxios.post(url, data)
     },
     delete(url, data) {
         return NetworkAxios.delete(url, data);
