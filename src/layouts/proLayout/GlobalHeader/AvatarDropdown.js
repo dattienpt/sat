@@ -12,7 +12,6 @@ class AvatarDropdown extends React.Component {
     if (key === "logout") {
       console.log("hello");
     }
-
     return;
   };
 
@@ -70,7 +69,7 @@ class AvatarDropdown extends React.Component {
             }
             alt="avatar"
           />
-          <span className={styles.name}>{"minhvuong"}</span>
+          <span className={styles.name}>{"Admin"}</span>
         </span>
       </HeaderDropdown>
     );

@@ -3,7 +3,6 @@ import dva from 'dva';
 import createLoading from "dva-loading";
 import { createHashHistory } from "history";
 import modelEntry from "./models/modelEntry";
-import RouterConfig from "./routers/routerConfig.js";
 import { message } from 'antd';
 import './styles/index.less';
 import MainLayout from './layouts/proLayout/mainProlayout';
