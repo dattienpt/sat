@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
     "start": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
