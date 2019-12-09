@@ -74,13 +74,13 @@ const Layout = props => {
         }}
       >
         <PageHeaderWrapper>
-          <div>
-            Content
-          </div>
+         {props.children}
         </PageHeaderWrapper>
       </ProLayout>
     </div>
   );
 };
-
-export default Layout;
+function MainLayout(){
+  return(<Layout> test</Layout>)
+}
+export default MainLayout;
