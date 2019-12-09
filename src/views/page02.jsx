@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
-import Main from "../layouts/main.jsx";
+import Main from '../layouts/basicLayout/main'
 
 function Page02({ location }) {
   return (

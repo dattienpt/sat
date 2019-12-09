@@ -6,6 +6,7 @@
     "dev": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js"
   },
   "dependencies": {
+    "@ant-design/pro-layout": "^4.9.6",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-react": "^7.7.4",
     "antd": "^3.2.3",
@@ -20,14 +21,16 @@
     "dva-loading": "^1.0.4",
     "flex.css": "^1.1.7",
     "increase-memory-limit": "^1.0.7",
+    "less": "^2.7.2",
     "lodash": "^4.17.15",
     "moment": "^2.21.0",
     "path-to-regexp": "^2.1.0",
     "prop-types": "^15.6.1",
     "qs": "^6.5.1",
     "query-string": "^5.1.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "umi-plugin-react": "^1.14.7"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
 import styles from "./index.less";
-import Main from "../layouts/main.jsx";
+import Main from "../layouts/basicLayout/main.jsx";
 
 function Index({ location }) {
   return (
