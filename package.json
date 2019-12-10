@@ -1,9 +1,8 @@
 {
   "scripts": {
-    "build": "roadhog build",
-    "start": "roadhog server",
-    "prod": "webpack --config webpack.prod.js",
-    "dev": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js"
+    "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
+    "start": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@ant-design/pro-layout": "^4.9.6",
@@ -51,25 +50,16 @@
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "css-loader": "^3.2.0",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-umi": "^0.1.1",
-    "eslint-plugin-flowtype": "^2.34.1",
-    "eslint-plugin-import": "^2.9.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
     "expect": "^25.0.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",
-    "husky": "^0.12.0",
     "less-loader": "^5.0.0",
     "lodash-webpack-plugin": "^0.11.5",
     "node-sass": "^4.13.0",
     "react-favicon": "0.0.17",
     "react-router-config": "^5.1.1",
     "redbox-react": "^1.5.0",
-    "roadhog": "^2.4.9",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "url-loader": "^2.2.0",

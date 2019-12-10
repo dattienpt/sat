@@ -3,16 +3,17 @@ import dva from "dva";
 import createLoading from "dva-loading";
 import { createHashHistory } from "history";
 import modelEntry from "./models/modelEntry";
-import RouterConfig from "./routers/routerConfig.js";
 import { message } from "antd";
 import "./styles/index.less";
 import MainLayout from "./layouts/proLayout/mainProlayout";
 import "antd/dist/antd.css";
+import RouterConfig from "./routers/routerConfig";
 
 // 1. Initialize
-const app = dva({
+export const app = dva({
    history: createHashHistory(),
    onError(err, dispatch) {
+      console.log(err);
       if (err.resp) {
          message.error(err.resp.msg);
       } else if (err.srv) {
