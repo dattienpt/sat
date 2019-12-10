@@ -99,42 +99,32 @@ export class NetworkAxios {
     static delete = async (url, options = {}) => {
         return axiosInstance.delete(url, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
             .then(respone => { return respone.data })
-            .catch(respone => {
-                if (respone)
-                    return this.checkStatus(respone);
-                else
-                    return respone;
-            });
+            .catch(function (error) {
+                return Promise.reject(error.response.data);
+                 });
     };
     static post = async (url, data = {}, options = {}) => {
-        return axiosInstance.post(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
+        console.log(url,data);
+        
+        return axiosInstance.post(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } })
             .then(respone => { return respone.data })
-            .catch(respone => {
-                if (respone)
-                    return this.checkStatus(respone);
-                else
-                    return respone;
-            })
+            .catch(function (error) {
+                return Promise.reject(error.response.data);
+                 });
     };
     static put = async (url, data = {}, options = {}) => {
         return axiosInstance.put(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
             .then(respone => { return respone.data })
-            .catch(respone => {
-                if (respone)
-                    return this.checkStatus(respone);
-                else
-                    return respone;
-            })
+            .catch(function (error) {
+                return Promise.reject(error.response.data);
+                 });
     }
     static patch = async (url, data = {}, options = {}) => {
         return axiosInstance.patch(url, data, { headers: { 'Authorization': `Bearer ${this.token}` } }, ...options)
             .then(respone => { return respone.data })
-            .catch(respone => {
-                if (respone)
-                    return this.checkStatus(respone);
-                else
-                    return respone;
-            })
+            .catch(function (error) {
+                return Promise.reject(error.response.data);
+                 });
     }
 }
 export default {
