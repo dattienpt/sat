@@ -25,17 +25,12 @@ export const app = dva({
 });
 
 // 2. Plugins
-// app.use(Loading({
-//   namespace: 'loading'
-//   // effects: enable effects level loading state
-// }));
 app.use(createLoading());
 
 // 3. Model
 modelEntry.forEach(model => app.model(model));
 
 // 4. Router
-//app.router(require('./router.jsx'));
 app.router(RouterConfig);
 
 // 5. Start

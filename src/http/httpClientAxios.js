@@ -3,30 +3,16 @@ import Axios from "axios";
 import { app } from "../index";
 import { OauthUrl } from "./api/requestApi";
 import { requestStatus } from "./requestConfig";
+import { parseQuery } from "../utils/processData";
 
 const commonReqConfig = {
-<<<<<<< HEAD
    baseURL: evnConfig.baseUrl.host,
-   transfromRespones: [
-      (data, header) => {
-         return data;
-      }
-   ],
-   responesType: "json",
+   transfromRespones: [(data, header) => { return data; }],
+   responesType: 'json',
    timeout: 30000,
-   validateStatus: function(status) {
+   validateStatus: function (status) {
       return status >= 200 && status < 300;
    }
-=======
-    baseURL: evnConfig.baseUrl.host,
-    transfromRespones: [(data, header) => { return data; }],
-    responesType: 'json',
-    timeout: 30000,
-    validateStatus: function (status) {
-        return status >= 200 && status < 300;
-    }
-
->>>>>>> 338724b2d4afd582f5436bdb42c18bd4151b182a
 };
 
 const connectedFailed = {
@@ -37,21 +23,12 @@ const connectedFailed = {
 };
 
 const axiosInstance = Axios.create(commonReqConfig);
+
 export class NetworkAxios {
    static get token() {
       return app._store.getState().common.token;
    }
-   static parseQuery = obj => {
-      let str = "";
-      for (const key in obj) {
-         const value =
-            typeof obj[key] !== "string" ? JSON.stringify(obj[key]) : obj[key];
-         str += `&` + key + `=` + value;
-      }
-      return str.substr(1);
-   };
    static reload = () => {
-      //clear token
       const _host = window.location.href;
       const urlPrefix = _host.split("#")[0];
       window.location.href = `${urlPrefix}#/login`;
@@ -59,7 +36,7 @@ export class NetworkAxios {
 
    static getTokenRequest = data => {
       let url = evnConfig.baseUrl.tokenHost + OauthUrl;
-      url += `?` + this.parseQuery(data);
+      url += `?` + parseQuery(data);
       return axiosInstance
          .get(url)
          .then(respone => respone.data)
@@ -99,14 +76,14 @@ export class NetworkAxios {
          return {
             data: {
                message: "Sorry, the system is unstable, please try again later",
-               code: ""
+               code: 2
             }
          };
       }
    };
-   static get = async (ulr, data) => {
+   static get = async (url, data) => {
       if (data) {
-         url += `?` + this.parseQuery(data);
+         url += `?` + parseQuery(data);
       } else {
          //exception
       }
@@ -206,8 +183,6 @@ export default {
       return NetworkAxios.get(url, data);
    },
    post(url, data) {
-      console.log(url);
-      console.log(data);
       return NetworkAxios.post(url, data);
    },
    put(url, data) {
