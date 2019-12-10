@@ -12,4 +12,4 @@ const baseUrl = (function getBaseUrl() {
             return dev;
     }
 })();
-export default baseUrl;
+export default { baseUrl };
