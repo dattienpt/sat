@@ -11,7 +11,8 @@ const commonReqConfig = {
     timeout: 30000,
     validateStatus: function (status) {
         return status >= 200 && status < 300;
-    }
+    },
+    headers:{'Fineract-Platform-TenantId':'default'}
 
 };
 const connectedFailed = {
@@ -24,7 +25,8 @@ const axiosInstance = Axios.create(commonReqConfig);
 
 export class NetworkAxios {
     static get token() {
-        return app._store.getState().common.token;
+        //return app._store.getState().common.token;
+        return 'f2edbcc2-d6a1-4fae-8efe-e5247554079c';
     };
     static parseQuery = (obj) => {
         let str = '';
@@ -86,14 +88,12 @@ export class NetworkAxios {
             //exception
         }
         console.log(url);
-        return axiosInstance.get(url, { headers: { 'Authorization': `Bearer ${this.token}` } })
+         return   axiosInstance.get(url, { headers: { 'Authorization': `Bearer ${this.token}` } })
             .then(respone => { return respone.data })
-            .catch(respone => {
-                if (respone)
-                    return this.checkStatus(respone);
-                else
-                    return respone;
-            })
+            .catch(function (error) {
+             return Promise.reject(error.response.data);
+              });
+            
     };
 
     static delete = async (url, options = {}) => {
