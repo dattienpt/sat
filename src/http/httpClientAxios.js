@@ -6,7 +6,6 @@ import { requestStatus } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
 
 const commonReqConfig = {
-<<<<<<< HEAD
     baseURL: evnConfig.baseUrl.host,
     transfromRespones: [(data, header) => { return data; }],
     responesType: 'json',
@@ -16,15 +15,6 @@ const commonReqConfig = {
     },
     headers:{'Fineract-Platform-TenantId':'default'}
 
-=======
-   baseURL: evnConfig.baseUrl.host,
-   transfromRespones: [(data, header) => { return data; }],
-   responesType: 'json',
-   timeout: 30000,
-   validateStatus: function (status) {
-      return status >= 200 && status < 300;
-   }
->>>>>>> master
 };
 
 const connectedFailed = {

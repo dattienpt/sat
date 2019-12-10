@@ -4,8 +4,9 @@ import form from "./configForm";
 import style from "./editForm.scss";
 import { Transfer, message } from "antd";
 import { connect } from "dva";
+import Layout from "../../../layouts/proLayout/mainProlayout";
 
-class Formio extends Component {
+class editUser extends Component {
   constructor(props) {
     super(props);
     this.form = form;
@@ -47,7 +48,7 @@ class Formio extends Component {
   
   componentWillReceiveProps(ev) {
     this.getMock();
-    if (this.props.location.pathname.indexOf("/users/edit") === 0) {
+    if (this.props.location.pathname.indexOf("/user-management/user-edit") === 0) {
       this.form.components[0].title = "Edit user";
 
       this.setState({ ...this.props.editTemplate });
@@ -66,13 +67,16 @@ class Formio extends Component {
         // }))
         
      this.setState({ availableRoles: [...this.props.availableRoles] });
+     console.log(this.state);
+     
+
     }
   }
   getMock = () => {
     const targetKeys = [];
     const mockData = [];
 
-    this.state.availableRoles.forEach(item => {
+    this.props.availableRoles.forEach(item => {
       const data = {
         key: item.id,
         title: item.name,
@@ -82,17 +86,17 @@ class Formio extends Component {
       };
       mockData.push(data);
     });
-    this.state.selectedRoles.forEach(item => {
-      const data = {
-        key: item.id,
-        title: item.name,
-        description: item.description,
-        disabled: item.disabled,
-        chosen: item.id
-      };
-      mockData.push(data);
-      targetKeys.push(item.id);
-    });
+    // this.state.selectedRoles.forEach(item => {
+    //   const data = {
+    //     key: item.id,
+    //     title: item.name,
+    //     description: item.description,
+    //     disabled: item.disabled,
+    //     chosen: item.id
+    //   };
+    //   mockData.push(data);
+    //   targetKeys.push(item.id);
+    // });
 
     this.setState({ mockData, targetKeys });
   };
@@ -143,6 +147,7 @@ class Formio extends Component {
   };
   render() {
     return (
+      <Layout history={this.props.history}>
       <div className={style.box_container}>
    
         {this.state.isEdit && (
@@ -176,10 +181,12 @@ class Formio extends Component {
           />
         </div>
       </div>
+      </Layout>
     );
   }
 }
 function mapStateToProps(state) {
+  console.log(state.users);
   return {
     availableRoles: [...state.users.template.availableRoles],
     allowedOffices: [...state.users.template.allowedOffices],
@@ -187,4 +194,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Formio);
+export default connect(mapStateToProps)(editUser);

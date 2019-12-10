@@ -3,11 +3,12 @@ import ProLayout, {
 } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
-
 const Layout = props => {
   const [collapsed, handleMenuCollapse] = useState(true);
   const [settings] = useState({});
-  const {children} = props;
+  const { children } = props;
+console.log(props);
+
   return (
     <div>
       <ProLayout
@@ -62,7 +63,7 @@ const Layout = props => {
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <a onClick={()=>children.props.history.replace(menuItemProps.path)}>{defaultDom}</a>
+              <a onClick={() => {props.history.replace(menuItemProps.path) }}>{defaultDom}</a>
             );
         }}
         rightContentRender={rightProps => {
