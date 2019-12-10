@@ -35,19 +35,19 @@ export default {
       },
     effects: {
       *getUsers({payload} , { call, put }) { 
-         const response = yield call(API.get,'/v1/users',);
+         const response = yield call(API.get,'fineract-provider/api/v1/users',);
         yield put({ type: 'save' ,payload:response});
       },
       *getUserDetail({payload} , { call, put }) { 
-        const response = yield call(API.get,'/v1/users/'+payload);
+        const response = yield call(API.get,'fineract-provider/api/v1/users/'+payload);
         if(response)  yield put({ type: 'userDetail' ,payload:response});
       },
       *getTemplate({payload},{call,put}){
-        const response = yield call(API.get,'/v1/users/template');
+        const response = yield call(API.get,'fineract-provider/api/v1/users/template');
         if(response)  yield put({ type: 'template' ,template:response});
       },
       *addUser({payload} , { call, put }){
-        const response = yield call(PostRequest,['/v1/users/',payload.data]);
+        const response = yield call(PostRequest,['fineract-provider/api/v1/users/',payload.data]);
         if(response)payload.history.replace('/user-management/user-list')
 
       },

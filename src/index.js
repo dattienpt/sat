@@ -1,28 +1,27 @@
-import 'babel-polyfill';
-import dva from 'dva';
+import "babel-polyfill";
+import dva from "dva";
 import createLoading from "dva-loading";
 import { createHashHistory } from "history";
 import modelEntry from "./models/modelEntry";
-import { message } from 'antd';
-import './styles/index.less';
+import { message } from "antd";
+import "./styles/index.less";
+import MainLayout from "./layouts/proLayout/mainProlayout";
 import "antd/dist/antd.css";
-import RouterConfig from './routers/routerConfig';
+import RouterConfig from "./routers/routerConfig";
 
 // 1. Initialize
-const app = dva({
-  history: createHashHistory(),
-  onError(error, dispatch) {
-    console.log(error.error);
-    
-    if(error.error) message.error(error.error,20);  
-    if (e.defaultUserMessage) {
-      e.errors.map(item=>message.error(item.userMessageGlobalisationCode,10))
-    } else if (err.srv) {
-      message.error(err.srv.msg);
-    } else {
-      message.error(err);
-    }
-  }
+export const app = dva({
+   history: createHashHistory(),
+   onError(err, dispatch) {
+      console.log(err);
+      if (err.resp) {
+         message.error(err.resp.msg);
+      } else if (err.srv) {
+         message.error(err.srv.msg);
+      } else {
+         message.error(err);
+      }
+   }
 });
 
 // 2. Plugins
@@ -37,9 +36,8 @@ modelEntry.forEach(model => app.model(model));
 
 // 4. Router
 //app.router(require('./router.jsx'));
-
 app.router(RouterConfig);
 
 // 5. Start
-app.start('#root');
+app.start("#root");
 console.log(app);

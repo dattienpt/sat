@@ -1,6 +1,7 @@
 import example from "./exampleModel";
 import common from "./common/commonModel";
-import users from "./user-management/usersModel";
+import loginModel from "./loginModel";
+import Users from "./user-management/usersModel";
 
 
-export default [common, users];
+export default [common, example, loginModel,Users];
