@@ -5,6 +5,7 @@ import { OauthUrl } from "./api/requestApi";
 import { requestStatus } from "./requestConfig";
 
 const commonReqConfig = {
+<<<<<<< HEAD
    baseURL: evnConfig.baseUrl.host,
    transfromRespones: [
       (data, header) => {
@@ -16,6 +17,16 @@ const commonReqConfig = {
    validateStatus: function(status) {
       return status >= 200 && status < 300;
    }
+=======
+    baseURL: evnConfig.baseUrl.host,
+    transfromRespones: [(data, header) => { return data; }],
+    responesType: 'json',
+    timeout: 30000,
+    validateStatus: function (status) {
+        return status >= 200 && status < 300;
+    }
+
+>>>>>>> 338724b2d4afd582f5436bdb42c18bd4151b182a
 };
 
 const connectedFailed = {
