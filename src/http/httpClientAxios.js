@@ -5,7 +5,7 @@ import { OauthUrl } from './api/requestApi';
 import { requestStatus } from './requestConfig';
 
 const commonReqConfig = {
-    baseUrl: evnConfig.baseUrl.host,
+    baseURL: evnConfig.baseUrl.host,
     transfromRespones: [(data, header) => { return data; }],
     responesType: 'json',
     timeout: 30000,
@@ -78,7 +78,7 @@ export class NetworkAxios {
             return ({ data: { message: 'Sorry, the system is unstable, please try again later', code: '' } });
         }
     };
-    static get = async (ulr, data) => {
+    static get = async (url, data) => {
         if (data) {
             url += `?` + this.parseQuery(data);
         }

@@ -30,11 +30,6 @@ const Layout = props => {
             icon: "home",
           },
           {
-            path: "/product",
-            name: "Products",
-            icon: "home",
-          },
-          {
             path: "/saving-account",
             name: "Saving Account",
             icon: "appstore",
@@ -74,13 +69,13 @@ const Layout = props => {
         }}
       >
         <PageHeaderWrapper>
-         {props.children}
+          {props.children}
         </PageHeaderWrapper>
       </ProLayout>
     </div>
   );
 };
-function MainLayout(){
-  return(<Layout> test</Layout>)
+function MainLayout() {
+  return (<Layout> test</Layout>)
 }
 export default MainLayout;
