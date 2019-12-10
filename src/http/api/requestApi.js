@@ -1,2 +1,4 @@
 //Oauth
-export const OauthUrl = `oauth/token`;
+const apiVer = '/v1'
+export const OauthUrl = `oauth/token?`;
+export const getListUser = apiVer + `/test`
