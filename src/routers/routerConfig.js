@@ -4,6 +4,8 @@ import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
 import { app } from "../index";
+import userList from "../views/user-management/userList/userList";
+import editUser from "../views/user-management/create-user/editUser";
 import WrappedHorizontalLoginForm from "../views/authentication/loginFormDemo";
 
 const checkLogin = () => {
@@ -16,7 +18,7 @@ const checkLogin = () => {
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ layout: Layout, children, ...rest }) => {
    // console.log(app._history);
    return (
       <Route
@@ -27,12 +29,12 @@ const PrivateRoute = ({ children, ...rest }) => {
             return checkLogin() ? (
                children
             ) : (
-               <Redirect
-                  to={{
-                     pathname: "/login",
-                     state: { from: location }
-                  }}
-               />
+                  <Redirect
+                     to={{
+                        pathname: "/login",
+                        state: { from: location }
+                     }}
+                  />
                //   app._history.goBack("/login");
             );
          }}
@@ -46,9 +48,19 @@ function RouterConfig({ history }) {
          <Switch>
             <Route path="/" exact component={WrappedHorizontalLoginForm} />
             <Route path="/login" exact component={LoginForm} />
+            <Route
+               path="/user-management/user-list"
+               exact
+               component={userList}
+            />
+            <Route
+               path="/user-management/user-create"
+               exact
+               component={editUser}
+            />
 
             <PrivateRoute path="/dashboard">
-               <Layout></Layout>
+               <Layout history={history}></Layout>
             </PrivateRoute>
             <PrivateRoute path="*">
                <NotFound></NotFound>

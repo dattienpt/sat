@@ -3,10 +3,12 @@ import ProLayout, {
 } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
-
 const Layout = props => {
   const [collapsed, handleMenuCollapse] = useState(true);
   const [settings] = useState({});
+  const { children } = props;
+console.log(props);
+
   return (
     <div>
       <ProLayout
@@ -45,12 +47,12 @@ const Layout = props => {
             icon: "user",
             children: [
               {
-                path: "/user-list",
+                path: "/user-management/user-list",
                 name: "User List",
                 icon: "ordered-list"
               },
               {
-                path: "/user-create",
+                path: "/user-management/user-create",
                 name: "Create new user",
                 icon: "user-add"
               }
@@ -61,7 +63,7 @@ const Layout = props => {
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <a to={menuItemProps.path}>{defaultDom}</a>
+              <a onClick={() => {props.history.replace(menuItemProps.path) }}>{defaultDom}</a>
             );
         }}
         rightContentRender={rightProps => {
@@ -75,7 +77,7 @@ const Layout = props => {
     </div>
   );
 };
-function MainLayout() {
-  return (<Layout> test</Layout>)
-}
-export default MainLayout;
+// function MainLayout() {
+//   return (<Layout> test</Layout>)
+// }
+export default Layout;

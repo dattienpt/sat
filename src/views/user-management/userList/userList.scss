@@ -1,0 +1,9 @@
+.users{
+    display: grid;
+    grid-template-rows: 35px auto;
+    grid-row-gap: 1em;
+    .button{
+        justify-content: flex-end;
+        display: flex;
+    }
+}
