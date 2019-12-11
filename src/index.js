@@ -5,7 +5,6 @@ import { createHashHistory } from "history";
 import modelEntry from "./models/modelEntry";
 import { message } from "antd";
 import "./styles/index.less";
-import MainLayout from "./layouts/proLayout/mainProlayout";
 import "antd/dist/antd.css";
 import RouterConfig from "./routers/routerConfig";
 
