@@ -32,7 +32,6 @@ const axiosInstance = Axios.create(commonReqConfig);
 Axios.interceptors.request.use(config => {
    // Do something before request is sent
    console.log(config);
-   debugger;
    return config;
 });
 
