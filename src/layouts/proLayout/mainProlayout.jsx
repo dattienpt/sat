@@ -6,8 +6,7 @@ import GlobalHeaderRight from "./GlobalHeader/RightContent";
 const Layout = props => {
   const [collapsed, handleMenuCollapse] = useState(true);
   const [settings] = useState({});
-  const { children } = props;
-console.log(props);
+  console.log(props);
 
   return (
     <div>
@@ -67,10 +66,10 @@ console.log(props);
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps} />;
+          return <GlobalHeaderRight {...rightProps}  />;
         }}
       >
-        <PageHeaderWrapper>
+        <PageHeaderWrapper title={props.name}>
           {props.children}
         </PageHeaderWrapper>
       </ProLayout>

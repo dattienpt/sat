@@ -147,7 +147,7 @@ class editUser extends Component {
   };
   render() {
     return (
-      <Layout history={this.props.history}>
+      <Layout history={this.props.history} name={"Create new user"}>
       <div className={style.box_container}>
    
         {this.state.isEdit && (
@@ -172,6 +172,12 @@ class editUser extends Component {
         <div className={style.formio_tranfer}>
           <p>Role</p>
           <Transfer
+          listStyle={{
+            height: 310,
+            width:200,
+            background: '#ffffff'
+
+          }}
             dataSource={this.state.mockData}
             filterOption={this.filterOption}
             targetKeys={this.state.targetKeys}

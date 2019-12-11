@@ -6,15 +6,18 @@ import { requestStatus } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
 
 const commonReqConfig = {
-    baseURL: evnConfig.baseUrl.host,
-    transfromRespones: [(data, header) => { return data; }],
-    responesType: 'json',
-    timeout: 30000,
-    validateStatus: function (status) {
-        return status >= 200 && status < 300;
-    },
-    headers:{'Fineract-Platform-TenantId':'default'}
-
+   baseURL: evnConfig.baseUrl.host,
+   transfromRespones: [
+      (data, header) => {
+         return data;
+      }
+   ],
+   responesType: "json",
+   timeout: 30000,
+   validateStatus: function(status) {
+      return status >= 200 && status < 300;
+   },
+   headers: { "Fineract-Platform-TenantId": "default" }
 };
 
 const connectedFailed = {
@@ -92,86 +95,86 @@ export class NetworkAxios {
          };
       }
    };
-   static get = async (url, data) => {
+   static get =  (url, data) => {
       if (data) {
          url += `?` + parseQuery(data);
       } else {
          //exception
       }
-      return axiosInstance
+      return new Promise((resolve, reject) =>{ axiosInstance
          .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
          .then(respone => {
-            return respone.data;
+            resolve(respone.data);
          })
-         .catch(respone => {
-            if (respone) return this.checkStatus(respone);
-            else return respone;
-         });
+         .catch(error => {
+            reject(error.response.data);
+         })
+      });
    };
 
-
-   static delete = async (url, options = {}) => {
-      return axiosInstance
-         .delete(
-            url,
-            { headers: { Authorization: `Bearer ${this.token}` } },
-            ...options
-         )
-         .then(respone => {
-            return respone.data;
-         })
-         .catch(respone => {
-            if (respone) return this.checkStatus(respone);
-            else return respone;
-         });
+   static delete = (url, options = {}) => {
+      return new Promise((resolve, reject) => {
+         axiosInstance
+            .delete(
+               url,
+               { headers: { Authorization: `Bearer ${this.token}` } },
+               ...options
+            )
+            .then(respone => {
+               resolve(respone.data);
+            })
+            .catch(error => {
+               reject(error.response.data);
+            });
+      });
    };
    static post = (url, data = {}, options = {}) => {
-      return axiosInstance
-         .post(
-            url,
-            data,
-            { headers: { Authorization: `Bearer ${this.token}` } },
-            ...options
-         )
-         .then(respone => {
-            return respone.data;
-         })
-         .catch(respone => {
-            if (respone) return this.checkStatus(respone);
-            else return respone;
-         });
+      return new Promise((resolve, reject) => {
+         axiosInstance
+            .post(url, data, {
+               headers: { Authorization: `Bearer ${this.token}` }
+            })
+            .then(respone => {
+               resolve(respone.data);
+            })
+            .catch(error => {
+               reject(error.response.data);
+            });
+      });
    };
-   static put = async (url, data = {}, options = {}) => {
-      return axiosInstance
-         .put(
-            url,
-            data,
-            { headers: { Authorization: `Bearer ${this.token}` } },
-            ...options
-         )
-         .then(respone => {
-            return respone.data;
-         })
-         .catch(respone => {
-            if (respone) return this.checkStatus(respone);
-            else return respone;
-         });
+   static put = (url, data = {}, options = {}) => {
+      return new Promise((resolve, reject) => {
+         axiosInstance
+            .put(
+               url,
+               data,
+               { headers: { Authorization: `Bearer ${this.token}` } },
+               ...options
+            )
+            .then(respone => {
+               resolve(respone.data);
+            })
+            .catch(error => {
+               reject(error.response.data);
+            });
+      });
    };
-   static patch = async (url, data = {}, options = {}) => {
-      return axiosInstance
-         .patch(
-            url,
-            data,
-            { headers: { Authorization: `Bearer ${this.token}` } },
-            ...options
-         )
-         .then(respone => {
-            return respone.data;
-         })
-         .catch(respone => {
-            if (respone) return this.checkStatus(respone);
-            else return respone;
-         });
+   static patch = (url, data = {}, options = {}) => {
+      return new Promise((resolve, reject) => {
+         axiosInstance
+            .patch(
+               url,
+               data,
+               { headers: { Authorization: `Bearer ${this.token}` } },
+               ...options
+            )
+            .then(respone => {
+               resolve(respone.data);
+            })
+            .catch(error => {
+               reject(error.response.data);
+            });
+      });
    };
    static postWithNoToken = (url, data = {}, options = {}) => {
       return axiosInstance
@@ -184,9 +187,8 @@ export class NetworkAxios {
             };
             return res;
          })
-         .catch(respone => {
-            if (respone) return this.checkStatus(respone);
-            else return respone;
+         .catch(error => {
+            return new Promise.reject(error.response.data);
          });
    };
 }
