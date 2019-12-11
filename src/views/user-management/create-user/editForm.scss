@@ -1,6 +1,10 @@
 .body-edit{
     width: 100%;
 }
+:global(.alert-success){
+    visibility: visible !important;
+    display: none;
+}
 .title{
     width: 100%;
     border-bottom: 1px solid gray;
@@ -28,7 +32,11 @@
 }
 .box_container{
     display: grid;
-    grid-template-columns:  1fr 400px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.45);
+    grid-template-columns:  1.2fr 500px;
     grid-column-gap: 15px;
     height: 90vh;
 
@@ -42,6 +50,11 @@
 .formio_tranfer{
     margin-top: 1em;
     float: right;
+    p{
+        font-size: 16px;
+        font-weight: 600;
+        text-align: left;
+    }
 }
  :global(.card-title){
     font-weight: 700;
