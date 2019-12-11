@@ -75,7 +75,8 @@ export default {
                         "multiple": false
                     },
                     "key": "sendPasswordToEmail",
-                    "defaultValue":true,
+                    "defaultValue":false,
+                    "disabled": true,
                     "conditional":{"json":{}},
                     "type": "checkbox",
                     "input": true,
@@ -175,20 +176,6 @@ export default {
                     "input": true
                 },
                 {
-                    "label": "Submit",
-                    "showSubmit": false,
-
-                    "showValidations": true,
-                    "disableOnInvalid": true,
-                    "key": "submit",
-                    "type": "button",
-                    "input": true,
-                    "validate": {
-                        "unique": false,
-                        "multiple": false
-                    }
-                },
-                {
                     "label": "Cancel",
                     "action": "reset",
                     "showValidations": false,
@@ -200,7 +187,22 @@ export default {
                         "unique": false,
                         "multiple": false
                     }
+                },
+                {
+                    "label": "Submit",
+                    "showSubmit": false,
+                    "action": "submit",
+                    "showValidations": true,
+                    "disableOnInvalid": true,
+                    "key": "submit",
+                    "type": "button",
+                    "input": false,
+                    "validate": {
+                        "unique": false,
+                        "multiple": false
+                    }
                 }
+
             ],
             "path": "add"
         }

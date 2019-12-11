@@ -136,6 +136,8 @@ class Users extends Component {
                   </div>
 
                   <Table
+                   className={stype.table}
+
                      columns={column}
                      onRowClick={record => {
                         this.viewDetail(record.id);

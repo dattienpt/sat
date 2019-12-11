@@ -13,8 +13,8 @@ export const app = dva({
    history: createHashHistory(),
    onError(err, dispatch) {
       console.log(err);
-      if (err.resp) {
-         message.error(err.resp.msg);
+      if (err.defaultUserMessage) {
+         err.errors.map(item=>message.error(item.userMessageGlobalisationCode,10))
       } else if (err.srv) {
          message.error(err.srv.msg);
       } else {
