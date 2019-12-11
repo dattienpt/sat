@@ -13,7 +13,8 @@ class AvatarDropdown extends React.Component {
       const { history } = this.props;
       if (key === "logout") {
          console.log(this.props);
-         localStorage.removeItem("userToken");
+
+         sessionStorage.removeItem("userToken");
          this.props.dispatch({
             type: "common/clearToken"
          });

@@ -4,10 +4,9 @@ import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
 import { app } from "../index";
-import WrappedHorizontalLoginForm from "../views/authentication/loginFormDemo";
 
 const checkLogin = () => {
-   const token = localStorage.getItem("userToken");
+   const token = sessionStorage.getItem("userToken");
    if (token) {
       return true;
    }
@@ -44,7 +43,7 @@ function RouterConfig({ history }) {
    return (
       <Router history={history}>
          <Switch>
-            <Route path="/" exact component={WrappedHorizontalLoginForm} />
+            <Route path="/" exact component={LoginForm} />
             <Route path="/login" exact component={LoginForm} />
 
             <PrivateRoute path="/dashboard">

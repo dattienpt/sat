@@ -9,6 +9,11 @@ import MainLayout from "./layouts/proLayout/mainProlayout";
 import "antd/dist/antd.css";
 import RouterConfig from "./routers/routerConfig";
 
+// window.onbeforeunload = WindowCloseHanlder;
+// function WindowCloseHanlder() {
+//    localStorage.removeItem("userToken");
+// }
+
 // 1. Initialize
 export const app = dva({
    history: createHashHistory(),

@@ -7,10 +7,14 @@ import { parseQuery } from "../utils/processData";
 
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
-   transfromRespones: [(data, header) => { return data; }],
-   responesType: 'json',
+   transfromRespones: [
+      (data, header) => {
+         return data;
+      }
+   ],
+   responesType: "json",
    timeout: 30000,
-   validateStatus: function (status) {
+   validateStatus: function(status) {
       return status >= 200 && status < 300;
    }
 };
@@ -24,8 +28,17 @@ const connectedFailed = {
 
 const axiosInstance = Axios.create(commonReqConfig);
 
+Axios.interceptors.request.use(config => {
+   // Do something before request is sent
+   console.log(config);
+   debugger;
+   return config;
+});
+
 export class NetworkAxios {
    static get token() {
+      // handding refresh
+
       return app._store.getState().common.token;
    }
    static reload = () => {
@@ -97,6 +110,7 @@ export class NetworkAxios {
             else return respone;
          });
    };
+
 
    static delete = async (url, options = {}) => {
       return axiosInstance

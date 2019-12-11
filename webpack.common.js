@@ -46,15 +46,7 @@ const config = {
    },
    resolve: {
       extensions: [
-         ".js",
-         ".jsx",
-         ".json",
-         ".css",
-         ".png",
-         ".jpg",
-         ".gif",
-         ".jpeg",
-         ".svg"
+         ".js", ".jsx", ".json", ".css", ".png", ".jpg", ".gif", ".jpeg", ".svg"
       ],
       alias: {
          IMAGE: path.resolve(__dirname, "./src/assets"),
