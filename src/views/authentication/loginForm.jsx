@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox, Row, Col } from "antd";
+import { Form, Icon, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { connect } from "dva";
 import { withRouter } from "react-router-dom";
 import "./LoginForm.less";
@@ -37,6 +37,14 @@ class NormalLoginForm extends React.Component {
             >
                <Col>
                   <div className="form-login-box">
+                     <Form.Item>
+                        <Alert
+                           message="Incorrect username or password"
+                           type="error"
+                           showIcon
+                           closable
+                        />
+                     </Form.Item>
                      <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
                            {getFieldDecorator("username", {
