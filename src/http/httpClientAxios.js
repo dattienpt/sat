@@ -29,8 +29,16 @@ const connectedFailed = {
 
 const axiosInstance = Axios.create(commonReqConfig);
 
+Axios.interceptors.request.use(config => {
+   // Do something before request is sent
+   console.log(config);
+   return config;
+});
+
 export class NetworkAxios {
    static get token() {
+      // handding refresh
+
       return app._store.getState().common.token;
    }
    static reload = () => {

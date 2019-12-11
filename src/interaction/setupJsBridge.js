@@ -1,5 +1,4 @@
 export const setupJsBridge = (callback) => {
-    debugger
     var ua = navigator.userAgent.toLowerCase();
     console.log('Flatform', ua);
     let isIOS = ua.match(/(iphone|ipod|ipad);?/i);

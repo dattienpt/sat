@@ -1,12 +1,12 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox, Row, Col } from "antd";
+import { Form, Icon, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { connect } from "dva";
 import { withRouter } from "react-router-dom";
 import "./LoginForm.less";
 
 class NormalLoginForm extends React.Component {
    componentWillMount() {
-      if (localStorage.getItem("userToken")) {
+      if (sessionStorage.getItem("userToken")) {
          this.props.history.push("/dashboard");
       }
    }
@@ -15,7 +15,6 @@ class NormalLoginForm extends React.Component {
       this.props.form.validateFields((err, values) => {
          if (!err) {
             const { history } = this.props;
-            console.log("Received values of form: ", values);
             this.props.dispatch({
                type: "loginModel/checkLogin",
                payload: values,
@@ -26,6 +25,7 @@ class NormalLoginForm extends React.Component {
    };
 
    render() {
+      const { isLogin } = this.props;
       const { getFieldDecorator } = this.props.form;
       return (
          <div className="login-form">
@@ -37,6 +37,17 @@ class NormalLoginForm extends React.Component {
             >
                <Col>
                   <div className="form-login-box">
+                     {!isLogin && (
+                        <Form.Item>
+                           <Alert
+                              message="Incorrect username or password"
+                              type="error"
+                              showIcon
+                              closable
+                           />
+                        </Form.Item>
+                     )}
+
                      <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
                            {getFieldDecorator("username", {
@@ -108,7 +119,8 @@ class NormalLoginForm extends React.Component {
 const LoginForm = Form.create({ name: "normal_login" })(NormalLoginForm);
 
 const mapStateToProps = state => {
-   return {};
+   const { isLogin } = state.loginModel;
+   return { isLogin };
 };
 
 export default connect(mapStateToProps, null)(withRouter(LoginForm));

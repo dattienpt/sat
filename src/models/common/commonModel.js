@@ -1,8 +1,8 @@
 export default {
    namespace: "common",
    state: {
-      token: localStorage.getItem("userToken")
-         ? localStorage.getItem("userToken")
+      token: sessionStorage.getItem("userToken")
+         ? sessionStorage.getItem("userToken")
          : null,
       userInfo: {
          username: "",
