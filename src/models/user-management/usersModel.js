@@ -1,6 +1,6 @@
 import API from "../../http/httpClientAxios";
-import { PostRequest } from "../common/customRequest";
 import { listUser,userTemplate } from "../../http/api/requestApi";
+import { postApi } from "./customRequest";
 
 export default {
    namespace: "users",
@@ -55,7 +55,7 @@ export default {
          if (response) yield put({ type: "template", template: response });
       },
       *addUser({ payload }, { call, put }) {
-         const response = yield call(PostRequest, [
+         const response = yield call(postApi, [
           listUser,
             payload.data
          ]);

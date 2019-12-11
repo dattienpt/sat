@@ -6,6 +6,7 @@ import NotFound from "../views/notFound/notFound";
 import { app } from "../index";
 import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
+import WrappedHorizontalLoginForm from "../views/authentication/loginFormDemo";
 
 const checkLogin = () => {
    const token = localStorage.getItem("userToken");
@@ -45,7 +46,7 @@ function RouterConfig({ history }) {
    return (
       <Router history={history}>
          <Switch>
-            <Route path="/" exact component={LoginForm} />
+            <Route path="/" exact component={WrappedHorizontalLoginForm} />
             <Route path="/login" exact component={LoginForm} />
             <Route
                path="/user-management/user-list"
