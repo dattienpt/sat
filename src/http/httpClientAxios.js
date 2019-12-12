@@ -14,7 +14,7 @@ const commonReqConfig = {
    ],
    responesType: "json",
    timeout: 30000,
-   validateStatus: function(status) {
+   validateStatus: function (status) {
       return status >= 200 && status < 300;
    },
    headers: { "Fineract-Platform-TenantId": "default" }
@@ -94,20 +94,21 @@ export class NetworkAxios {
          };
       }
    };
-   static get =  (url, data) => {
+   static get = (url, data) => {
       if (data) {
          url += `?` + parseQuery(data);
       } else {
          //exception
       }
-      return new Promise((resolve, reject) =>{ axiosInstance
-         .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
-         .then(respone => {
-            resolve(respone.data);
-         })
-         .catch(error => {
-            reject(error.response.data);
-         })
+      return new Promise((resolve, reject) => {
+         axiosInstance
+            .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
+            .then(respone => {
+               resolve(respone.data);
+            })
+            .catch(error => {
+               reject(error.response.data);
+            })
       });
    };
 
@@ -176,20 +177,22 @@ export class NetworkAxios {
       });
    };
    static postWithNoToken = (url, data = {}, options = {}) => {
-      return axiosInstance
-         .post(url, data)
-         .then(respone => {
-            const res = {
-               data: respone.data,
-               status: respone.status,
-               statusText: respone.statusText
-            };
-            return res;
-         })
-         .catch(error => {
-            return new Promise.reject(error.response.data);
-         });
-   };
+      return new Promise((resolve, reject) => {
+         axiosInstance
+            .post(url, data)
+            .then(respone => {
+               const res = {
+                  data: respone.data,
+                  status: respone.status,
+                  statusText: respone.statusText
+               };
+               resolve(res)
+            })
+            .catch(error => {
+               reject(error.response.data);
+            });
+      });
+   }
 }
 export default {
    get(url, data) {
@@ -207,7 +210,7 @@ export default {
    delete(url, data) {
       return NetworkAxios.delete(url, data);
    },
-   async postWithNoToken(url, data) {
-      return await NetworkAxios.postWithNoToken(url, data);
+   postWithNoToken(url, data) {
+      return NetworkAxios.postWithNoToken(url, data);
    }
 };

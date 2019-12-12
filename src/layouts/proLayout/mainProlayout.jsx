@@ -11,7 +11,6 @@ class  Layout extends React.Component {
 
  
 render(){
-  console.log(this.title)
   // const {collapsed, handleMenuCollapse} = useState(true);
   // const [settings] = useState({});
   return (
@@ -29,7 +28,7 @@ render(){
         breadcrumbRender={()=>''}
         menuDataRender={() => [
           {
-            path: "/",
+            path: "/dashboard",
             name: "Dashboard",
             icon: "home",
           },
