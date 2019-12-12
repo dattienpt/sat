@@ -36,15 +36,7 @@ Axios.interceptors.request.use(config => {
    return config;
 });
 export class NetworkAxios {
-   static get title() {
-      const data = (async () =>
-         Axios.get(
-            "https://192.168.11.222:8443/fineract-provider/api/oauth/token?username=mifos&password=password&client_id=community-app&grant_type=password&client_secret=123&tenantIdentifier=default"
-         ))();
-      return data.then(response => {
-         return response.data['access_token'];
-      });
-   }
+
    static get token() {
       const timeLogin = Math.round(sessionStorage.getItem("timeLogin"));
       const userLocal = JSON.parse(sessionStorage.getItem("userInfo"));
