@@ -202,32 +202,22 @@ export class NetworkAxios {
       });
    };
    static postWithNoToken = (url, data = {}, options = {}) => {
-      return axiosInstance
-         .post(url, data)
-         .then(respone => {
-            const res = {
-               data: respone.data,
-               status: respone.status,
-               statusText: respone.statusText
-            };
-            return res;
-         })
-         .catch(error => {
-            // return new Promise.reject(error.response.data);
-            return error.response;
-         });
-   };
-
-   static postRefresh = (url, data = {}, options = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance
             .post(url, data)
             .then(respone => {
-               resolve(respone.data);
+               const res = {
+                  data: respone.data,
+                  status: respone.status,
+                  statusText: respone.statusText
+               };
+               resolve(res)
             })
-            .catch(error => { });
+            .catch(error => {
+               reject(error.response.data);
+            });
       });
-   };
+   }
 }
 export default {
    get(url, data) {
@@ -245,7 +235,7 @@ export default {
    delete(url, data) {
       return NetworkAxios.delete(url, data);
    },
-   async postWithNoToken(url, data) {
-      return await NetworkAxios.postWithNoToken(url, data);
+   postWithNoToken(url, data) {
+      return NetworkAxios.postWithNoToken(url, data);
    }
 };

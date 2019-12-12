@@ -19,37 +19,39 @@ const GlobalHeaderRight = props => {
       className = `right dark`;
    }
 
-   return (
-      <div className={className}>
-         <HeaderSearch
-            className={`${styles.action} ${styles.search}`}
-            placeholder={"seach name"}
-            dataSource={["test1", "test2", "test3"]}
-            onSearch={value => {
-               // console.log("input", value);
-            }}
-            onPressEnter={value => {
-               // console.log("enter", value);
-            }}
-         />
-         <Tooltip
-            title={formatMessage({
-               id: "component.globalHeader.help"
-            })}
-         >
-            <a
-               target="_blank"
-               href="https://pro.ant.design/docs/getting-started "
-               rel="noopener noreferrer"
-               className={styles.action}
-            >
-               <Icon type="question-circle-o" />
-            </a>
-         </Tooltip>
-         <Avatar />
-         <SelectLang className={styles.action} />
-      </div>
-   );
+  return (
+    <div className={className}>
+      {/* <HeaderSearch
+        className={`${styles.action} ${styles.search}`}
+        placeholder={"seach name"}
+        dataSource={[
+         'test1','test2','test3'
+        ]}
+        onSearch={value => {
+          console.log("input", value);
+        }}
+        onPressEnter={value => {
+          console.log("enter", value);
+        }}
+      /> */}
+      <Tooltip
+        title={formatMessage({
+          id: "component.globalHeader.help"
+        })}
+      >
+        <a
+          target="_blank"
+          href="https://pro.ant.design/docs/getting-started "
+          rel="noopener noreferrer"
+          className={styles.action}
+        >
+          <Icon type="question-circle-o" />
+        </a>
+      </Tooltip>
+      <Avatar history={props.history} />
+      <SelectLang className={styles.action} />
+    </div>
+  );
 };
 
 export default GlobalHeaderRight;

@@ -8,26 +8,23 @@ import "./styles/index.less";
 import "antd/dist/antd.css";
 import RouterConfig from "./routers/routerConfig";
 
-// window.onbeforeunload = WindowCloseHanlder;
-// function WindowCloseHanlder() {
-//    localStorage.removeItem("userInfo");
-// }
-
-export const timeLoginSystem = new Date().getTime() / 1000;
-console.log(timeLoginSystem);
-
 // 1. Initialize
 export const app = dva({
    history: createHashHistory(),
    onError(err, dispatch) {
       console.log(err);
       if (err.defaultUserMessage) {
-         err.errors.map(item =>
-            message.error(item.userMessageGlobalisationCode, 10)
-         );
+         err.errors.map(item => message.error(item.userMessageGlobalisationCode, 10))
       } else if (err.srv) {
          message.error(err.srv.msg);
-      } else {
+      }
+      else if (err.error) {
+         if (err.error == 'invalid_grant')
+            message.error('Invalid Credentials Error With Correct Username/Password');
+         else
+            message.error(err.error);
+      }
+      else {
          message.error(err);
       }
    }

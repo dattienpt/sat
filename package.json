@@ -1,6 +1,7 @@
 {
   "scripts": {
     "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
+    "lint": "eslint ./src --fix",
     "start": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
@@ -30,6 +31,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-formio": "^4.2.3",
+    "umi": "^2.12.5",
     "umi-plugin-react": "^1.14.7"
   },
   "devDependencies": {
@@ -42,7 +44,7 @@
     "@babel/preset-env": "^7.7.4",
     "axios": "^0.18.1",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.2",
+    "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.6",
     "babel-plugin-dva-hmr": "^0.4.1",
     "babel-plugin-import": "^1.6.5",
@@ -51,6 +53,8 @@
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "css-loader": "^3.2.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-react": "^7.17.0",
     "expect": "^25.0.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",

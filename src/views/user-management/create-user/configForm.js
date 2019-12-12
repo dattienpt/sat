@@ -8,7 +8,7 @@ export default {
     },
     "components": [
         {
-            "title": "Add",
+            "title": "User information",
             "customClass": "box-form",
             "collapsible": false,
             "key": "add",
@@ -68,30 +68,31 @@ export default {
                     "type": "email",
                     "input": true
                 },
-                {
-                    "label": "Auto generate passwor",
-                    "validate": {
-                        "unique": false,
-                        "multiple": false
-                    },
-                    "key": "sendPasswordToEmail",
-                    "defaultValue":false,
-                    "disabled": true,
-                    "conditional":{"json":{}},
-                    "type": "checkbox",
-                    "input": true,
-                },
-                {
-                    "label": "Override password expiry policy",
-                    "validate": {
-                        "unique": false,
-                        "multiple": false
-                    },
-                    "key": "overridePasswordExpiryPolicy",
-                    "type": "checkbox",
-                    "input": false,
-                    "defaultValue": false
-                },
+                // {
+                //     "label": "Auto generate passwor",
+                //     "validate": {
+                //         "unique": false,
+                //         "multiple": false
+                //     },
+                //     "key": "sendPasswordToEmail",
+                //     "defaultValue":false,
+                //     "hidden": true,
+                //     "disabled": true,
+                //     "conditional":{"json":{}},
+                //     "type": "checkbox",
+                //     "input": true,
+                // },
+                // {
+                //     "label": "Override password expiry policy",
+                //     "validate": {
+                //         "unique": false,
+                //         "multiple": false
+                //     },
+                //     "key": "overridePasswordExpiryPolicy",
+                //     "type": "checkbox",
+                //     "input": false,
+                //     "defaultValue": false
+                // },
                 {
                     "label": "Password",
                     "spellcheck": true,
@@ -126,14 +127,14 @@ export default {
                     "key": "repeatPassword",
                     "type": "password",
                     "conditional": {
-                        "json": {
-                            "===": [
-                              {
-                                "var": "data.sendPasswordToEmail"
-                              },
-                             false                           
-                             ]
-                          }
+                        // "json": {
+                        //     "===": [
+                        //       {
+                        //         "var": "data.sendPasswordToEmail"
+                        //       },
+                        //      false                           
+                        //      ]
+                        //   }
                     },
                     "input": true,
                     "protected": true
@@ -175,19 +176,19 @@ export default {
                     "type": "select",
                     "input": true
                 },
-                {
-                    "label": "Cancel",
-                    "action": "reset",
-                    "showValidations": false,
-                    "theme": "secondary",
-                    "key": "cancel",
-                    "type": "button",
-                    "input": false,
-                    "validate": {
-                        "unique": false,
-                        "multiple": false
-                    }
-                },
+                // {
+                //     "label": "Clear data",
+                //     "action": "reset",
+                //     "showValidations": false,
+                //     "theme": "secondary",
+                //     "key": "cancel",
+                //     "type": "button",
+                //     "input": false,
+                //     "validate": {
+                //         "unique": false,
+                //         "multiple": false
+                //     }
+                // },
                 {
                     "label": "Submit",
                     "showSubmit": false,

@@ -3,19 +3,20 @@ import ProLayout, {
 } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
-const Layout = props => {
-  const [collapsed, handleMenuCollapse] = useState(true);
-  const [settings] = useState({});
-//   console.log(props);
+import { Link, } from "react-router-dom";
 
+
+
+class  Layout extends React.Component {
+
+
+render(){
+  // const {collapsed, handleMenuCollapse} = useState(true);
+  // const [settings] = useState({});
   return (
-    <div>
+
       <ProLayout
-        locale={"en-US"}
-        collapsed={collapsed}
-        onCollapse={handleMenuCollapse}
         title="SAT Team"
-        {...settings}
         fixSiderbar={true}
         logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
         menuHeaderRender={(logo, title) => (
@@ -24,9 +25,10 @@ const Layout = props => {
             {title}
           </div>
         )}
+        breadcrumbRender={()=>''}
         menuDataRender={() => [
           {
-            path: "/",
+            path: "/dashboard",
             name: "Dashboard",
             icon: "home",
           },
@@ -62,20 +64,21 @@ const Layout = props => {
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <a onClick={() => {props.history.replace(menuItemProps.path) }}>{defaultDom}</a>
+              <Link  to={menuItemProps.path}>{defaultDom}</Link>
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps}  />;
+          return <GlobalHeaderRight {...rightProps} history={this.props.history}   />;
         }}
       >
-        <PageHeaderWrapper title={props.name}>
-          {props.children}
+        <PageHeaderWrapper >
+          {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
-    </div>
+
   );
 };
+}
 // function MainLayout() {
 //   return (<Layout> test</Layout>)
 // }
