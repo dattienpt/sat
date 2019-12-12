@@ -1,0 +1,19 @@
+{
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "no-unused-vars": "warn",
+        "no-console": 1,
+        "no-unexpected-multiline": "warn"
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    }
+}
