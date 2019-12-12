@@ -6,7 +6,7 @@ import "./LoginForm.less";
 
 class NormalLoginForm extends React.Component {
    componentWillMount() {
-      if (sessionStorage.getItem("userToken")) {
+      if (sessionStorage.getItem("userInfo")) {
          this.props.history.push("/dashboard");
       }
    }
@@ -26,6 +26,7 @@ class NormalLoginForm extends React.Component {
 
    render() {
       const { isLogin } = this.props;
+      console.log(isLogin);
       const { getFieldDecorator } = this.props.form;
       return (
          <div className="login-form">

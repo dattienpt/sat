@@ -2,10 +2,11 @@ import NetworkAxios from "../http/httpClientAxios";
 import { app } from "../index";
 import { parseQuery } from "../utils/processData";
 import { OauthUrl } from "../http/api/requestApi";
+
 export default {
    namespace: "loginModel",
    state: {
-      isLogin: sessionStorage.getItem("userToken") ? false : true
+      isLogin: true
    },
 
    reducers: {
@@ -30,23 +31,29 @@ export default {
          const response = yield call(NetworkAxios.postWithNoToken, url);
          if (response) {
             if (response.status === 200) {
-               sessionStorage.setItem("userToken", response.data.access_token);
+               const data = JSON.stringify(response.data);
+               sessionStorage.setItem("userInfo", data);
+               sessionStorage.setItem("timeLogin", new Date().getTime() / 1000);
                yield put({
                   type: "loginStatus",
                   isLogin: true
                });
                app._store.dispatch({
+                  type: "common/setTimeLoginSystem",
+                  payload: new Date().getTime() / 1000
+               });
+               app._store.dispatch({
                   type: "common/setToken",
                   payload: response.data.access_token
                });
+
                history.push("/dashboard");
+            } else {
+               yield put({
+                  type: "loginStatus",
+                  isLogin: false
+               });
             }
-         }
-         if (response.data.message) {
-            yield put({
-               type: "loginStatus",
-               isLogin: false
-            });
          }
       }
    },

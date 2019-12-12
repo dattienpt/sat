@@ -4,6 +4,8 @@ import { app } from "../index";
 import { OauthUrl } from "./api/requestApi";
 import { requestStatus } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import loginForm from "../views/authentication/loginForm";
 
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
@@ -31,14 +33,36 @@ const axiosInstance = Axios.create(commonReqConfig);
 
 Axios.interceptors.request.use(config => {
    // Do something before request is sent
-   console.log(config);
    return config;
 });
-
 export class NetworkAxios {
-   static get token() {
-      // handding refresh
 
+   static get token() {
+      const timeLogin = Math.round(sessionStorage.getItem("timeLogin"));
+      const userLocal = JSON.parse(sessionStorage.getItem("userInfo"));
+      const lifeTime = timeLogin + userLocal["expires_in"];
+      const timeCurrent = Math.round(new Date().getTime() / 1000);
+      const now = new Date();
+      const currentTime = now.getTime();
+      // add seconend
+
+      // const afterAdd = now.setSeconds(now.getSeconds() + 600);
+      // const timeExp = afterAdd.getTime();
+
+      if (true) {
+         // let data = {
+         //    client_id: "community-app",
+         //    grant_type: "refresh_token",
+         //    client_secret: 123,
+         //    tenantIdentifier: "default",
+         //    refresh_token: userLocal["refresh_token"]
+         // };
+         // let url = OauthUrl + parseQuery(data);
+         // const response = this.postRefresh(url).then(res => {
+         //    console.log(res);
+         // });
+         // redirect loginForm
+      }
       return app._store.getState().common.token;
    }
    static reload = () => {
@@ -95,10 +119,9 @@ export class NetworkAxios {
       }
    };
    static get = (url, data) => {
+      console.log("__________get_____________", this.token);
       if (data) {
          url += `?` + parseQuery(data);
-      } else {
-         //exception
       }
       return new Promise((resolve, reject) => {
          axiosInstance
@@ -108,7 +131,7 @@ export class NetworkAxios {
             })
             .catch(error => {
                reject(error.response.data);
-            })
+            });
       });
    };
 
@@ -144,13 +167,7 @@ export class NetworkAxios {
    };
    static put = (url, data = {}, options = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance
-            .put(
-               url,
-               data,
-               { headers: { Authorization: `Bearer ${this.token}` } },
-               ...options
-            )
+         axiosInstance.put(url, data, { headers: { Authorization: `Bearer ${this.token}` } })
             .then(respone => {
                resolve(respone.data);
             })
@@ -202,7 +219,7 @@ export default {
       return NetworkAxios.post(url, data);
    },
    put(url, data) {
-      return NetworkAxios.post(url, data);
+      return NetworkAxios.put(url, data);
    },
    patch(url, data) {
       return NetworkAxios.post(url, data);

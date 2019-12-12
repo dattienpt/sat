@@ -9,12 +9,12 @@ import { Link, } from "react-router-dom";
 
 class  Layout extends React.Component {
 
- 
+
 render(){
   // const {collapsed, handleMenuCollapse} = useState(true);
   // const [settings] = useState({});
   return (
-  
+
       <ProLayout
         title="SAT Team"
         fixSiderbar={true}
@@ -75,7 +75,7 @@ render(){
           {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
-    
+
   );
 };
 }
