@@ -53,12 +53,15 @@
     
 }
 .formio_tranfer{
-    margin-top: 0em;
+    margin-top: 1em;
     float: right;
-    p{
+    .role{
+        margin-top: 10px;
         font-size: 16px;
         font-weight: 600;
         text-align: left;
+        display: grid;
+        grid-template-columns: .9fr 1fr;
     }
 }
  :global(.card-title){
