@@ -3,15 +3,23 @@ import { Route, Router, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
-import { app } from "../index";
+import { app, timeLoginSystem } from "../index";
 import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
 
 const checkLogin = () => {
-   const token = sessionStorage.getItem("userToken");
-   if (token) {
+   // const timeLogin = Math.round(sessionStorage.getItem("timeLogin"));
+   const userLocal = JSON.parse(sessionStorage.getItem("userInfo"));
+   // const lifeTime = timeLogin + userLocal["expires_in"];
+   // const timeCurrent = Math.round(new Date().getTime() / 1000);
+   // console.log(lifeTime - timeCurrent);
+   // if (lifeTime < timeCurrent) {
+   //    console.log("token die");
+   // }
+   if (userLocal) {
       return true;
    }
+
    return false;
 };
 
@@ -28,12 +36,12 @@ const PrivateRoute = ({ layout: Layout, children, ...rest }) => {
             return checkLogin() ? (
                children
             ) : (
-                  <Redirect
-                     to={{
-                        pathname: "/login",
-                        state: { from: location }
-                     }}
-                  />
+               <Redirect
+                  to={{
+                     pathname: "/login",
+                     state: { from: location }
+                  }}
+               />
                //   app._history.goBack("/login");
             );
          }}

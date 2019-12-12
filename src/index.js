@@ -10,8 +10,11 @@ import RouterConfig from "./routers/routerConfig";
 
 // window.onbeforeunload = WindowCloseHanlder;
 // function WindowCloseHanlder() {
-//    localStorage.removeItem("userToken");
+//    localStorage.removeItem("userInfo");
 // }
+
+export const timeLoginSystem = new Date().getTime() / 1000;
+console.log(timeLoginSystem);
 
 // 1. Initialize
 export const app = dva({
@@ -19,7 +22,9 @@ export const app = dva({
    onError(err, dispatch) {
       console.log(err);
       if (err.defaultUserMessage) {
-         err.errors.map(item=>message.error(item.userMessageGlobalisationCode,10))
+         err.errors.map(item =>
+            message.error(item.userMessageGlobalisationCode, 10)
+         );
       } else if (err.srv) {
          message.error(err.srv.msg);
       } else {

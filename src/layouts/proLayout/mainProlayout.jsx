@@ -6,7 +6,7 @@ import GlobalHeaderRight from "./GlobalHeader/RightContent";
 const Layout = props => {
   const [collapsed, handleMenuCollapse] = useState(true);
   const [settings] = useState({});
-  console.log(props);
+//   console.log(props);
 
   return (
     <div>
