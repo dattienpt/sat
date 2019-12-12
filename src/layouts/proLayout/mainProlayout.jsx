@@ -3,16 +3,18 @@ import ProLayout, {
 } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
+import { Link, NavLink } from "react-router-dom";
 const Layout = props => {
   const [collapsed, handleMenuCollapse] = useState(true);
   const [settings] = useState({});
-  console.log(props);
+  console.log('>>>>>>>>>',props);
 
   return (
-    <div>
+  
       <ProLayout
         locale={"en-US"}
         collapsed={collapsed}
+        menu={{'locale':true}}
         onCollapse={handleMenuCollapse}
         title="SAT Team"
         {...settings}
@@ -62,18 +64,18 @@ const Layout = props => {
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <a onClick={() => {props.history.replace(menuItemProps.path) }}>{defaultDom}</a>
+              <Link  to={menuItemProps.path}>{defaultDom}</Link>
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps}  />;
+          return <GlobalHeaderRight {...rightProps} history={props.history}   />;
         }}
       >
         <PageHeaderWrapper title={props.name}>
           {props.children}
         </PageHeaderWrapper>
       </ProLayout>
-    </div>
+    
   );
 };
 // function MainLayout() {

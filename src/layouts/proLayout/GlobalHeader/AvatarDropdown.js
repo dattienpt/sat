@@ -12,7 +12,6 @@ class AvatarDropdown extends React.Component {
       const { key } = event;
       const { history } = this.props;
       if (key === "logout") {
-         console.log(this.props);
 
          sessionStorage.removeItem("userToken");
          this.props.dispatch({
@@ -89,4 +88,4 @@ const mapStateToProps = state => {
    return {};
 };
 
-export default connect(mapStateToProps, null)(withRouter(AvatarDropdown));
+export default connect(mapStateToProps, null)(AvatarDropdown);

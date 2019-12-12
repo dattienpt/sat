@@ -42,30 +42,53 @@ const PrivateRoute = ({ layout: Layout, children, ...rest }) => {
 };
 
 function RouterConfig({ history }) {
+       // <Router history={history}>
+      //    <Switch>
+      //       <Route path="/" exact component={LoginForm} />
+      //       <Route path="/login" exact component={LoginForm} />
+      //       <Route
+      //          path="/user-management/user-list"
+      //          exact
+      //          component={userList}
+      //       />
+      //       <Route
+      //          path="/user-management/user-create"
+      //          exact
+      //          component={editUser}
+      //       />
+
+      //       <PrivateRoute path="/dashboard">
+      //          <Layout history={history}></Layout>
+      //       </PrivateRoute>
+      //       <PrivateRoute path="*">
+      //          <NotFound></NotFound>
+      //       </PrivateRoute>
+      //    </Switch>
+      // </Router>
+      
    return (
       <Router history={history}>
-         <Switch>
-            <Route path="/" exact component={LoginForm} />
-            <Route path="/login" exact component={LoginForm} />
-            <Route
-               path="/user-management/user-list"
-               exact
-               component={userList}
-            />
-            <Route
-               path="/user-management/user-create"
-               exact
-               component={editUser}
-            />
 
-            <PrivateRoute path="/dashboard">
-               <Layout history={history}></Layout>
-            </PrivateRoute>
-            <PrivateRoute path="*">
-               <NotFound></NotFound>
-            </PrivateRoute>
+             <Switch>
+              <Route path="/login" exact component={LoginForm} />
+            
+              <PrivateRoute path="/">
+              <Layout  history={history}>
+
+                 <Switch>
+                  <Route path="/user-management/user-list" exact component={userList} />
+                  <Route path="/user-management/user-create" exact component={editUser} />
+                 </Switch>
+                 </Layout>
+
+                {/* <Dashboard history={history}></Dashboard> */}
+              </PrivateRoute>
+              <PrivateRoute path="*">
+                <NotFound></NotFound>
+              </PrivateRoute>
          </Switch>
-      </Router>
+       
+     </Router>
    );
 }
 

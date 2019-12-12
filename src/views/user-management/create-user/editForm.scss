@@ -33,13 +33,18 @@
 .box_container{
     display: grid;
     background: #ffffff;
-    padding: 10px;
+    padding: 15px;
     border-radius: 4px;
     box-shadow: 0 5px 10px rgba(0,0,0,.45);
     grid-template-columns:  1.2fr 500px;
     grid-column-gap: 15px;
-    height: 90vh;
+    height: auto;
 
+}
+.transfer{
+    height: 290px;
+    width:200px;
+    background: #ffffff;
 }
 :global(.card-body){
     display: grid;
@@ -48,7 +53,7 @@
     
 }
 .formio_tranfer{
-    margin-top: 1em;
+    margin-top: 0em;
     float: right;
     p{
         font-size: 16px;

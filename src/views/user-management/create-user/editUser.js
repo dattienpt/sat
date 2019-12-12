@@ -59,9 +59,8 @@ class editUser extends Component {
       }
     } else {
       this.form.components[0].components[8].defaultValue = null;
-      this.form.components[0].title = "Add user";
       if (this.props.allowedOffices)
-        this.form.components[0].components[8].data.values = this.props.allowedOffices;
+        this.form.components[0].components[6].data.values = this.props.allowedOffices;
         // this.setState(prevState => ({
         //   availableRoles: [...prevState.availableRoles, this.props.availableRoles]
         // }))
@@ -111,6 +110,7 @@ class editUser extends Component {
     data.roles = this.state.targetKeys;
     delete data.staff;
     delete data.submit;
+    data.sendPasswordToEmail=false;
     if (data.roles.length > 0) {
       this.props.dispatch({
         type: "users/addUser",
@@ -147,7 +147,6 @@ class editUser extends Component {
   };
   render() {
     return (
-      <Layout history={this.props.history} name={"Create new user"}>
       <div className={style.box_container}>
    
         {this.state.isEdit && (
@@ -173,7 +172,7 @@ class editUser extends Component {
           <p>Role</p>
           <Transfer
           listStyle={{
-            height: 310,
+            height: 290,
             width:200,
             background: '#ffffff'
 
@@ -187,7 +186,6 @@ class editUser extends Component {
           />
         </div>
       </div>
-      </Layout>
     );
   }
 }

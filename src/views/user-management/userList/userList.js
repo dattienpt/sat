@@ -12,9 +12,9 @@ class Users extends Component {
    componentWillMount() {
       this.props.dispatch({ type: "users/getUsers" });
    }
-   viewDetail = iduser => {
-      this.props.history.push("/users/detail/" + iduser);
-   };
+   // viewDetail = iduser => {
+   //    this.props.history.push("/users/detail/" + iduser);
+   // };
    state = {
       searchText: "",
       searchedColumn: ""
@@ -120,14 +120,13 @@ class Users extends Component {
          }
       ];
       return (
-         <Layout history={this.props.history}>
             <div>
                <div className={stype.users}>
                   <div className={stype.button}>
                      <Button
                         type="primary"
                         onClick={() => {
-                           this.props.history.push("../users/add");
+                           this.props.history.replace("/user-management/user-create");
                         }}
                         icon="create"
                      >
@@ -139,20 +138,15 @@ class Users extends Component {
                    className={stype.table}
 
                      columns={column}
-                     onRowClick={record => {
-                        this.viewDetail(record.id);
-                     }}
                      loading={this.state.isloading}
                      dataSource={this.props.users}
                   />
                </div>
             </div>
-         </Layout>
       );
    }
 }
 function mapStateToPrors(state) {
-   console.log(state);
    
    return { ...state.users };
 }
