@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Router, Switch, Redirect } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch, Redirect,browserHistory  } from "react-router-dom";
 import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
@@ -43,44 +43,21 @@ const PrivateRoute = ({ layout: Layout, children, ...rest }) => {
 };
 
 function RouterConfig({ history }) {
-       // <Router history={history}>
-      //    <Switch>
-      //       <Route path="/" exact component={LoginForm} />
-      //       <Route path="/login" exact component={LoginForm} />
-      //       <Route
-      //          path="/user-management/user-list"
-      //          exact
-      //          component={userList}
-      //       />
-      //       <Route
-      //          path="/user-management/user-create"
-      //          exact
-      //          component={editUser}
-      //       />
-
-      //       <PrivateRoute path="/dashboard">
-      //          <Layout history={history}></Layout>
-      //       </PrivateRoute>
-      //       <PrivateRoute path="*">
-      //          <NotFound></NotFound>
-      //       </PrivateRoute>
-      //    </Switch>
-      // </Router>
       
    return (
-      <Router history={history}>
+      <Router  history={history }>
 
              <Switch>
-              <Route path="/login" exact component={LoginForm} />
+              <Route path="/login"  component={LoginForm} />
             
               <PrivateRoute path="/">
-              <Layout  history={history}>
+              <Layout history={history } >
 
                  <Switch>
-                  <Route path="/user-management/user-list" name="User list" exact component={userList} />
-                  <Route path="/user-management/user-detail/:userId" exact component={userDetail} />
+                  <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
+                  <Route path="/user-management/user-detail/:userId" component={userDetail} />
 
-                  <Route path="/user-management/user-create" exact component={editUser} />
+                  <Route path="/user-management/user-create" component={editUser} />
                  </Switch>
                  </Layout>
 

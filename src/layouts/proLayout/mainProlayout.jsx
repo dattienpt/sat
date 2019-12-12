@@ -3,14 +3,15 @@ import ProLayout, {
 } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
-import { Link, NavLink } from "react-router-dom";
+import { Link, } from "react-router-dom";
+
+
+
 class  Layout extends React.Component {
-  state= {name:''}
-sa=  this.props.history.listen(({pathname})=>{
-  this.setState({name: pathname.split('/').join(' ')})
-})
+
+ 
 render(){
-  
+  console.log(this.title)
   // const {collapsed, handleMenuCollapse} = useState(true);
   // const [settings] = useState({});
   return (
@@ -25,6 +26,7 @@ render(){
             {title}
           </div>
         )}
+        breadcrumbRender={()=>''}
         menuDataRender={() => [
           {
             path: "/",
@@ -70,7 +72,7 @@ render(){
           return <GlobalHeaderRight {...rightProps} history={this.props.history}   />;
         }}
       >
-        <PageHeaderWrapper title={this.state.name }>
+        <PageHeaderWrapper >
           {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
