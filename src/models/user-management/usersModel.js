@@ -1,5 +1,5 @@
 import API from "../../http/httpClientAxios";
-import { listUser,userTemplate } from "../../http/api/requestApi";
+import { listUser,userTemplate,userDetail } from "../../http/api/requestApi";
 import { postApi } from "./customRequest";
 
 export default {
@@ -40,13 +40,12 @@ export default {
          const response = yield call(API.get, listUser);
          yield put({ type: "save", payload: response });
       },
-      // *getUserDetail({ payload }, { call, put }) {
-      //    const response = yield call(
-      //       API.get,
-      //       "fineract-provider/api/v1/users/" + payload
-      //    );
-      //    if (response) yield put({ type: "userDetail", payload: response });
-      // },
+      *getUserDetail({ payload }, { call, put }) {
+         const response = yield call(
+            API.get,userDetail + payload
+         );
+         if (response) yield put({ type: "userDetail", payload: response });
+      },
       *getTemplate({ payload }, { call, put }) {
          const response = yield call(
             API.get,

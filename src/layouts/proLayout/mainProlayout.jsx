@@ -4,20 +4,19 @@ import ProLayout, {
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
 import { Link, NavLink } from "react-router-dom";
-const Layout = props => {
-  const [collapsed, handleMenuCollapse] = useState(true);
-  const [settings] = useState({});
-  console.log('>>>>>>>>>',props);
-
+class  Layout extends React.Component {
+  state= {name:''}
+sa=  this.props.history.listen(({pathname})=>{
+  this.setState({name: pathname.split('/').join(' ')})
+})
+render(){
+  
+  // const {collapsed, handleMenuCollapse} = useState(true);
+  // const [settings] = useState({});
   return (
   
       <ProLayout
-        locale={"en-US"}
-        collapsed={collapsed}
-        menu={{'locale':true}}
-        onCollapse={handleMenuCollapse}
         title="SAT Team"
-        {...settings}
         fixSiderbar={true}
         logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
         menuHeaderRender={(logo, title) => (
@@ -68,16 +67,17 @@ const Layout = props => {
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps} history={props.history}   />;
+          return <GlobalHeaderRight {...rightProps} history={this.props.history}   />;
         }}
       >
-        <PageHeaderWrapper title={props.name}>
-          {props.children}
+        <PageHeaderWrapper title={this.state.name }>
+          {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
     
   );
 };
+}
 // function MainLayout() {
 //   return (<Layout> test</Layout>)
 // }

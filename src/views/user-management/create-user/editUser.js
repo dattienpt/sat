@@ -66,9 +66,7 @@ class editUser extends Component {
         // }))
         
      this.setState({ availableRoles: [...this.props.availableRoles] });
-     console.log(this.state);
      
-
     }
   }
   getMock = () => {
@@ -190,7 +188,6 @@ class editUser extends Component {
   }
 }
 function mapStateToProps(state) {
-  console.log(state.users);
   return {
     availableRoles: [...state.users.template.availableRoles],
     allowedOffices: [...state.users.template.allowedOffices],

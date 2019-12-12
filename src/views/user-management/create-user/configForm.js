@@ -8,7 +8,7 @@ export default {
     },
     "components": [
         {
-            "title": "",
+            "title": "User information",
             "customClass": "box-form",
             "collapsible": false,
             "key": "add",
@@ -176,19 +176,19 @@ export default {
                     "type": "select",
                     "input": true
                 },
-                {
-                    "label": "Clear data",
-                    "action": "reset",
-                    "showValidations": false,
-                    "theme": "secondary",
-                    "key": "cancel",
-                    "type": "button",
-                    "input": false,
-                    "validate": {
-                        "unique": false,
-                        "multiple": false
-                    }
-                },
+                // {
+                //     "label": "Clear data",
+                //     "action": "reset",
+                //     "showValidations": false,
+                //     "theme": "secondary",
+                //     "key": "cancel",
+                //     "type": "button",
+                //     "input": false,
+                //     "validate": {
+                //         "unique": false,
+                //         "multiple": false
+                //     }
+                // },
                 {
                     "label": "Submit",
                     "showSubmit": false,

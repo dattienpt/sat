@@ -6,6 +6,7 @@ import NotFound from "../views/notFound/notFound";
 import { app } from "../index";
 import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
+import userDetail from "../views/user-management/userDetail/userDetail";
 
 const checkLogin = () => {
    const token = sessionStorage.getItem("userToken");
@@ -76,7 +77,9 @@ function RouterConfig({ history }) {
               <Layout  history={history}>
 
                  <Switch>
-                  <Route path="/user-management/user-list" exact component={userList} />
+                  <Route path="/user-management/user-list" name="User list" exact component={userList} />
+                  <Route path="/user-management/user-detail/:userId" exact component={userDetail} />
+
                   <Route path="/user-management/user-create" exact component={editUser} />
                  </Switch>
                  </Layout>

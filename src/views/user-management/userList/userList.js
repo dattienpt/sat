@@ -12,9 +12,9 @@ class Users extends Component {
    componentWillMount() {
       this.props.dispatch({ type: "users/getUsers" });
    }
-   // viewDetail = iduser => {
-   //    this.props.history.push("/users/detail/" + iduser);
-   // };
+   viewDetail = iduser => {
+      this.props.history.replace("/user-management/user-detail/" + iduser);
+   };
    state = {
       searchText: "",
       searchedColumn: ""
@@ -120,34 +120,35 @@ class Users extends Component {
          }
       ];
       return (
-            <div>
-               <div className={stype.users}>
-                  <div className={stype.button}>
-                     <Button
-                        type="primary"
-                        onClick={() => {
-                           this.props.history.replace("/user-management/user-create");
-                        }}
-                        icon="create"
-                     >
-                        Create Users
-                     </Button>
-                  </div>
-
-                  <Table
-                   className={stype.table}
-
-                     columns={column}
-                     loading={this.state.isloading}
-                     dataSource={this.props.users}
-                  />
+         <div>
+            <div className={stype.users}>
+               <div className={stype.button}>
+                  <Button
+                     type="primary"
+                     onClick={() => {
+                        this.props.history.replace(
+                           "/user-management/user-create"
+                        );
+                     }}
+                     icon="create"
+                  >
+                     Create Users
+                  </Button>
                </div>
+
+               <Table
+                  onRowClick={(user)=>{this.viewDetail(user.id)}}
+                  className={stype.table}
+                  columns={column}
+                  loading={this.state.isloading}
+                  dataSource={this.props.users}
+               />
             </div>
+         </div>
       );
    }
 }
 function mapStateToPrors(state) {
-   
    return { ...state.users };
 }
 export default connect(mapStateToPrors)(Users);

@@ -62,9 +62,9 @@
     }
 }
  :global(.card-title){
-    font-weight: 700;
+    font-weight: bold;
     font-size: 18px;
     font-family: sans-serif;
-    border-bottom: 1px solid;
+    text-transform: uppercase;
 
  }
