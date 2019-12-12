@@ -6,10 +6,14 @@ import { OauthUrl } from "../http/api/requestApi";
 export default {
    namespace: "loginModel",
    state: {
-      isLogin: true
+      isLogin: true,
+      username: null
    },
 
    reducers: {
+      setInfoLogin(state, { payload: username }) {
+
+      },
       setToken(state, { payload: token }) {
          return { ...state, token };
       },
@@ -59,7 +63,7 @@ export default {
    },
    subscriptions: {
       setup({ dispatch, history }) {
-         return history.listen(({ pathname, query }) => {});
+         return history.listen(({ pathname, query }) => { });
       }
    }
 };

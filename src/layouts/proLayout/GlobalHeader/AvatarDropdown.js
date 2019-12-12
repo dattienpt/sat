@@ -155,7 +155,7 @@ class AvatarDropdown extends React.Component {
                      }
                      alt="avatar"
                   />
-                  <span className={styles.name}>{"Admin"}</span>
+                  <span className={styles.name}>{"mifos"}</span>
                </span>
             </HeaderDropdown>
             <div>
