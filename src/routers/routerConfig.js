@@ -3,7 +3,6 @@ import { Route, Router, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
-import { app } from "../index";
 import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
 import dashboard from '../views/dashboard/dashboard';
@@ -17,29 +16,11 @@ const checkLogin = () => {
    return false;
 };
 
-// A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
-const PrivateRoute = ({ layout: Layout, children, ...rest }) => {
-   // console.log(app._history);
+const PrivateRoute = ({ children, ...rest }) => {
    return (
-      <Route
-         {...rest}
-         render={({ location }) => {
-            // console.log(children);
-            // console.log(location);
-            return checkLogin() ? (
-               children
-            ) : (
-                  <Redirect
-                     to={{
-                        pathname: "/login",
-                        state: { from: location }
-                     }}
-                  />
-                  //   app._history.goBack("/login");
-               );
-         }}
-      />
+      <Route {...rest} render={({ location }) => {
+         return checkLogin() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />);
+      }} />
    );
 };
 
