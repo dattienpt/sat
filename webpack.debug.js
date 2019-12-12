@@ -3,5 +3,5 @@ const common = require('./webpack.common');
 const webpack = require('webpack');
 
 module.exports = merge(common, {
-    plugins: [new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])]
+  plugins: [new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])]
 }); 

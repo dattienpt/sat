@@ -6,6 +6,8 @@ import NotFound from "../views/notFound/notFound";
 import { app } from "../index";
 import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
+import dashboard from '../views/dashboard/dashboard';
+
 
 const checkLogin = () => {
    const token = sessionStorage.getItem("userToken");
@@ -34,8 +36,8 @@ const PrivateRoute = ({ layout: Layout, children, ...rest }) => {
                         state: { from: location }
                      }}
                   />
-               //   app._history.goBack("/login");
-            );
+                  //   app._history.goBack("/login");
+               );
          }}
       />
    );
@@ -47,20 +49,9 @@ function RouterConfig({ history }) {
          <Switch>
             <Route path="/" exact component={LoginForm} />
             <Route path="/login" exact component={LoginForm} />
-            <Route
-               path="/user-management/user-list"
-               exact
-               component={userList}
-            />
-            <Route
-               path="/user-management/user-create"
-               exact
-               component={editUser}
-            />
-
-            <PrivateRoute path="/dashboard">
-               <Layout history={history}></Layout>
-            </PrivateRoute>
+            <Route path="/dashboard" exact component={dashboard} />
+            <Route path="/user-management/user-list" exact component={userList} />
+            <Route path="/user-management/user-create" exact component={editUser} />
             <PrivateRoute path="*">
                <NotFound></NotFound>
             </PrivateRoute>

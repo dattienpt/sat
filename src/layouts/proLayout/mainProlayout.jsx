@@ -6,8 +6,6 @@ import GlobalHeaderRight from "./GlobalHeader/RightContent";
 const Layout = props => {
   const [collapsed, handleMenuCollapse] = useState(true);
   const [settings] = useState({});
-  console.log(props);
-
   return (
     <div>
       <ProLayout
@@ -26,7 +24,7 @@ const Layout = props => {
         )}
         menuDataRender={() => [
           {
-            path: "/",
+            path: "/dashboard",
             name: "Dashboard",
             icon: "home",
           },
@@ -62,11 +60,11 @@ const Layout = props => {
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <a onClick={() => {props.history.replace(menuItemProps.path) }}>{defaultDom}</a>
+              <a onClick={() => { props.history.replace(menuItemProps.path) }}>{defaultDom}</a>
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps}  />;
+          return <GlobalHeaderRight {...rightProps} />;
         }}
       >
         <PageHeaderWrapper title={props.name}>
@@ -76,7 +74,4 @@ const Layout = props => {
     </div>
   );
 };
-// function MainLayout() {
-//   return (<Layout> test</Layout>)
-// }
 export default Layout;
