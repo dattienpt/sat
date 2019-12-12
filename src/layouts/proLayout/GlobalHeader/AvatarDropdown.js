@@ -39,7 +39,6 @@ class AvatarDropdown extends React.Component {
    };
 
    handleCancel = e => {
-      console.log(e);
       this.setState({
          visible: false
       });
@@ -81,7 +80,8 @@ class AvatarDropdown extends React.Component {
       callback();
    };
    render() {
-      const { currentUser = { avatar: "", name: "" }, menu } = this.props;
+      const { currentUser = { avatar: "", name: "" }, menu, username } = this.props;
+      console.log(username);
       const { getFieldDecorator } = this.props.form;
       const { autoCompleteResult } = this.state;
 
@@ -155,7 +155,7 @@ class AvatarDropdown extends React.Component {
                      }
                      alt="avatar"
                   />
-                  <span className={styles.name}>{"mifos"}</span>
+                  <span className={styles.name}>{username}</span>
                </span>
             </HeaderDropdown>
             <div>
@@ -208,7 +208,8 @@ class AvatarDropdown extends React.Component {
 
 const WrappedAvatarDropdown = Form.create({ name: "register" })(AvatarDropdown);
 const mapStateToProps = state => {
-   return {};
+   const { username } = state.loginModel;
+   return { username };
 };
 
 export default connect(mapStateToProps, null)(withRouter(WrappedAvatarDropdown));

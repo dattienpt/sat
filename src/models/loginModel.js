@@ -11,8 +11,8 @@ export default {
    },
 
    reducers: {
-      setInfoLogin(state, { payload: username }) {
-
+      setInfoLogin(state, { username }) {
+         return { ...state, username };
       },
       setToken(state, { payload: token }) {
          return { ...state, token };
@@ -38,6 +38,10 @@ export default {
                const data = JSON.stringify(response.data);
                sessionStorage.setItem("userInfo", data);
                sessionStorage.setItem("timeLogin", new Date().getTime() / 1000);
+               yield put({
+                  type: "setInfoLogin",
+                  username: values.username
+               });
                yield put({
                   type: "loginStatus",
                   isLogin: true
