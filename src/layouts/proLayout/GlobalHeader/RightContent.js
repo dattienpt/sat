@@ -21,7 +21,7 @@ const GlobalHeaderRight = props => {
 
   return (
     <div className={className}>
-      <HeaderSearch
+      {/* <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder={"seach name"}
         dataSource={[
@@ -33,7 +33,7 @@ const GlobalHeaderRight = props => {
         onPressEnter={value => {
           console.log("enter", value);
         }}
-      />
+      /> */}
       <Tooltip
         title={formatMessage({
           id: "component.globalHeader.help"
@@ -48,7 +48,7 @@ const GlobalHeaderRight = props => {
           <Icon type="question-circle-o" />
         </a>
       </Tooltip>
-      <Avatar />
+      <Avatar history={props.history} />
       <SelectLang className={styles.action} />
     </div>
   );
