@@ -18,7 +18,7 @@
 .box_left{
     width: 50%;
     display: grid;
- grid-template-columns: 120px 25%;
+ grid-template-columns: 1fr 1fr;
  grid-template-rows: repeat(7,40px );
 }
 .box_right{
@@ -34,7 +34,7 @@
     font-family: sans-serif;
     font-weight: 600;
     padding: 10px;
-    border-bottom: 1px solid #3498db;
+    border-bottom: 1px solid #DDDDDD;
 
 }
 .box_left .box_role{
