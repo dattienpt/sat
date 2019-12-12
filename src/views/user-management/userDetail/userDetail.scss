@@ -34,10 +34,8 @@
     font-family: sans-serif;
     font-weight: 600;
     padding: 10px;
-    border: 1px solid #3498db;
-    &:hover{
-        background: rgba(0,0,0,.25);
-    }
+    border-bottom: 1px solid #3498db;
+
 }
 .box_left .box_role{
     display: flex;
