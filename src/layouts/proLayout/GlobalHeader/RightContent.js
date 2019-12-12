@@ -8,16 +8,16 @@ import SelectLang from "../SelectLang";
 import styles from "./index.scss";
 
 const GlobalHeaderRight = props => {
-  const { theme, layout } = props;
-  let className = styles.right;
+   const { theme, layout } = props;
+   let className = styles.right;
 
-  if (theme === "dark" && layout === "topmenu") {
-    className = `${styles.right}  ${styles.dark}`;
-  }
+   if (theme === "dark" && layout === "topmenu") {
+      className = `${styles.right}  ${styles.dark}`;
+   }
 
-  if (theme === "dark" && layout === "topmenu") {
-    className = `right dark`;
-  }
+   if (theme === "dark" && layout === "topmenu") {
+      className = `right dark`;
+   }
 
   return (
     <div className={className}>

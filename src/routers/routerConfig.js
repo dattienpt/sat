@@ -10,10 +10,18 @@ import dashboard from '../views/dashboard/dashboard';
 
 
 const checkLogin = () => {
-   const token = sessionStorage.getItem("userToken");
-   if (token) {
+   // const timeLogin = Math.round(sessionStorage.getItem("timeLogin"));
+   const userLocal = JSON.parse(sessionStorage.getItem("userInfo"));
+   // const lifeTime = timeLogin + userLocal["expires_in"];
+   // const timeCurrent = Math.round(new Date().getTime() / 1000);
+   // console.log(lifeTime - timeCurrent);
+   // if (lifeTime < timeCurrent) {
+   //    console.log("token die");
+   // }
+   if (userLocal) {
       return true;
    }
+
    return false;
 };
 
@@ -26,13 +34,13 @@ const PrivateRoute = ({ children, ...rest }) => {
 };
 
 function RouterConfig({ history }) {
-      
+
    return (
       <Router  history={history }>
 
              <Switch>
               <Route path="/login"  component={LoginForm} />
-            
+
               <PrivateRoute path="/">
               <Layout history={history } >
 
@@ -51,7 +59,7 @@ function RouterConfig({ history }) {
                 <NotFound></NotFound>
               </PrivateRoute>
          </Switch>
-       
+
      </Router>
    );
 }
