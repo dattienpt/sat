@@ -3,18 +3,21 @@ import ProLayout, {
 } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
+import { Link, } from "react-router-dom";
+import { connect } from "dva";
 
-const Layout = props => {
-  const [collapsed, handleMenuCollapse] = useState(true);
-  const [settings] = useState({});
+
+
+class  Layout extends React.Component {
+
+
+render(){
+  // const {collapsed, handleMenuCollapse} = useState(true);
+  // const [settings] = useState({});
   return (
-    <div>
+
       <ProLayout
-        locale={"en-US"}
-        collapsed={collapsed}
-        onCollapse={handleMenuCollapse}
         title="SAT Team"
-        {...settings}
         fixSiderbar={true}
         logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
         menuHeaderRender={(logo, title) => (
@@ -23,15 +26,11 @@ const Layout = props => {
             {title}
           </div>
         )}
+        breadcrumbRender={()=>''}
         menuDataRender={() => [
           {
-            path: "/",
+            path: "/dashboard",
             name: "Dashboard",
-            icon: "home",
-          },
-          {
-            path: "/product",
-            name: "Products",
             icon: "home",
           },
           {
@@ -50,12 +49,12 @@ const Layout = props => {
             icon: "user",
             children: [
               {
-                path: "/user-list",
+                path: "/user-management/user-list",
                 name: "User List",
                 icon: "ordered-list"
               },
               {
-                path: "/user-create",
+                path: "/user-management/user-create",
                 name: "Create new user",
                 icon: "user-add"
               }
@@ -66,21 +65,22 @@ const Layout = props => {
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <a to={menuItemProps.path}>{defaultDom}</a>
+              <Link  to={menuItemProps.path}>{defaultDom}</Link>
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps} />;
+          return <GlobalHeaderRight {...rightProps} history={this.props.history}   />;
         }}
       >
-        <PageHeaderWrapper>
-         {props.children}
+        <PageHeaderWrapper title={this.props.name}>
+          {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
-    </div>
+
   );
 };
-function MainLayout(){
-  return(<Layout> test</Layout>)
 }
-export default MainLayout;
+function mapStateToProps(state){
+  return {name:state.users.namePage}
+}
+export default connect(mapStateToProps)(Layout);

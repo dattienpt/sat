@@ -4,5 +4,5 @@ export default {
         format: 'json',
         mode: 'development'
     },
-    host: 'localhost'
+    host: "https://192.168.11.115:8443/fineract-provider/api",
 }

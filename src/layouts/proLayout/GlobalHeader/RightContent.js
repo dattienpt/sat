@@ -8,20 +8,20 @@ import SelectLang from "../SelectLang";
 import styles from "./index.scss";
 
 const GlobalHeaderRight = props => {
-  const { theme, layout } = props;
-  let className = styles.right;
+   const { theme, layout } = props;
+   let className = styles.right;
 
-  if (theme === "dark" && layout === "topmenu") {
-    className = `${styles.right}  ${styles.dark}`;
-  }
+   if (theme === "dark" && layout === "topmenu") {
+      className = `${styles.right}  ${styles.dark}`;
+   }
 
-  if (theme === "dark" && layout === "topmenu") {
-    className = `right dark`;
-  }
+   if (theme === "dark" && layout === "topmenu") {
+      className = `right dark`;
+   }
 
   return (
     <div className={className}>
-      <HeaderSearch
+      {/* <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder={"seach name"}
         dataSource={[
@@ -33,7 +33,7 @@ const GlobalHeaderRight = props => {
         onPressEnter={value => {
           console.log("enter", value);
         }}
-      />
+      /> */}
       <Tooltip
         title={formatMessage({
           id: "component.globalHeader.help"
@@ -48,7 +48,7 @@ const GlobalHeaderRight = props => {
           <Icon type="question-circle-o" />
         </a>
       </Tooltip>
-      <Avatar />
+      <Avatar history={props.history} />
       <SelectLang className={styles.action} />
     </div>
   );

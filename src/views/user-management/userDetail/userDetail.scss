@@ -1,0 +1,43 @@
+.container{
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    box-shadow: 0 5px 10px rgba(0,0,0,.45);
+    border-radius: 5px;
+    
+}
+.body_users{
+    width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-row-gap: 1em;
+    padding-top: 1em;
+}
+
+.box_left{
+    width: 50%;
+    display: grid;
+ grid-template-columns: 1fr 1fr;
+ grid-template-rows: repeat(7,40px );
+}
+.box_right{
+    margin-left: 2em;
+    width: 50%;
+  
+}
+
+.box_left .box_name{
+    grid-column: 1/3;
+}
+.box_left >div{
+    font-family: sans-serif;
+    font-weight: 600;
+    padding: 10px;
+    border-bottom: 1px solid #DDDDDD;
+
+}
+.box_left .box_role{
+    display: flex;
+    justify-content: space-between;
+}
