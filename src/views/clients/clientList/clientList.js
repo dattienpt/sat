@@ -6,48 +6,27 @@ const { Search } = Input;
 
 class ClientList extends Component {
    state = {};
-   column = [
-      {
-         title: "Name",
-         dataIndex: "displayName",
-         key: "displayName"
-      },
-      {
-         title: "Client#",
-         dataIndex: "accountNo",
-         key: "accountNo"
-      },
-      {
-         title: "External Id",
-         dataIndex: "externalId",
-         key: "externalId"
-      },
-      {
-         title: "Status",
-         dataIndex: "active",
-         key: "active",
-         render: status => {
-            if (status) {
-               return <Tag color={"green"} key={"active"} />;
-            } else {
-               return <Tag color={"geekblue"} key={"disactive"} />;
-            }
-         }
-      },
-      {
-         title: "Office",
-         dataIndex: "staffName",
-         key: "staffName"
-      },
-      {
-         title: "Staff",
-         dataIndex: "address",
-         key: "address"
-      }
-   ];
+ 
    onChangPage = ev => {
-      console.log(ev);
+    this.props.dispatch({
+        type: "clients/clientList",
+        payload: { limit: 10, offset: ev }
+     })
+      
    };
+   onSearch = key=>{
+       console.log(key.trim());
+       
+    !key.trim()
+    ? this.props.dispatch({
+         type: "clients/clientList",
+         payload: { limit: 10, offset: 0 }
+      })
+    : this.props.dispatch({
+         type: "clients/searchClient",
+         payload: { key: key.trim() }
+      });
+   }
    componentWillMount() {
       this.props.dispatch({
          type: "clients/clientList",
@@ -55,30 +34,72 @@ class ClientList extends Component {
       });
    }
    render() {
+  const    column = [
+         {
+            title: "Name",
+            dataIndex: "displayName",
+            key: "displayName"
+         },
+         {
+            title: "Client#",
+            dataIndex: "accountNo",
+            key: "accountNo"
+         },
+         {
+            title: "External Id",
+            dataIndex: "mobileNo",
+            key: "externalId"
+         },
+         {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            render: status => {
+               if (status.value =='Active') {
+                  return <Tag color={"green"} key={"active"} >{status.value} </Tag>;
+               } else {
+                  return <Tag color={"geekblue"} key={"disactive"} >{status.value}</Tag>;
+               }
+            }
+         },
+         {
+            title: "Office",
+            dataIndex: "officeName",
+            key: "staffName"
+         },
+         {
+            title: "Staff",
+            dataIndex: "address",
+            key: "address"
+         }
+      ];
+      const {totalFilteredRecords,pageItems} =this.props;
       return (
          <div className={style.container}>
             <div className={style.search}>
-               <Input />{" "}
                <Search
-                  placeholder="input search text"
-                  onSearch={value => console.log(value)}
-                  style={{ width: 200,height:33 }}
-                  onClick={ev=>console.log(ev)}
+                  placeholder="search by name/Client#/mobile"
+                  style={{ width: 300, height: 33 }}
+                  onSearch={ev =>this.onSearch(ev)}
                />
             </div>
             <div className={style.content}>
                <Table
-                  columns={this.columns}
-                  dataSource={this.props.clients}
+                  dataSource={pageItems}
+                  columns={column}
                   pagination={false}
-                  rowKey={client => client.id}
+                  rowKey={client=>client.id}
                />
+               <div className={style.pagination}>
                <Pagination
                   current={1}
                   pageSize={15}
+
                   onChange={this.onChangPage}
-                  total={this.props.totalFilteredRecords}
+                  total={totalFilteredRecords}
                />
+               </div>
+           
             </div>
          </div>
       );
@@ -87,8 +108,7 @@ class ClientList extends Component {
 function mapStateToProps(state) {
    console.log(state.clients);
    return {
-      totalFilteredRecords: state.clients.listclient.totalFilteredRecords,
-      clients: state.clients.listclient.pageItems
+  ...state.clients
    };
 }
 export default connect(mapStateToProps)(ClientList);
