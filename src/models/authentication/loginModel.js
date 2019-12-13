@@ -1,7 +1,8 @@
-import NetworkAxios from "../http/httpClientAxios";
-import { app } from "../index";
-import { parseQuery } from "../utils/processData";
-import { OauthUrl } from "../http/api/requestApi";
+import NetworkAxios from "../../http/httpClientAxios";
+import { app } from "../../index";
+import { parseQuery } from "../../utils/processData";
+import { OauthUrl } from "../../http/api/requestApi";
+import * as localStorageService from '../../utils/localStorageService';
 
 export default {
    namespace: "loginModel",
@@ -35,9 +36,9 @@ export default {
          const response = yield call(NetworkAxios.postWithNoToken, url);
          if (response) {
             if (response.status === 200) {
-               const data = JSON.stringify(response.data);
-               sessionStorage.setItem("userInfo", data);
-               sessionStorage.setItem("timeLogin", new Date().getTime() / 1000);
+               response.data['username'] = values.username;
+               response.data['timeLogin'] = Math.round(new Date().getTime() / 1000);
+               localStorageService.setUserInfo(response.data);
                yield put({
                   type: "setInfoLogin",
                   username: values.username
@@ -71,3 +72,4 @@ export default {
       }
    }
 };
+

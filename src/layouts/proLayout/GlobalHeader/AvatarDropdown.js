@@ -5,14 +5,13 @@ import { withRouter } from "react-router-dom";
 import HeaderDropdown from "../HeaderDropdown";
 import styles from "./index.scss";
 import { connect } from "dva";
-import { app } from "../../../index";
+import * as localStorageService from '../../../utils/localStorageService';
 
 class AvatarDropdown extends React.Component {
    state = { visible: false };
    onLogout = () => {
       const { history } = this.props;
-      sessionStorage.removeItem("userInfo");
-      sessionStorage.removeItem("timeLogin");
+      localStorageService.clearUserInfo();
       history.push("/login");
    }
    onMenuClick = event => {
@@ -39,6 +38,7 @@ class AvatarDropdown extends React.Component {
    };
 
    handleCancel = e => {
+      this.props.form.resetFields();
       this.setState({
          visible: false
       });
@@ -80,17 +80,16 @@ class AvatarDropdown extends React.Component {
       callback();
    };
    render() {
-      const { currentUser = { avatar: "", name: "" }, menu, username } = this.props;
-      console.log(username);
+      const { username } = localStorageService.getUserInfo();
+      const { currentUser = { avatar: "", name: "" }, menu } = this.props;
       const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
 
       const formItemLayout = {
          labelCol: {
-            sm: { span: 6 },
+            sm: { span: 10 },
          },
          wrapperCol: {
-            sm: { span: 6 },
+            sm: { span: 14 },
          },
       };
       const menuHeaderDropdown = (
@@ -147,15 +146,8 @@ class AvatarDropdown extends React.Component {
          <React.Fragment>
             <HeaderDropdown overlay={menuHeaderDropdown}>
                <span className={`${styles.action} ${styles.account}`}>
-                  <Avatar
-                     size="small"
-                     className={styles.avatar}
-                     src={
-                        "https://znews-photo.zadn.vn/w660/Uploaded/unvjuas/2019_11_21/nhinlaidanhotgirlworldcup2018nguoibitungclipnongkevotudanganhkhoebodysexy17.jpg"
-                     }
-                     alt="avatar"
-                  />
-                  <span className={styles.name}>{username}</span>
+                  <Icon type="user" className={styles.avatar} />
+                  <b className={styles.name}>{username}</b>
                </span>
             </HeaderDropdown>
             <div>
@@ -168,7 +160,7 @@ class AvatarDropdown extends React.Component {
                   onOk={this.handleOk}
                   onCancel={this.handleCancel}
                   okText="Submit"
-                  width="600px"
+                  // width="600px"
                >
                   <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
@@ -185,7 +177,7 @@ class AvatarDropdown extends React.Component {
                            ],
                         })(<Input.Password />)}
                      </Form.Item>
-                     <Form.Item label="Confirm Password" hasFeedback>
+                     <Form.Item label="Confirm password" hasFeedback>
                         {getFieldDecorator('repeatPassword', {
                            rules: [
                               {
