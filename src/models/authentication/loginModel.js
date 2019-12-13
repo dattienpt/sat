@@ -36,32 +36,18 @@ export default {
          const response = yield call(NetworkAxios.postWithNoToken, url);
          if (response) {
             if (response.status === 200) {
+               const now = new Date();
+               now.setSeconds(now.getSeconds() + response.data.expires_in);
                response.data['username'] = values.username;
-               response.data['timeLogin'] = Math.round(new Date().getTime() / 1000);
+               response.data['expiresTime'] = now.getTime();
                localStorageService.setUserInfo(response.data);
-               yield put({
-                  type: "setInfoLogin",
-                  username: values.username
-               });
-               yield put({
-                  type: "loginStatus",
-                  isLogin: true
-               });
-               app._store.dispatch({
-                  type: "common/setTimeLoginSystem",
-                  payload: new Date().getTime() / 1000
-               });
+
                app._store.dispatch({
                   type: "common/setToken",
                   payload: response.data.access_token
                });
 
                history.push("/dashboard");
-            } else {
-               yield put({
-                  type: "loginStatus",
-                  isLogin: false
-               });
             }
          }
       }

@@ -7,13 +7,6 @@ import { message } from "antd";
 import "./styles/index.less";
 import "antd/dist/antd.css";
 import RouterConfig from "./routers/routerConfig";
-import * as localStorageService from './utils/localStorageService';
-
-//Window Close Event of Browser
-// window.onbeforeunload = WindowCloseHanlder;
-// function WindowCloseHanlder() {
-//    localStorageService.clearUserInfo();
-// }
 
 // 1. Initialize
 export const app = dva({

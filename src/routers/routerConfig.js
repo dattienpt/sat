@@ -4,7 +4,7 @@ import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
 import userList from "../views/user-management/userList/userList";
-import editUser from "../views/user-management/create-user/editUser";
+import editUser from "../views/user-management/createUser/editUser";
 import userDetail from "../views/user-management/userDetail/userDetail";
 import dashboard from '../views/dashboard/dashboard';
 import ClientList from "../views/clients/clientList/clientList";
