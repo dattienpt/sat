@@ -13,18 +13,10 @@ import * as localStorageService from '../utils/localStorageService';
 
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
-   if (userLocal) {
-      const expiresTime = userLocal["timeExpires"];
-      const currentTime = new Date().getTime();
-      if (expiresTime < currentTime) {
-         return true;
-      } else {
-         return false;
-      }
-   }
-   else {
+   if (userLocal)
+      return true;
+   else
       return false;
-   }
 };
 
 const PrivateRoute = ({ children, ...rest }) => {
