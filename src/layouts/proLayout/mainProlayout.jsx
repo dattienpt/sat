@@ -6,15 +6,12 @@ import GlobalHeaderRight from "./GlobalHeader/RightContent";
 import { Link, } from "react-router-dom";
 import { connect } from "dva";
 
+class Layout extends React.Component {
 
-
-class  Layout extends React.Component {
-
-
-render(){
-  // const {collapsed, handleMenuCollapse} = useState(true);
-  // const [settings] = useState({});
-  return (
+  render() {
+    // const {collapsed, handleMenuCollapse} = useState(true);
+    // const [settings] = useState({});
+    return (
 
       <ProLayout
         title="SAT Team"
@@ -26,7 +23,7 @@ render(){
             {title}
           </div>
         )}
-        breadcrumbRender={()=>''}
+        breadcrumbRender={() => ''}
         menuDataRender={() => [
           {
             path: "/dashboard",
@@ -65,11 +62,11 @@ render(){
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <Link style={{textDecoration:'none'}} to={menuItemProps.path}>{defaultDom}</Link>
+              <Link style={{ textDecoration: 'none' }} to={menuItemProps.path}>{defaultDom}</Link>
             );
         }}
         rightContentRender={rightProps => {
-          return <GlobalHeaderRight {...rightProps} history={this.props.history}   />;
+          return <GlobalHeaderRight {...rightProps} history={this.props.history} />;
         }}
       >
         <PageHeaderWrapper title={this.props.name}>
@@ -77,10 +74,10 @@ render(){
         </PageHeaderWrapper>
       </ProLayout>
 
-  );
-};
+    );
+  };
 }
-function mapStateToProps(state){
-  return {name:state.users.namePage}
+function mapStateToProps(state) {
+  return { name: state.users.namePage }
 }
 export default connect(mapStateToProps)(Layout);

@@ -38,25 +38,12 @@ export class NetworkAxios {
 
    static get token() {
       const userLocal = localStorageService.getUserInfo();
-      const lifeTime = userLocal["timeLogin"] + userLocal["expires_in"];
-      const timeCurrent = Math.round(new Date().getTime() / 1000);
+      const expiresTime = userLocal["timeExpires"];
+      const currentTime = new Date().getTime();
 
-      if (lifeTime < timeCurrent) {
+      if (expiresTime < currentTime) {
          localStorageService.clearUserInfo();
          this.reload();
-
-         // let data = {
-         //    client_id: "community-app",
-         //    grant_type: "refresh_token",
-         //    client_secret: 123,
-         //    tenantIdentifier: "default",
-         //    refresh_token: userLocal["refresh_token"]
-         // };
-         // let url = OauthUrl + parseQuery(data);
-         // const response = this.postRefresh(url).then(res => {
-         //    console.log(res);
-         // });
-         // redirect loginForm
       }
       return app._store.getState().common.token;
    }
@@ -80,7 +67,7 @@ export class NetworkAxios {
                   data: {
                      message:
                         "Sorry, the system is unstable, please try again later",
-                     code: ""
+                     code: "2"
                   }
                };
             }
