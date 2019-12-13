@@ -14,9 +14,17 @@ import * as localStorageService from '../utils/localStorageService';
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
    if (userLocal) {
-      return true;
+      const expiresTime = userLocal["timeExpires"];
+      const currentTime = new Date().getTime();
+      if (expiresTime < currentTime) {
+         return true;
+      } else {
+         return false;
+      }
    }
-   return false;
+   else {
+      return false;
+   }
 };
 
 const PrivateRoute = ({ children, ...rest }) => {
@@ -31,30 +39,23 @@ function RouterConfig({ history }) {
 
    return (
       <Router history={history}>
-
          <Switch>
             <Route path="/login" component={LoginForm} />
-
             <PrivateRoute path="/">
                <Layout history={history} >
-
-                 <Switch>
-                  <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
-                  <Route path="/user-management/user-detail/:userId" component={userDetail} />
-                  <Route path="/dashboard" exact component={dashboard} />
-                  <Route path="/user-management/user-create" component={editUser} />
-                  <Route path="/clients" exact component={ClientList} />
-
-                 </Switch>
-                 </Layout>
-
-               {/* <Dashboard history={history}></Dashboard> */}
+                  <Switch>
+                     <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
+                     <Route path="/user-management/user-detail/:userId" component={userDetail} />
+                     <Route path="/dashboard" exact component={dashboard} />
+                     <Route path="/user-management/user-create" component={editUser} />
+                     <Route path="/clients" exact component={ClientList} />
+                  </Switch>
+               </Layout>
             </PrivateRoute>
             <PrivateRoute path="*">
                <NotFound></NotFound>
             </PrivateRoute>
          </Switch>
-
       </Router>
    );
 }

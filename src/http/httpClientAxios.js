@@ -41,7 +41,7 @@ export class NetworkAxios {
       const expiresTime = userLocal["timeExpires"];
       const currentTime = new Date().getTime();
 
-      if (expiresTime > currentTime) {
+      if (expiresTime < currentTime) {
          localStorageService.clearUserInfo();
          this.reload();
       }
