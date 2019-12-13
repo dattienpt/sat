@@ -46,8 +46,25 @@ class ClientList extends Component {
       }
    ];
    onChangPage = ev => {
-      console.log(ev);
+    this.props.dispatch({
+        type: "clients/clientList",
+        payload: { limit: 10, offset: ev }
+     })
+      
    };
+   onSearch = key=>{
+       console.log(key.trim());
+       
+    !key.trim()
+    ? this.props.dispatch({
+         type: "clients/clientList",
+         payload: { limit: 10, offset: 0 }
+      })
+    : this.props.dispatch({
+         type: "clients/searchClient",
+         payload: { key: key.trim() }
+      });
+   }
    componentWillMount() {
       this.props.dispatch({
          type: "clients/clientList",
@@ -61,9 +78,8 @@ class ClientList extends Component {
                <Input />{" "}
                <Search
                   placeholder="input search text"
-                  onSearch={value => console.log(value)}
-                  style={{ width: 200,height:33 }}
-                  onClick={ev=>console.log(ev)}
+                  style={{ width: 200, height: 33 }}
+                  onSearch={ev =>this.onSearch(ev)}
                />
             </div>
             <div className={style.content}>
