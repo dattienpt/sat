@@ -5,3 +5,4 @@ export const getListUser = apiVer + `/test`;
 export const listUser = apiVer + '/users';
 export const userTemplate = apiVer+ '/users/template';
 export const userDetail= apiVer + '/users/';
+export const clients = apiVer +'/clients?'

@@ -43,10 +43,6 @@ class UserDetail extends Component {
     <div><Icon type="team" /> Office:</div>  <div>{this.props.user.officeName}</div>
     <div><Icon type="solution" /> Roles:</div> <div className={style.box_role}>{this.props.user.selectedRoles&& this.props.user.selectedRoles.map((value,i)=><p key={i}>{value.name}</p>)}</div> 
               </div>
-              <div className="box-right">
-               
-       
-              </div>
             </div>
         );
     }

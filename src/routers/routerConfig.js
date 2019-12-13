@@ -7,6 +7,7 @@ import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
 import userDetail from "../views/user-management/userDetail/userDetail";
 import dashboard from '../views/dashboard/dashboard';
+import ClientList from "../views/clients/clientList/clientList";
 
 
 const checkLogin = () => {
@@ -48,8 +49,9 @@ function RouterConfig({ history }) {
                   <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
                   <Route path="/user-management/user-detail/:userId" component={userDetail} />
                   <Route path="/dashboard" exact component={dashboard} />
-
                   <Route path="/user-management/user-create" component={editUser} />
+                  <Route path="/clients" exact component={ClientList} />
+
                  </Switch>
                  </Layout>
 
