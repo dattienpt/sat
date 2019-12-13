@@ -58,7 +58,9 @@ export class NetworkAxios {
          // });
          // redirect loginForm
       }
-      return app._store.getState().common.token;
+      // const token = app._store.getState().common.token;
+      const token = userLocal['access_token'];
+      return token;
    }
    static reload = () => {
       const _host = window.location.href;
