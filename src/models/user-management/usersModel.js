@@ -8,7 +8,8 @@ export default {
    state: {
       users: [],
       user: {},
-      template: { availableRoles: [], allowedOffices: [] }
+      template: { availableRoles: [], allowedOffices: [] },
+      namePage: ''
    },
    reducers: {
       save(state, { payload }) {
@@ -17,13 +18,14 @@ export default {
       },
       userDetail(state, { payload }) {
          state.user = payload;
+         state.namePage='User detail'
          return state;
       },
       template(state, { template }) {
          template.allowedOffices = template.allowedOffices.map(item => {
             return { value: item.id + "", label: item.name };
          });
-
+         state.namePage='';
          return { ...state, template };
       }
       // userEdit(state,{staff,editTemplate}){

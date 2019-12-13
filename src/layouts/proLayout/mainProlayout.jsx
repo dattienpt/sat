@@ -4,6 +4,7 @@ import ProLayout, {
 import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
 import { Link, } from "react-router-dom";
+import { connect } from "dva";
 
 
 
@@ -71,7 +72,7 @@ render(){
           return <GlobalHeaderRight {...rightProps} history={this.props.history}   />;
         }}
       >
-        <PageHeaderWrapper >
+        <PageHeaderWrapper title={this.props.name}>
           {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
@@ -79,7 +80,7 @@ render(){
   );
 };
 }
-// function MainLayout() {
-//   return (<Layout> test</Layout>)
-// }
-export default Layout;
+function mapStateToProps(state){
+  return {name:state.users.namePage}
+}
+export default connect(mapStateToProps)(Layout);

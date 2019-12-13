@@ -142,6 +142,7 @@ class Users extends Component {
                   columns={column}
                   loading={this.state.isloading}
                   dataSource={this.props.users}
+                  rowKey={user=>user.id}
                />
             </div>
          </div>
