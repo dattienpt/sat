@@ -41,14 +41,13 @@ class NormalLoginForm extends React.Component {
                      {!isLogin && (
                         <Form.Item>
                            <Alert
-                              message="Incorrect username or password"
-                              type="error"
+                              message="Log in to continue using"
+                              type="warning"
                               showIcon
                               closable
                            />
                         </Form.Item>
                      )}
-
                      <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
                            {getFieldDecorator("username", {

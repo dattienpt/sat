@@ -114,18 +114,18 @@ class AvatarDropdown extends React.Component {
             )}
             {menu && <Menu.Divider />}
 
+            <Menu.Item key="changePassword">
+               <Icon type="key" />
+               <FormattedMessage
+                  id="menu.account.changePassword"
+                  defaultMessage="Change password"
+               />
+            </Menu.Item>
             <Menu.Item key="logout">
                <Icon type="logout" />
                <FormattedMessage
                   id="menu.account.logout"
                   defaultMessage="Logout"
-               />
-            </Menu.Item>
-            <Menu.Item key="changePassword">
-               <Icon type="logout" />
-               <FormattedMessage
-                  id="menu.account.logout"
-                  defaultMessage="Change password"
                />
             </Menu.Item>
          </Menu>
@@ -160,7 +160,7 @@ class AvatarDropdown extends React.Component {
                   onOk={this.handleOk}
                   onCancel={this.handleCancel}
                   okText="Submit"
-                  // width="600px"
+               // width="600px"
                >
                   <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 

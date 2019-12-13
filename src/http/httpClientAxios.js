@@ -40,8 +40,11 @@ export class NetworkAxios {
       const userLocal = localStorageService.getUserInfo();
       const lifeTime = userLocal["timeLogin"] + userLocal["expires_in"];
       const timeCurrent = Math.round(new Date().getTime() / 1000);
-
       if (lifeTime < timeCurrent) {
+         app._store.dispatch({
+            type: "loginModel/loginStatus",
+            isLogin: false
+         });
          localStorageService.clearUserInfo();
          this.reload();
 
@@ -101,8 +104,6 @@ export class NetworkAxios {
                   Authorization: `Bearer ${this.token}`
                }
             });
-         } else {
-            //reload
          }
       } else if (respone.status === requestStatus.forceExpired) {
          //reload Url
