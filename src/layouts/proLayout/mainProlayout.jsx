@@ -39,8 +39,8 @@ render(){
             icon: "appstore",
           },
           {
-            path: "/transaction",
-            name: "Transaction",
+            path: "/clients",
+            name: "Clients",
             icon: "transaction",
           },
           {
@@ -65,7 +65,7 @@ render(){
           return menuItemProps.isUrl ? (
             defaultDom
           ) : (
-              <Link  to={menuItemProps.path}>{defaultDom}</Link>
+              <Link style={{textDecoration:'none'}} to={menuItemProps.path}>{defaultDom}</Link>
             );
         }}
         rightContentRender={rightProps => {

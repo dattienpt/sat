@@ -13,6 +13,7 @@ export default {
    },
    reducers: {
       save(state, { payload }) {
+         state.namePage='';
          state.users = payload;
          return state;
       },
