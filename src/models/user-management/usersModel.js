@@ -28,6 +28,10 @@ export default {
          });
          state.namePage='';
          return { ...state, template };
+      },
+      namePage(state, { namePage }){
+           state.namePage =namePage
+         return state;
       }
       // userEdit(state,{staff,editTemplate}){
       //   if(staff)  return {...state,staff:{...staff}}
@@ -62,7 +66,10 @@ export default {
             payload.data
          ]);
          if (response) payload.history.replace("/user-management/user-list");
-      }
+      },
+      *namePage({payload}, { put }){
+      yield put({ type: "namePage", namePage: payload });
+    }
       //   *updateUser({payload} , { call, put }){
       //     const response = yield call(puttAPI,['/v1/users/'+payload.id,payload.data]);
       //     if(response.changes) payload.history.push('../detail/'+payload.id)
