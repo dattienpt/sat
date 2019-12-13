@@ -7,7 +7,9 @@ import userList from "../views/user-management/userList/userList";
 import editUser from "../views/user-management/create-user/editUser";
 import userDetail from "../views/user-management/userDetail/userDetail";
 import dashboard from '../views/dashboard/dashboard';
+import ClientList from "../views/clients/clientList/clientList";
 import * as localStorageService from '../utils/localStorageService';
+
 
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
@@ -36,14 +38,15 @@ function RouterConfig({ history }) {
             <PrivateRoute path="/">
                <Layout history={history} >
 
-                  <Switch>
-                     <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
-                     <Route path="/user-management/user-detail/:userId" component={userDetail} />
-                     <Route path="/dashboard" exact component={dashboard} />
+                 <Switch>
+                  <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
+                  <Route path="/user-management/user-detail/:userId" component={userDetail} />
+                  <Route path="/dashboard" exact component={dashboard} />
+                  <Route path="/user-management/user-create" component={editUser} />
+                  <Route path="/clients" exact component={ClientList} />
 
-                     <Route path="/user-management/user-create" component={editUser} />
-                  </Switch>
-               </Layout>
+                 </Switch>
+                 </Layout>
 
                {/* <Dashboard history={history}></Dashboard> */}
             </PrivateRoute>
