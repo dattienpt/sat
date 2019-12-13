@@ -3,10 +3,11 @@ import { Form, Icon, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { connect } from "dva";
 import { withRouter } from "react-router-dom";
 import "./LoginForm.less";
+import * as localStorageService from '../../utils/localStorageService';
 
 class NormalLoginForm extends React.Component {
    componentWillMount() {
-      if (sessionStorage.getItem("userInfo")) {
+      if (localStorageService.getUserInfo()) {
          this.props.history.push("/dashboard");
       }
    }

@@ -1,7 +1,5 @@
-import NetworkAxios from "../http/httpClientAxios";
-import { app } from "../index";
-import { parseQuery } from "../utils/processData";
-import { OauthUrl } from "../http/api/requestApi";
+import NetworkAxios from "../../http/httpClientAxios";
+import * as localStorageService from '../../utils/localStorageService';
 
 export default {
    namespace: "handlePassword",
@@ -16,7 +14,7 @@ export default {
    },
    effects: {
       *changePassword({ payload: values, history: history }, { call, put }) {
-         const userLocal = JSON.parse(sessionStorage.getItem('userInfo'));
+         const userLocal = localStorageService.getUserInfo();
          const data = {
             access_token: userLocal['access_token']
          }
@@ -24,8 +22,7 @@ export default {
             const url = `v1/users/${res['userId']}`;
             NetworkAxios.put(url, values).then(res => {
                if (res['changes']) {
-                  sessionStorage.removeItem("userInfo");
-                  sessionStorage.removeItem("timeLogin");
+                  localStorageService.clearUserInfo();
                   history.push("/dashboard");
                }
             })

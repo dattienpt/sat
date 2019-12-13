@@ -4,8 +4,7 @@ import { app } from "../index";
 import { OauthUrl } from "./api/requestApi";
 import { requestStatus } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
-import { Route, Link, Switch, Redirect } from 'react-router-dom';
-import loginForm from "../views/authentication/loginForm";
+import * as localStorageService from '../utils/localStorageService';
 
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
@@ -38,18 +37,14 @@ Axios.interceptors.request.use(config => {
 export class NetworkAxios {
 
    static get token() {
-      const timeLogin = Math.round(sessionStorage.getItem("timeLogin"));
-      const userLocal = JSON.parse(sessionStorage.getItem("userInfo"));
-      const lifeTime = timeLogin + userLocal["expires_in"];
+      const userLocal = localStorageService.getUserInfo();
+      const lifeTime = userLocal["timeLogin"] + userLocal["expires_in"];
       const timeCurrent = Math.round(new Date().getTime() / 1000);
-      const now = new Date();
-      const currentTime = now.getTime();
-      // add seconend
 
-      // const afterAdd = now.setSeconds(now.getSeconds() + 600);
-      // const timeExp = afterAdd.getTime();
+      if (lifeTime < timeCurrent) {
+         localStorageService.clearUserInfo();
+         this.reload();
 
-      if (true) {
          // let data = {
          //    client_id: "community-app",
          //    grant_type: "refresh_token",
@@ -119,7 +114,6 @@ export class NetworkAxios {
       }
    };
    static get = (url, data) => {
-      console.log("__________get_____________", this.token);
       if (data) {
          url += `?` + parseQuery(data);
       }
