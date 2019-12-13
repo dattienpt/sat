@@ -37,7 +37,7 @@ class NormalLoginForm extends React.Component {
                style={{ minHeight: "80vh" }}
             >
                <Col>
-                  <div className="form-login-box">
+                  <div className="login-form__box">
                      {!isLogin && (
                         <Form.Item>
                            <Alert
@@ -103,7 +103,7 @@ class NormalLoginForm extends React.Component {
                            <Button
                               type="primary"
                               htmlType="submit"
-                              className="login-form-button"
+                              className="login-form__box-button"
                            >
                               Log in
                            </Button>
