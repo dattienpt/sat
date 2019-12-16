@@ -1,17 +1,14 @@
-import React from "react";
+import React ,{Suspense}from "react";
 import { Route, BrowserRouter as Router, Switch, Redirect, browserHistory } from "react-router-dom";
 import LoginForm from "../views/authentication/loginForm";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
-import userList from "../views/user-management/userList/userList";
-import editUser from "../views/user-management/createUser/editUser";
-import userDetail from "../views/user-management/userDetail/userDetail";
-import dashboard from '../views/dashboard/dashboard';
-import ClientList from "../views/clients/clientList/clientList";
-import * as localStorageService from '../utils/localStorageService';
-import clientDetail from "../views/clients/clientList/clientDetail/clientDetail";
-import productList from "../views/products/productList/productList";
 
+import * as localStorageService from '../utils/localStorageService';
+
+import { Spin } from "antd";
+
+import { userList, editUser, userDetail, dashboard, ClientList,clientDetail,productList } from './lazyLoad';
 
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
@@ -36,6 +33,8 @@ function RouterConfig({ history }) {
             <Route path="/login" component={LoginForm} />
             <PrivateRoute path="/">
                <Layout history={history} >
+               <Suspense fallback={<Spin />}>
+
                   <Switch>
                      <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
                      <Route path="/user-management/user-detail/:userId" component={userDetail} />
@@ -48,6 +47,7 @@ function RouterConfig({ history }) {
                      <Route path="*" exact component={NotFound} />
 
                   </Switch>
+                  </Suspense>
                </Layout>
             </PrivateRoute>
             {/* <PrivateRoute path="*">

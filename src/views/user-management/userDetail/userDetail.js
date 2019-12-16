@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import style from  './userDetail.scss';
-import { Button, Modal,Icon  } from 'antd';
+import { Button, Modal,Icon, Spin  } from 'antd';
 
 class UserDetail extends Component {
-    state = { visible:false,   }
+    state = { visible:false, isLoading: true   }
 
-
+    componentWillReceiveProps(ev) {
+       this.setState({ isLoading: false });
+    }
       onOpenChange = openKeys => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -33,7 +35,7 @@ class UserDetail extends Component {
         return (  
             <div className= {style.container}>
             
-              <div className={style.box_left}> 
+           {  this.state.isLoading?<Spin />: <div className={style.box_left}> 
     <div ><Icon type="user" /> Full name: </div> 
     <div className={style.text}>{this.props.user.firstname} {this.props.user.lastname}</div>
     <div><Icon type="user" /> Login Name:</div> <div className={style.text}>{this.props.user.username}</div> 
@@ -42,7 +44,7 @@ class UserDetail extends Component {
     <div><Icon type="mail" /> Email:</div>  <div className={style.text}>{this.props.user.email}</div> 
     <div><Icon type="team" /> Office:</div>  <div className={style.text}>{this.props.user.officeName}</div>
     <div><Icon type="solution" /> Roles:</div> <div className={style.box_role +' '+style.text}>{this.props.user.selectedRoles&& this.props.user.selectedRoles.map((value,i)=><p key={i}>{value.name}</p>)}</div> 
-              </div>
+              </div>}
             </div>
         );
     }
