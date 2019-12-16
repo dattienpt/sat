@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Tabs } from "antd";
 import LoanProduct from "../loanProducts/loanProduct";
 const { TabPane } = Tabs;
+import style from "./productList.scss";
 class ProductList extends Component {
 
    componentDidMount() {
@@ -18,7 +19,8 @@ class ProductList extends Component {
 
    render() {
       return (
-         <Tabs defaultActiveKey="1" onChange={this.callback}>
+         <div className={style.container}>
+            <Tabs defaultActiveKey="1" onChange={this.callback}>
             <TabPane tab="Loan Products" key="1">
                <LoanProduct></LoanProduct>
             </TabPane>
@@ -29,6 +31,7 @@ class ProductList extends Component {
                Content of Tab Pane 3
             </TabPane>
          </Tabs>
+         </div>
       );
    }
 }
