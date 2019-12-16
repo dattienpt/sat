@@ -38,6 +38,9 @@ class NormalLoginForm extends React.Component {
             >
                <Col>
                   <div className="login-form__box">
+                     <Form.Item>
+                        <h3 className="login-form__box-title">SAT Team</h3>
+                     </Form.Item>
                      {!isLogin && (
                         <Form.Item>
                            <Alert
