@@ -1,4 +1,4 @@
-import { Avatar, Icon, Menu, Spin, Modal, Button, Form, Input } from "antd";
+import { Avatar, Icon, Menu, Spin, Modal, Button, Form, Input, Alert } from "antd";
 import { FormattedMessage } from "umi-plugin-react/locale";
 import React from "react";
 import { withRouter } from "react-router-dom";
@@ -6,6 +6,7 @@ import HeaderDropdown from "../HeaderDropdown";
 import styles from "./index.scss";
 import { connect } from "dva";
 import * as localStorageService from '../../../utils/localStorageService';
+import { app } from '../../../index';
 
 class AvatarDropdown extends React.Component {
    state = { visible: false };
@@ -16,7 +17,6 @@ class AvatarDropdown extends React.Component {
    }
    onMenuClick = event => {
       const { key } = event;
-
       if (key === "logout") {
          this.onLogout();
          this.props.dispatch({
@@ -42,6 +42,10 @@ class AvatarDropdown extends React.Component {
       this.setState({
          visible: false
       });
+      app._store.dispatch({
+         type: "handlePasswordModel/setStatus",
+         changed: true
+      });
    };
 
    handleSubmit = e => {
@@ -50,7 +54,7 @@ class AvatarDropdown extends React.Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
          if (!err) {
             dispatch({
-               type: "handlePassword/changePassword",
+               type: "handlePasswordModel/changePassword",
                payload: values,
                history: history
             });
@@ -81,6 +85,7 @@ class AvatarDropdown extends React.Component {
    };
    render() {
       const { username } = localStorageService.getUserInfo();
+      const { changed } = this.props;
       const { currentUser = { avatar: "", name: "" }, menu } = this.props;
       const { getFieldDecorator } = this.props.form;
 
@@ -160,8 +165,18 @@ class AvatarDropdown extends React.Component {
                   onOk={this.handleOk}
                   onCancel={this.handleCancel}
                   okText="Submit"
-               // width="600px"
                >
+                  <div style={{ marginBottom: "22px" }}>
+                     {!changed && (
+                        <Alert
+                           message="Password has been used in the past, please enter it again !"
+                           type="error"
+                           showIcon
+                           closable
+                           banner
+                        />
+                     )}
+                  </div>
                   <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
                      <Form.Item label="New password" hasFeedback>
@@ -201,7 +216,8 @@ class AvatarDropdown extends React.Component {
 const WrappedAvatarDropdown = Form.create({ name: "register" })(AvatarDropdown);
 const mapStateToProps = state => {
    const { username } = state.loginModel;
-   return { username };
+   const { changed } = state.handlePasswordModel;
+   return { username, changed };
 };
 
 export default connect(mapStateToProps, null)(withRouter(WrappedAvatarDropdown));
