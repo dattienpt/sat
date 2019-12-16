@@ -31,6 +31,9 @@ class ClientList extends Component {
          payload: { limit: 10, offset: 0 }
       });
    }
+   viewDetail = idClient => {
+      this.props.history.replace("/clients/" + idClient);
+   };
    render() {
       const column = [
          {
@@ -44,7 +47,7 @@ class ClientList extends Component {
             key: "accountNo"
          },
          {
-            title: "External Id",
+            title: "Mobile Number",
             dataIndex: "mobileNo",
             key: "externalId"
          },
@@ -56,7 +59,7 @@ class ClientList extends Component {
                if (status.value == 'Active') {
                   return <Tag color={"green"} key={"active"} >{status.value} </Tag>;
                } else {
-                  return <Tag color={"geekblue"} key={"disactive"} >{status.value}</Tag>;
+                  return <Tag color={"red"} key={"disactive"} >{status.value}</Tag>;
                }
             }
          },
@@ -86,7 +89,8 @@ class ClientList extends Component {
                   dataSource={pageItems}
                   columns={column}
                   pagination={false}
-                  rowKey={client => client.id}
+                  onRowClick={client=>this.viewDetail(client.id)}
+                  rowKey={client=>client.id}
                />
                <div className={style.pagination}>
                   <Pagination
