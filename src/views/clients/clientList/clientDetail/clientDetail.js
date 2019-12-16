@@ -7,7 +7,10 @@ import { Card } from 'antd';
 class ClientDetail extends Component {
     state = {  }
     componentWillMount(){
+        
         this.props.dispatch({type:"clients/clientDetail",payload:{id:this.props.match.params.idClient}});
+        this.props.dispatch({type:"users/namePage",namePage:'Client deatil' });
+
     }
     render() { 
         const {client} =this.props;
@@ -16,7 +19,7 @@ class ClientDetail extends Component {
                 <div>
                     <Card title={client.displayName} bordered={true} style={{ width: 300 }} >
                         <div>
-                            <img />
+                            <img src={avatar} />
                         </div>
                     </Card>
                 </div>
