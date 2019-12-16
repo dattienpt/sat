@@ -28,7 +28,6 @@ const PrivateRoute = ({ children, ...rest }) => {
 };
 
 function RouterConfig({ history }) {
-
    return (
       <Router history={history}>
          <Switch>

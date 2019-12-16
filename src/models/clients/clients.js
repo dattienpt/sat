@@ -40,7 +40,7 @@ export default {
                officeName: item.parentName,
                id: index,
                status: item.entityStatus,
-                 mobileNo:item.entityMobileNo
+               mobileNo: item.entityMobileNo
             };
          });
          yield put({ type: "search", listclient: list });
