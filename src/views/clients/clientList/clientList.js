@@ -14,9 +14,7 @@ class ClientList extends Component {
      })
       
    };
-   onSearch = key=>{
-       console.log(key.trim());
-       
+   onSearch = key=>{       
     !key.trim()
     ? this.props.dispatch({
          type: "clients/clientList",
@@ -58,7 +56,7 @@ class ClientList extends Component {
                if (status.value =='Active') {
                   return <Tag color={"green"} key={"active"} >{status.value} </Tag>;
                } else {
-                  return <Tag color={"geekblue"} key={"disactive"} >{status.value}</Tag>;
+                  return <Tag color={"red"} key={"disactive"} >{status.value}</Tag>;
                }
             }
          },
