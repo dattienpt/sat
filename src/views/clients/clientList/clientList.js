@@ -89,8 +89,8 @@ class ClientList extends Component {
                   dataSource={pageItems}
                   columns={column}
                   pagination={false}
-                  onRowClick={client=>this.viewDetail(client.id)}
-                  rowKey={client=>client.id}
+                  onRowClick={client => this.viewDetail(client.id)}
+                  rowKey={client => client.id}
                />
                <div className={style.pagination}>
                   <Pagination
@@ -101,7 +101,6 @@ class ClientList extends Component {
                      total={totalFilteredRecords}
                   />
                </div>
-
             </div>
          </div>
       );
