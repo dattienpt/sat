@@ -89,12 +89,8 @@ class ClientList extends Component {
                   dataSource={pageItems}
                   columns={column}
                   pagination={false}
-<<<<<<< HEAD
                   onRowClick={client=>this.viewDetail(client.id)}
                   rowKey={client=>client.id}
-=======
-                  rowKey={client => client.id}
->>>>>>> master
                />
                <div className={style.pagination}>
                   <Pagination
