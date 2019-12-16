@@ -5,6 +5,7 @@ import LoanProduct from "../loanProducts/loanProduct";
 import SavingProduct from "../savingProducts/savingProduct";
 import ShareProduct from "../shareProducts/shareProduct";
 const { TabPane } = Tabs;
+import style from "./productList.scss";
 class ProductList extends Component {
    componentDidMount() {
       const { dispatch } = this.props;
@@ -19,7 +20,8 @@ class ProductList extends Component {
 
    render() {
       return (
-         <Tabs defaultActiveKey="1" onChange={this.callback}>
+         <div className={style.container}>
+            <Tabs defaultActiveKey="1" onChange={this.callback}>
             <TabPane tab="Loan Products" key="1">
                <LoanProduct></LoanProduct>
             </TabPane>
@@ -30,6 +32,7 @@ class ProductList extends Component {
                <ShareProduct></ShareProduct>
             </TabPane>
          </Tabs>
+         </div>
       );
    }
 }
