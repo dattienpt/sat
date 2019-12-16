@@ -4,7 +4,7 @@ import style from "./shareProduct.scss";
 import { Table, Pagination, Button, Icon, Input } from "antd";
 
 class ShareProduct extends Component {
-   state = { isLoading: true };
+   state = { isLoading: true,searchText: "", searchedColumn: "" };
    componentWillReceiveProps(ev) {
       this.setState({ isLoading: false });
    }

@@ -9,3 +9,5 @@ export const dashboard = lazyImport('dashboard/dashboard');
 export const ClientList = lazyImport('clients/clientList/clientList');
 export const clientDetail = lazyImport('clients/clientList/clientDetail/clientDetail');
 export const productList = lazyImport('products/productList/productList');
+export const LoginForm = lazyImport('authentication/loginForm');
+
