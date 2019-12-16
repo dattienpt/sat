@@ -122,6 +122,7 @@ export default {
                     "spellcheck": true,
                     "tableView": false,
                     "validate": {
+                        "required": true,
                         "custom": "valid = (input === data.password) ? true : 'password not match';"
                     },
                     "key": "repeatPassword",

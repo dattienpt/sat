@@ -9,6 +9,8 @@ export const clients = apiVer + '/clients?'
 export const clientSearch = apiVer + '/search?exactMatch=false&query='//search?exactMatch=false&query=0002&resource=clients,clientIdentifiers
 export const getUserLoginDetail = apiVer + '/userdetails';
 export const changeInfoUser = apiVer + '/users';
-
+export const clientDetail = apiVer +'/clients';
+export const savingProduct = apiVer +'/savingsproducts'
+export const shareProduct = apiVer +'/products/share'
 //product
 export const GET_LOAN_PRODUCTS = apiVer + '/loanproducts';

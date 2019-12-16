@@ -33,7 +33,7 @@ class Layout extends React.Component {
           {
             path: "/products",
             name: "Products",
-            icon: "step-backward",
+            icon: "money-collect",
           },
           {
             path: "/clients",

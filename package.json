@@ -31,7 +31,6 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-formio": "^4.2.3",
-    "umi": "^2.12.5",
     "umi-plugin-react": "^1.14.7"
   },
   "devDependencies": {

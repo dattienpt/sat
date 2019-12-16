@@ -6,26 +6,24 @@ const { Search } = Input;
 
 class ClientList extends Component {
    state = {};
- 
+
    onChangPage = ev => {
-    this.props.dispatch({
-        type: "clients/clientList",
-        payload: { limit: 10, offset: ev }
-     })
-      
-   };
-   onSearch = key=>{
-       console.log(key.trim());
-       
-    !key.trim()
-    ? this.props.dispatch({
+      this.props.dispatch({
          type: "clients/clientList",
-         payload: { limit: 10, offset: 0 }
+         payload: { limit: 10, offset: ev }
       })
-    : this.props.dispatch({
-         type: "clients/searchClient",
-         payload: { key: key.trim() }
-      });
+
+   };
+   onSearch = key => {
+      !key.trim()
+         ? this.props.dispatch({
+            type: "clients/clientList",
+            payload: { limit: 10, offset: 0 }
+         })
+         : this.props.dispatch({
+            type: "clients/searchClient",
+            payload: { key: key.trim() }
+         });
    }
    componentWillMount() {
       this.props.dispatch({
@@ -33,8 +31,11 @@ class ClientList extends Component {
          payload: { limit: 10, offset: 0 }
       });
    }
+   viewDetail = idClient => {
+      this.props.history.replace("/clients/" + idClient);
+   };
    render() {
-  const    column = [
+      const column = [
          {
             title: "Name",
             dataIndex: "displayName",
@@ -46,7 +47,7 @@ class ClientList extends Component {
             key: "accountNo"
          },
          {
-            title: "External Id",
+            title: "Mobile Number",
             dataIndex: "mobileNo",
             key: "externalId"
          },
@@ -55,10 +56,10 @@ class ClientList extends Component {
             dataIndex: "status",
             key: "status",
             render: status => {
-               if (status.value =='Active') {
+               if (status.value == 'Active') {
                   return <Tag color={"green"} key={"active"} >{status.value} </Tag>;
                } else {
-                  return <Tag color={"geekblue"} key={"disactive"} >{status.value}</Tag>;
+                  return <Tag color={"red"} key={"disactive"} >{status.value}</Tag>;
                }
             }
          },
@@ -73,14 +74,14 @@ class ClientList extends Component {
             key: "address"
          }
       ];
-      const {totalFilteredRecords,pageItems} =this.props;
+      const { totalFilteredRecords, pageItems } = this.props;
       return (
          <div className={style.container}>
             <div className={style.search}>
                <Search
                   placeholder="search by name/Client#/mobile"
                   style={{ width: 300, height: 33 }}
-                  onSearch={ev =>this.onSearch(ev)}
+                  onSearch={ev => this.onSearch(ev)}
                />
             </div>
             <div className={style.content}>
@@ -88,18 +89,18 @@ class ClientList extends Component {
                   dataSource={pageItems}
                   columns={column}
                   pagination={false}
-                  rowKey={client=>client.id}
+                  onRowClick={client => this.viewDetail(client.id)}
+                  rowKey={client => client.id}
                />
                <div className={style.pagination}>
-               <Pagination
-                  current={1}
-                  pageSize={15}
+                  <Pagination
+                     current={1}
+                     pageSize={15}
 
-                  onChange={this.onChangPage}
-                  total={totalFilteredRecords}
-               />
+                     onChange={this.onChangPage}
+                     total={totalFilteredRecords}
+                  />
                </div>
-           
             </div>
          </div>
       );
@@ -108,7 +109,7 @@ class ClientList extends Component {
 function mapStateToProps(state) {
    console.log(state.clients);
    return {
-  ...state.clients
+      ...state.clients
    };
 }
 export default connect(mapStateToProps)(ClientList);

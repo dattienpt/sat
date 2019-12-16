@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "dva";
 import { Tabs } from "antd";
 import LoanProduct from "../loanProducts/loanProduct";
+import SavingProduct from "../savingProducts/savingProduct";
+import ShareProduct from "../shareProducts/shareProduct";
 const { TabPane } = Tabs;
 import style from "./productList.scss";
 class ProductList extends Component {
-
    componentDidMount() {
       const { dispatch } = this.props;
       dispatch({
@@ -13,9 +14,9 @@ class ProductList extends Component {
       });
    }
 
-   callback = (key) => {
+   callback = key => {
       console.log(key);
-   }
+   };
 
    render() {
       return (
@@ -25,10 +26,10 @@ class ProductList extends Component {
                <LoanProduct></LoanProduct>
             </TabPane>
             <TabPane tab="Savings Products" key="2">
-               Content of Tab Pane 2
+               <SavingProduct> </SavingProduct>
             </TabPane>
             <TabPane tab="Share Products" key="3">
-               Content of Tab Pane 3
+               <ShareProduct></ShareProduct>
             </TabPane>
          </Tabs>
          </div>
