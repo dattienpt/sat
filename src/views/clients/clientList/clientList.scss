@@ -1,14 +1,11 @@
 .container{
     display: grid;
-
     padding: 15px;
     background: #ffffff;
     height: auto;
     border-radius: 5px;
     grid-template-rows: 35px auto;
     grid-gap: 1em;
-
-
 }
 .search{
     display: grid;
@@ -20,7 +17,6 @@
     display: grid;
     grid-template-rows: auto auto;
     grid-gap: 1em;
-
 }
 .pagination{
     display: flex;

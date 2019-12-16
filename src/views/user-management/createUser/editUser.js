@@ -168,8 +168,8 @@ class editUser extends Component {
         )}
         <div className={style.formio_tranfer}>
           <div className={style.role}>
-            <div>Role</div>
-            <div>Role selected</div>
+            <div className='field-required'>Role</div>
+            <div  >Role selected</div>
           </div>
           <Transfer
           listStyle={{
