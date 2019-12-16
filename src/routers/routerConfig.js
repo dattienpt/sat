@@ -9,6 +9,7 @@ import userDetail from "../views/user-management/userDetail/userDetail";
 import dashboard from '../views/dashboard/dashboard';
 import ClientList from "../views/clients/clientList/clientList";
 import * as localStorageService from '../utils/localStorageService';
+import productList from "../views/products/productList/productList";
 
 
 const checkLogin = () => {
@@ -41,6 +42,7 @@ function RouterConfig({ history }) {
                      <Route path="/dashboard" exact component={dashboard} />
                      <Route path="/user-management/user-create" component={editUser} />
                      <Route path="/clients" exact component={ClientList} />
+                     <Route path="/products" exact component={productList} />
                   </Switch>
                </Layout>
             </PrivateRoute>
