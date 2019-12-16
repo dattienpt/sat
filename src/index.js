@@ -18,12 +18,6 @@ export const app = dva({
       } else if (err.srv) {
          message.error(err.srv.msg);
       }
-      else if (err.error) {
-         if (err.error == 'invalid_grant')
-            message.error('Invalid Credentials Error With Correct Username/Password');
-         else
-            message.error(err.error);
-      }
       else {
          message.error(err);
       }

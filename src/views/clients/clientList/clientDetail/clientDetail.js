@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import style from './clientDetail.scss'
+import avatar from "IMAGE/avatar.jpg";
+
 import { connect } from 'dva';
 import { Card } from 'antd';
 class ClientDetail extends Component {
@@ -13,6 +15,9 @@ class ClientDetail extends Component {
             <div className={style.container}>
                 <div>
                     <Card title={client.displayName} bordered={true} style={{ width: 300 }} >
+                        <div>
+                            <img />
+                        </div>
                     </Card>
                 </div>
                 
