@@ -84,7 +84,7 @@ class ClientList extends Component {
             </div>
             <div className={style.content}>
                <Table
-                  dataSource={pageItems}
+                  dataSource={Array.isArray(pageItems)?pageItems:[]}
                   columns={column}
                   pagination={false}
                   rowKey={client => client.id}

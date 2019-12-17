@@ -117,7 +117,7 @@ class SavingProduct extends Component {
             <div className={style.content}>
                <Table
                   loading={this.state.isLoading}
-                  dataSource={list}
+                  dataSource={Array.isArray(list)?list:[]}
                   columns={column}
                   pagination={false}
                   rowKey={sv => sv.id}
