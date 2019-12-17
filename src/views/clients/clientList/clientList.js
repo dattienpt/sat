@@ -31,9 +31,7 @@ class ClientList extends Component {
          payload: { limit: 10, offset: 0 }
       });
    }
-   viewDetail = idClient => {
-      this.props.history.replace("/clients/" + idClient);
-   };
+
    render() {
       const column = [
          {
@@ -89,7 +87,6 @@ class ClientList extends Component {
                   dataSource={pageItems}
                   columns={column}
                   pagination={false}
-                  onRowClick={client => this.viewDetail(client.id)}
                   rowKey={client => client.id}
                />
                <div className={style.pagination}>

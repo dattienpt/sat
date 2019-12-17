@@ -81,7 +81,7 @@ export class NetworkAxios {
                   Authorization: `Bearer ${this.token}`
                }
             }).then(response => {
-               return response;
+               return response.data;
             }).catch(error => {
                return error.response;
             })
@@ -109,8 +109,9 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               console.log(error.response);
-               return this.checkStatus(error.response);
+               if(error.response.status==401)
+               resolve(this.checkStatus(error.response));
+               else
                reject(error.response.data);
             });
       });
