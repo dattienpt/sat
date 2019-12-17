@@ -26,7 +26,7 @@ export default {
    effects: {
       *clientList({ payload }, { call, put }) {
          const respons = yield call(
-            API.getAsync,
+            API.get,
             clients + "limit=" + payload.limit + "&offset=" + payload.offset
          );
          yield put({ type: "litst", listclient: respons });
