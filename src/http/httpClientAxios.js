@@ -120,13 +120,11 @@ export class NetworkAxios {
    static getAsync = async (url, data) => {
       if (data)
          url += `?` + parseQuery(data);
-      return axiosInstance
-         .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
+      return axiosInstance.get(url, { headers: { Authorization: `Bearer ${this.token}` } })
          .then(response => {
             return response.data;
          })
          .catch(error => {
-            console.log(error.response);
             return this.checkStatus(error.response);
          });
    }

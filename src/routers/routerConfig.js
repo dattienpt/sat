@@ -8,11 +8,8 @@ import {
 } from "react-router-dom";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
-
 import * as localStorageService from "../utils/localStorageService";
-
 import { Spin } from "antd";
-
 import {
    userList,
    editUser,

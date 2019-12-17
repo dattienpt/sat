@@ -7,13 +7,6 @@ import ShareProduct from "../shareProducts/shareProduct";
 const { TabPane } = Tabs;
 import style from "./productList.scss";
 class ProductList extends Component {
-   componentDidMount() {
-      const { dispatch } = this.props;
-      dispatch({
-         type: "loanProductModel/getLoanProducts"
-      });
-   }
-
    callback = key => {
       console.log(key);
    };
