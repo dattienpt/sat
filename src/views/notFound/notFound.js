@@ -8,7 +8,6 @@ class NotFound extends React.Component {
    };
    render() {
       return (
-         <Layout history={this.props.history} name={'Page not found'}>
             <React.Fragment>
                <h1 className={style.h1}>404</h1>
                <p className={style.p}>Oops! Something is wrong.</p>
@@ -16,7 +15,6 @@ class NotFound extends React.Component {
                   <i className="icon-home"></i> Go back in initial page, is better.
                   </a>
             </React.Fragment>
-         </Layout>
       );
    }
 }

@@ -31,9 +31,9 @@ class Layout extends React.Component {
             icon: "home",
           },
           {
-            path: "/saving-account",
-            name: "Saving Account",
-            icon: "appstore",
+            path: "/products",
+            name: "Products",
+            icon: "money-collect",
           },
           {
             path: "/clients",

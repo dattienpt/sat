@@ -40,12 +40,17 @@ export class NetworkAxios {
       const userLocal = localStorageService.getUserInfo();
       const expiresTime = userLocal["timeExpires"];
       const currentTime = new Date().getTime();
-
       if (expiresTime < currentTime) {
+         app._store.dispatch({
+            type: "loginModel/loginStatus",
+            isLogin: false
+         });
          localStorageService.clearUserInfo();
          this.reload();
       }
-      return app._store.getState().common.token;
+      // const token = app._store.getState().common.token;
+      const token = userLocal['access_token'];
+      return token;
    }
    static reload = () => {
       const _host = window.location.href;
@@ -86,8 +91,6 @@ export class NetworkAxios {
                   Authorization: `Bearer ${this.token}`
                }
             });
-         } else {
-            //reload
          }
       } else if (respone.status === requestStatus.forceExpired) {
          //reload Url

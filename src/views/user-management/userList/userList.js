@@ -15,10 +15,6 @@ class Users extends Component {
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-   state = {
-      searchText: "",
-      searchedColumn: ""
-   };
 
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
@@ -27,41 +23,41 @@ class Users extends Component {
          confirm,
          clearFilters
       }) => (
-         <div style={{ padding: 8 }}>
-            <Input
-               ref={node => {
-                  this.searchInput = node;
-               }}
-               placeholder={`Search ${dataIndex}`}
-               value={selectedKeys[0]}
-               onChange={e =>
-                  setSelectedKeys(e.target.value ? [e.target.value] : [])
-               }
-               onPressEnter={() =>
-                  this.handleSearch(selectedKeys, confirm, dataIndex)
-               }
-               style={{ width: 188, marginBottom: 8, display: "block" }}
-            />
-            <Button
-               type="primary"
-               onClick={() =>
-                  this.handleSearch(selectedKeys, confirm, dataIndex)
-               }
-               icon="search"
-               size="small"
-               style={{ width: 90, marginRight: 8 }}
-            >
-               Search
+            <div style={{ padding: 8 }}>
+               <Input
+                  ref={node => {
+                     this.searchInput = node;
+                  }}
+                  placeholder={`Search ${dataIndex}`}
+                  value={selectedKeys[0]}
+                  onChange={e =>
+                     setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  }
+                  onPressEnter={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  style={{ width: 188, marginBottom: 8, display: "block" }}
+               />
+               <Button
+                  type="primary"
+                  onClick={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  icon="search"
+                  size="small"
+                  style={{ width: 90, marginRight: 8 }}
+               >
+                  Search
             </Button>
-            <Button
-               onClick={() => this.handleReset(clearFilters)}
-               size="small"
-               style={{ width: 90 }}
-            >
-               Reset
+               <Button
+                  onClick={() => this.handleReset(clearFilters)}
+                  size="small"
+                  style={{ width: 90 }}
+               >
+                  Reset
             </Button>
-         </div>
-      ),
+            </div>
+         ),
       filterIcon: filtered => (
          <Icon
             type="search"
@@ -137,12 +133,12 @@ class Users extends Component {
                </div>
 
                <Table
-                  onRowClick={(user)=>{this.viewDetail(user.id)}}
+                  onRowClick={(user) => { this.viewDetail(user.id) }}
                   className={stype.table}
                   columns={column}
                   loading={this.state.isloading}
                   dataSource={this.props.users}
-                  rowKey={user=>user.id}
+                  rowKey={user => user.id}
                />
             </div>
          </div>

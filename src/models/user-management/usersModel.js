@@ -1,5 +1,5 @@
 import API from "../../http/httpClientAxios";
-import { listUser,userTemplate,userDetail } from "../../http/api/requestApi";
+import { listUser, userTemplate, userDetail } from "../../http/api/requestApi";
 import { postApi } from "./customRequest";
 
 export default {
@@ -13,21 +13,25 @@ export default {
    },
    reducers: {
       save(state, { payload }) {
-         state.namePage='';
+         state.namePage = '';
          state.users = payload;
          return state;
       },
       userDetail(state, { payload }) {
          state.user = payload;
-         state.namePage='User detail'
+         state.namePage = 'User detail'
          return state;
       },
       template(state, { template }) {
          template.allowedOffices = template.allowedOffices.map(item => {
             return { value: item.id + "", label: item.name };
          });
-         state.namePage='';
+         state.namePage = '';
          return { ...state, template };
+      },
+      namePage(state, { namePage }) {
+         state.namePage = namePage
+         return state;
       }
       // userEdit(state,{staff,editTemplate}){
       //   if(staff)  return {...state,staff:{...staff}}
@@ -35,7 +39,6 @@ export default {
       //     editTemplate.allowedOffices =  editTemplate.allowedOffices.map(item=>{return {value:item.id+"",label:item.name}});
       //     return {...state,editTemplate:{...editTemplate}}
       //   }
-
       // }
    },
    effects: {
@@ -45,7 +48,7 @@ export default {
       },
       *getUserDetail({ payload }, { call, put }) {
          const response = yield call(
-            API.get,userDetail + payload
+            API.get, userDetail + payload
          );
          if (response) yield put({ type: "userDetail", payload: response });
       },
@@ -58,10 +61,13 @@ export default {
       },
       *addUser({ payload }, { call, put }) {
          const response = yield call(postApi, [
-          listUser,
+            listUser,
             payload.data
          ]);
          if (response) payload.history.replace("/user-management/user-list");
+      },
+      *namePage({ payload }, { put }) {
+         yield put({ type: "namePage", namePage: payload });
       }
       //   *updateUser({payload} , { call, put }){
       //     const response = yield call(puttAPI,['/v1/users/'+payload.id,payload.data]);
@@ -81,6 +87,6 @@ export default {
       // },
    },
    subscriptions: {
-      save({ dispatch, history }) {}
+      save({ dispatch, history }) { }
    }
 };

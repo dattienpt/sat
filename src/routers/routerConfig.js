@@ -1,53 +1,95 @@
-import React from "react";
-import { Route, BrowserRouter as Router, Switch, Redirect, browserHistory } from "react-router-dom";
-import LoginForm from "../views/authentication/loginForm";
+import React, { Suspense } from "react";
+import {
+   Route,
+   BrowserRouter as Router,
+   Switch,
+   Redirect,
+   browserHistory
+} from "react-router-dom";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
-import userList from "../views/user-management/userList/userList";
-import editUser from "../views/user-management/createUser/editUser";
-import userDetail from "../views/user-management/userDetail/userDetail";
-import dashboard from '../views/dashboard/dashboard';
-import ClientList from "../views/clients/clientList/clientList";
-import * as localStorageService from '../utils/localStorageService';
 
+import * as localStorageService from "../utils/localStorageService";
+
+import { Spin } from "antd";
+
+import {
+   userList,
+   editUser,
+   userDetail,
+   dashboard,
+   ClientList,
+   clientDetail,
+   productList,
+   LoginForm
+} from "./lazyLoad";
 
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
-   if (userLocal)
-      return true;
-   else
-      return false;
+   if (userLocal) return true;
+   else return false;
 };
 
 const PrivateRoute = ({ children, ...rest }) => {
    return (
-      <Route {...rest} render={({ location }) => {
-         return checkLogin() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />);
-      }} />
+      <Route
+         {...rest}
+         render={({ location }) => {
+            return checkLogin() ? (
+               children
+            ) : (
+               <Redirect
+                  to={{ pathname: "/login", state: { from: location } }}
+               />
+            );
+         }}
+      />
    );
 };
 
 function RouterConfig({ history }) {
-
    return (
       <Router history={history}>
+                        <Suspense fallback={<Spin tip="Loading..." />}>
+
          <Switch>
             <Route path="/login" component={LoginForm} />
             <PrivateRoute path="/">
-               <Layout history={history} >
-                  <Switch>
-                     <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
-                     <Route path="/user-management/user-detail/:userId" component={userDetail} />
-                     <Route path="/dashboard" exact component={dashboard} />
-                     <Route path="/user-management/user-create" component={editUser} />
-                     <Route path="/clients" exact component={ClientList} />
-                  </Switch>
+               <Layout history={history}>
+                     <Switch>
+                        <Route
+                           path="/user-management/user-list"
+                           name="User list"
+                           exact={false}
+                           component={userList}
+                        />
+                        <Route
+                           path="/user-management/user-detail/:userId"
+                           component={userDetail}
+                        />
+                        <Route path="/dashboard" exact component={dashboard} />
+                        <Route
+                           path="/user-management/user-create"
+                           component={editUser}
+                        />
+                        <Route path="/clients" exact component={ClientList} />
+                        <Route
+                           path="/clients/:idClient"
+                           exact
+                           component={clientDetail}
+                        />
+                        <Route path="/products" exact component={productList} />
+
+                        <Route path="*" exact component={NotFound} />
+                     </Switch>
                </Layout>
             </PrivateRoute>
-            <PrivateRoute path="*">
+            {/* <PrivateRoute path="*">
                <NotFound></NotFound>
-            </PrivateRoute>
+            </PrivateRoute> */}
          </Switch>
+         </Suspense>
+
       </Router>
    );
 }

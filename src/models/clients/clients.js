@@ -1,21 +1,57 @@
 import API from "../../http/httpClientAxios";
-import { clients } from "../../http/api/requestApi";
+import { clients, clientSearch,clientDetail } from "../../http/api/requestApi";
 export default {
    namespace: "clients",
 
    state: {
-       listclient:{}
+      pageItems: [],
+      totalFilteredRecords: 0,
+      client:{}
    },
    reducers: {
-      litst(state, {listclient}) {
-         return { ...state,listclient };
+      litst(state, { listclient }) {
+         state.pageItems = listclient.pageItems;
+         state.totalFilteredRecords = listclient.totalFilteredRecords;
+         return { ...state };
+      },
+      search(state, { listclient }) {
+         state.pageItems = listclient;
+         state.totalFilteredRecords = listclient.length;
+         return { ...state };
+      },
+      client(state,{client}){
+         return {...state,client}
       }
    },
    effects: {
       *clientList({ payload }, { call, put }) {
-          const respons = yield call(API.get,clients+'limit='+payload.limit+'&offset='+payload.offset);
-          console.log(respons);
-         yield put({ type: "litst" ,listclient:respons});
+         const respons = yield call(
+            API.get,
+            clients + "limit=" + payload.limit + "&offset=" + payload.offset
+         );
+         yield put({ type: "litst", listclient: respons });
+      },
+      *searchClient({ payload }, { call, put }) {
+         const respons = yield call(
+            API.get,
+            clientSearch + payload.key + "&resource=clients,clientIdentifiers"
+         );
+
+         const list = respons.map((item, index) => {
+            return {
+               displayName: item.entityName,
+               accountNo: item.entityAccountNo,
+               officeName: item.parentName,
+               id: index,
+               status: item.entityStatus,
+               mobileNo: item.entityMobileNo
+            };
+         });
+         yield put({ type: "search", listclient: list });
+      },
+      *clientDetail({ payload }, { call, put }){
+         const respons = yield call(API.get,clientDetail+'/'+payload.id);
+         yield put({ type: "client", client: respons })
       }
    },
 
