@@ -4,11 +4,11 @@ import { Table, Button, Input, Icon } from "antd";
 import stype from "./userList.scss";
 import Layout from "../../../layouts/proLayout/mainProlayout";
 class Users extends Component {
-   state = { searchText: "", searchedColumn: "", isloading: true };
+   state = { searchText: "", searchedColumn: "",  };
 
-   componentWillReceiveProps() {
-      this.setState({ isloading: false });
-   }
+   // componentWillReceiveProps() {
+   //    this.setState({ isloading: false });
+   // }
    componentWillMount() {
       this.props.dispatch({ type: "users/getUsers" });
    }
@@ -91,6 +91,8 @@ class Users extends Component {
    };
 
    render() {
+      const {loading } = this.props;
+const  isloading = loading.effects['users/getUsers']    
       const column = [
          {
             title: "First Name",
@@ -136,7 +138,7 @@ class Users extends Component {
                   onRowClick={(user) => { this.viewDetail(user.id) }}
                   className={stype.table}
                   columns={column}
-                  loading={this.state.isloading}
+                  loading={isloading}
                   dataSource={this.props.users}
                   rowKey={user => user.id}
                />
@@ -146,6 +148,6 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
-   return { ...state.users };
+   return { ...state.users, loading:state.loading};
 }
 export default connect(mapStateToPrors)(Users);

@@ -74,7 +74,9 @@ class ClientList extends Component {
             key: "address"
          }
       ];
-      const { totalFilteredRecords, pageItems } = this.props;
+      const { totalFilteredRecords, pageItems ,loading} = this.props;
+      const  isloading = loading.effects['clients/clientList']    
+
       return (
          <div className={style.container}>
             <div className={style.search}>
@@ -88,15 +90,14 @@ class ClientList extends Component {
                <Table
                   dataSource={pageItems}
                   columns={column}
+                  loading={isloading}
                   pagination={false}
-                  onRowClick={client => this.viewDetail(client.id)}
                   rowKey={client => client.id}
                />
                <div className={style.pagination}>
                   <Pagination
                      current={1}
                      pageSize={15}
-
                      onChange={this.onChangPage}
                      total={totalFilteredRecords}
                   />
@@ -107,9 +108,8 @@ class ClientList extends Component {
    }
 }
 function mapStateToProps(state) {
-   console.log(state.clients);
    return {
-      ...state.clients
+      ...state.clients,loading:state.loading
    };
 }
 export default connect(mapStateToProps)(ClientList);

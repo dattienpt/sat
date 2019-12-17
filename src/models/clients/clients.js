@@ -51,7 +51,8 @@ export default {
       },
       *clientDetail({ payload }, { call, put }) {
          const respons = yield call(API.get, clientDetail + '/' + payload.id);
-         yield put({ type: "client", client: respons })
+          if(respons)  yield put({ type: "client", client: respons })
+         
       }
    },
 

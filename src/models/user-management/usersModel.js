@@ -44,7 +44,7 @@ export default {
    effects: {
       *getUsers({ payload }, { call, put }) {
          const response = yield call(API.get, listUser);
-         yield put({ type: "save", payload: response });
+        if(response) yield put({ type: "save", payload: response });
       },
       *getUserDetail({ payload }, { call, put }) {
          const response = yield call(
@@ -87,6 +87,8 @@ export default {
       // },
    },
    subscriptions: {
-      save({ dispatch, history }) { }
+      setup({ dispatch, history }) {
+         return history.listen(({ pathname, query }) => { });
+      }
    }
 };

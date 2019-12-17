@@ -15,10 +15,15 @@ export default {
    effects: {
       *getShare({}, { call, put }) {
          const response = yield call(API.get, shareProduct);
-         yield put({
+         if(response)  yield put({
             type: "save",
             payload: response
-         });
+         });else{
+            yield put({
+               type: "save",
+               payload: {totalFilteredRecords:0,pageItems:[]}
+            });
+         }
       }
    },
    subscriptions: {

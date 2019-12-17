@@ -14,7 +14,7 @@ export default {
    effects: {
       *getSaving({}, { call, put }) {
          const response = yield call(API.get, savingProduct);
-         yield put({
+         if(response) yield put({
             type: "save",
             list: response
          });

@@ -44,6 +44,7 @@ class LoanProduct extends Component {
 
    render() {
       const { lists, loading } = this.props;
+      console.log(this.props)
       const columns = [
          {
             title: 'Name',
