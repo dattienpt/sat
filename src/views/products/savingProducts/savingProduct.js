@@ -113,23 +113,15 @@ class SavingProduct extends Component {
       ];
       return (
          <div className={style.container}>
-            <div className={style.search}></div>
             <div className={style.content}>
                <Table
                   loading={this.state.isLoading}
                   dataSource={Array.isArray(list)?list:[]}
                   columns={column}
-                  pagination={false}
                   rowKey={sv => sv.id}
+                  
                />
-               <div className={style.pagination}>
-                  <Pagination
-                     current={1}
-                     pageSize={10}
-                     onChange={this.onChangPage}
-                     total={list.length}
-                  />
-               </div>
+            
             </div>
          </div>
       );

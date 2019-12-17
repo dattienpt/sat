@@ -4,7 +4,7 @@
     background: #ffffff;
     height: auto;
     border-radius: 5px;
-    grid-template-rows: 35px auto;
+    grid-template-rows: auto;
     grid-gap: 1em;
 }
 .search{
@@ -17,10 +17,4 @@
     display: grid;
     grid-template-rows: auto auto;
     grid-gap: 1em;
-}
-.pagination{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: flex-end;
 }
