@@ -13,14 +13,16 @@ export default {
    },
    effects: {
       *getLoanProducts({ }, { call, put }) {
-         const response = yield call(NetworkAxios.get, GET_LOAN_PRODUCTS);
-         yield put({
-            type: "save",
-            payload: {
-               data: response
-            }
-         });
-
+         const { status, data } = yield call(NetworkAxios.getAsync, GET_LOAN_PRODUCTS);
+         console.log(status);
+         if (status === 200) {
+            yield put({
+               type: "save",
+               payload: {
+                  data: data
+               }
+            });
+         }
       }
    },
    subscriptions: {
@@ -29,3 +31,10 @@ export default {
       }
    }
 };
+
+
+
+
+
+
+

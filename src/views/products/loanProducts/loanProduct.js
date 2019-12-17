@@ -6,6 +6,12 @@ const { Search } = Input;
 
 class LoanProduct extends Component {
    state = { searchText: "", searchedColumn: "" };
+   componentWillMount() {
+      const { dispatch } = this.props;
+      dispatch({
+         type: "loanProductModel/getLoanProducts"
+      });
+   }
    onSearch = key => {
       const keyword = key.trim();
       const { dispatch } = this.props;

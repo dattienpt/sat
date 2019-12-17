@@ -109,7 +109,6 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               console.log(error.response);
                return this.checkStatus(error.response);
                reject(error.response.data);
             });
@@ -119,14 +118,22 @@ export class NetworkAxios {
    static getAsync = async (url, data) => {
       if (data)
          url += `?` + parseQuery(data);
-      return axiosInstance
-         .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
+      return axiosInstance.get(url, { headers: { Authorization: `Bearer ${this.token}` } })
          .then(response => {
-            return response.data;
+            const res = {
+               data: response.data,
+               status: response.status,
+               statusText: response.statusText
+            };
+            return res;
          })
          .catch(error => {
             console.log(error.response);
-            return this.checkStatus(error.response);
+            if (error) {
+               return this.checkStatus(error.response);
+            } else {
+               return error;
+            }
          });
    }
 
