@@ -1,12 +1,12 @@
 import API from "../../http/httpClientAxios";
-import { clients, clientSearch,clientDetail } from "../../http/api/requestApi";
+import { clients, clientSearch, clientDetail } from "../../http/api/requestApi";
 export default {
    namespace: "clients",
 
    state: {
       pageItems: [],
       totalFilteredRecords: 0,
-      client:{}
+      client: {}
    },
    reducers: {
       litst(state, { listclient }) {
@@ -19,8 +19,8 @@ export default {
          state.totalFilteredRecords = listclient.length;
          return { ...state };
       },
-      client(state,{client}){
-         return {...state,client}
+      client(state, { client }) {
+         return { ...state, client }
       }
    },
    effects: {
@@ -49,8 +49,8 @@ export default {
          });
          yield put({ type: "search", listclient: list });
       },
-      *clientDetail({ payload }, { call, put }){
-         const respons = yield call(API.get,clientDetail+'/'+payload.id);
+      *clientDetail({ payload }, { call, put }) {
+         const respons = yield call(API.get, clientDetail + '/' + payload.id);
          yield put({ type: "client", client: respons })
       }
    },
