@@ -64,7 +64,7 @@ export default {
             listUser,
             payload.data
          ]);
-         if (response) payload.history.replace("/user-management/user-list");
+         if (response.officeId) payload.history.replace("/user-management/user-list");
       },
       *namePage({ payload }, { put }) {
          yield put({ type: "namePage", namePage: payload });
