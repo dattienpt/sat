@@ -193,7 +193,7 @@ export default {
                 {
                     "label": "Submit",
                     "showSubmit": false,
-                    "action": "submit",
+                    "action": "saveState",
                     "showValidations": true,
                     "disableOnInvalid": true,
                     "key": "submit",
