@@ -72,7 +72,8 @@ class ClientList extends Component {
             key: "address"
          }
       ];
-      const { totalFilteredRecords, pageItems } = this.props;
+      const { totalFilteredRecords, pageItems,loading } = this.props;
+      const isLoading = loading.effects['clients/clientList']
       return (
          <div className={style.container}>
             <div className={style.search}>
@@ -87,6 +88,7 @@ class ClientList extends Component {
                   dataSource={Array.isArray(pageItems)?pageItems:[]}
                   columns={column}
                   pagination={false}
+                  loading={isLoading}
                   rowKey={client => client.id}
                />
                <div className={style.pagination}>
@@ -105,7 +107,7 @@ class ClientList extends Component {
 function mapStateToProps(state) {
    console.log(state.clients);
    return {
-      ...state.clients
+      ...state.clients,loading:state.loading
    };
 }
 export default connect(mapStateToProps)(ClientList);
