@@ -1,6 +1,6 @@
-import { lazy  } from 'react';
- const lazyImport = (filename) => {
- return   lazy(() => import('../views/'+filename))
+import { lazy } from 'react';
+const lazyImport = (filename) => {
+    return lazy(() => import('../views/' + filename))
 }
 export const userList = lazyImport('user-management/userList/userList');
 export const editUser = lazyImport('user-management/createUser/editUser');

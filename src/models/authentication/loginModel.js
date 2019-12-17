@@ -41,13 +41,36 @@ export default {
                response.data['username'] = values.username;
                response.data['expiresTime'] = now.getTime();
                localStorageService.setUserInfo(response.data);
-
                app._store.dispatch({
                   type: "common/setToken",
                   payload: response.data.access_token
                });
-
                history.push("/dashboard");
+            }
+         }
+      },
+      *refreshToken({ payload: refreshData }, { call }) {
+         localStorageService.clearUserInfo();
+         let data = {
+            client_id: "community-app",
+            grant_type: "refresh_token",
+            client_secret: 123,
+            tenantIdentifier: "default",
+            refresh_token: refreshData.refresh_token
+         };
+         let url = OauthUrl + parseQuery(data);
+         const response = yield call(NetworkAxios.postAsyncWithNoToken, url);
+         if (response) {
+            if (response.status === 200) {
+               const now = new Date();
+               now.setSeconds(now.getSeconds() + response.data.expires_in);
+               response.data['username'] = refreshData.username;
+               response.data['expiresTime'] = now.getTime();
+               localStorageService.setUserInfo(response.data);
+               app._store.dispatch({
+                  type: "common/setToken",
+                  payload: response.data.access_token
+               });
             }
          }
       }
