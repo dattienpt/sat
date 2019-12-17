@@ -1,16 +1,16 @@
 //Oauth
-const apiVer = '/v1'
+const APIVER = '/v1';
 export const OauthUrl = `oauth/token?`;
-export const getListUser = apiVer + `/test`;
-export const listUser = apiVer + '/users';
-export const userTemplate = apiVer + '/users/template';
-export const userDetail = apiVer + '/users/';
-export const clients = apiVer + '/clients?'
-export const clientSearch = apiVer + '/search?exactMatch=false&query='//search?exactMatch=false&query=0002&resource=clients,clientIdentifiers
-export const getUserLoginDetail = apiVer + '/userdetails';
-export const changeInfoUser = apiVer + '/users';
-export const clientDetail = apiVer +'/clients';
-export const savingProduct = apiVer +'/savingsproducts'
-export const shareProduct = apiVer +'/products/share'
+export const getListUser = APIVER + `/test`;
+export const listUser = APIVER + '/users';
+export const userTemplate = APIVER + '/users/template';
+export const userDetail = APIVER + '/users/';
+export const clients = APIVER + '/clients?';
+export const clientSearch = APIVER + '/search?exactMatch=false&query=';
+export const getUserLoginDetail = APIVER + '/userdetails';
+export const changeInfoUser = APIVER + '/users';
+export const clientDetail = APIVER + '/clients';
+export const savingProduct = APIVER + '/savingsproducts';
+export const shareProduct = APIVER + '/products/share';
 //product
-export const GET_LOAN_PRODUCTS = apiVer + '/loanproducts';
+export const GET_LOAN_PRODUCTS = APIVER + '/loanproducts';

@@ -1,1 +1,0 @@
-https://localhost:8443/fineract-provider/api/oauth/token?username=mifos&password=password&client_id=community-app&grant_type=password&client_secret=123&tenantIdentifier=default

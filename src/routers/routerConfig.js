@@ -38,10 +38,10 @@ const PrivateRoute = ({ children, ...rest }) => {
             return checkLogin() ? (
                children
             ) : (
-               <Redirect
-                  to={{ pathname: "/login", state: { from: location } }}
-               />
-            );
+                  <Redirect
+                     to={{ pathname: "/login", state: { from: location } }}
+                  />
+               );
          }}
       />
    );
@@ -50,12 +50,11 @@ const PrivateRoute = ({ children, ...rest }) => {
 function RouterConfig({ history }) {
    return (
       <Router history={history}>
-                        <Suspense fallback={<Spin tip="Loading..." />}>
-
-         <Switch>
-            <Route path="/login" component={LoginForm} />
-            <PrivateRoute path="/">
-               <Layout history={history}>
+         <Suspense fallback={<Spin tip="Loading..." />}>
+            <Switch>
+               <Route path="/login" component={LoginForm} />
+               <PrivateRoute path="/">
+                  <Layout history={history}>
                      <Switch>
                         <Route
                            path="/user-management/user-list"
@@ -79,17 +78,12 @@ function RouterConfig({ history }) {
                            component={clientDetail}
                         />
                         <Route path="/products" exact component={productList} />
-
                         <Route path="*" exact component={NotFound} />
                      </Switch>
-               </Layout>
-            </PrivateRoute>
-            {/* <PrivateRoute path="*">
-               <NotFound></NotFound>
-            </PrivateRoute> */}
-         </Switch>
+                  </Layout>
+               </PrivateRoute>
+            </Switch>
          </Suspense>
-
       </Router>
    );
 }

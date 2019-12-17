@@ -8,12 +8,12 @@ import * as localStorageService from '../utils/localStorageService';
 
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
-   transfromRespones: [
+   transfromresponses: [
       (data, header) => {
          return data;
       }
    ],
-   responesType: "json",
+   responsesType: "json",
    timeout: 30000,
    validateStatus: function (status) {
       return status >= 200 && status < 300;
@@ -37,20 +37,7 @@ Axios.interceptors.request.use(config => {
 export class NetworkAxios {
 
    static get token() {
-      const userLocal = localStorageService.getUserInfo();
-      const expiresTime = userLocal["timeExpires"];
-      const currentTime = new Date().getTime();
-      if (expiresTime < currentTime) {
-         app._store.dispatch({
-            type: "loginModel/loginStatus",
-            isLogin: false
-         });
-         localStorageService.clearUserInfo();
-         this.reload();
-      }
-      // const token = app._store.getState().common.token;
-      const token = userLocal['access_token'];
-      return token;
+      return app._store.getState().common.token;
    }
    static reload = () => {
       const _host = window.location.href;
@@ -63,10 +50,10 @@ export class NetworkAxios {
       url += `?` + parseQuery(data);
       return axiosInstance
          .get(url)
-         .then(respone => respone.data)
-         .catch(({ respone }) => {
-            if (respone.status === 400 || respone.status === 401) {
-               return respone;
+         .then(response => response.data)
+         .catch(({ response }) => {
+            if (response.status === 400 || response.status === 401) {
+               return response;
             } else {
                return {
                   data: {
@@ -78,22 +65,30 @@ export class NetworkAxios {
             }
          });
    };
-   static checkStatus = async respone => {
-      if (respone.status === requestStatus.expired) {
+   static checkStatus = async response => {
+      if (response.status === requestStatus.expired) {
+         //Access token expired
+         console.warn('watting refresh token....');
+         const userLocal = localStorageService.getUserInfo();
          await app._store.dispatch({
-            type: "common/getToken",
-            payload: "refresh"
+            type: "loginModel/refreshToken",
+            payload: userLocal
          });
          if (this.token) {
             return axiosInstance({
-               ...respone.config,
+               ...response.config,
                headers: {
                   Authorization: `Bearer ${this.token}`
                }
-            });
+            }).then(response => {
+               return response;
+            }).catch(error => {
+               return error.response;
+            })
          }
-      } else if (respone.status === requestStatus.forceExpired) {
+      } else if (response.status === requestStatus.forceExpired) {
          //reload Url
+         this.reload();
       } else {
          return {
             data: {
@@ -110,14 +105,31 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance
             .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
-            .then(respone => {
-               resolve(respone.data);
+            .then(response => {
+               resolve(response.data);
             })
             .catch(error => {
+               console.log(error.response);
+               return this.checkStatus(error.response);
                reject(error.response.data);
             });
       });
    };
+
+   static getAsync = async (url, data) => {
+      if (data)
+         url += `?` + parseQuery(data);
+      return axiosInstance
+         .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
+         .then(response => {
+            return response.data;
+         })
+         .catch(error => {
+            console.log(error.response);
+            return this.checkStatus(error.response);
+         });
+   }
+
 
    static delete = (url, options = {}) => {
       return new Promise((resolve, reject) => {
@@ -127,8 +139,8 @@ export class NetworkAxios {
                { headers: { Authorization: `Bearer ${this.token}` } },
                ...options
             )
-            .then(respone => {
-               resolve(respone.data);
+            .then(response => {
+               resolve(response.data);
             })
             .catch(error => {
                reject(error.response.data);
@@ -141,8 +153,8 @@ export class NetworkAxios {
             .post(url, data, {
                headers: { Authorization: `Bearer ${this.token}` }
             })
-            .then(respone => {
-               resolve(respone.data);
+            .then(response => {
+               resolve(response.data);
             })
             .catch(error => {
                reject(error.response.data);
@@ -152,8 +164,8 @@ export class NetworkAxios {
    static put = (url, data = {}, options = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance.put(url, data, { headers: { Authorization: `Bearer ${this.token}` } })
-            .then(respone => {
-               resolve(respone.data);
+            .then(response => {
+               resolve(response.data);
             })
             .catch(error => {
                reject(error.response.data);
@@ -169,8 +181,8 @@ export class NetworkAxios {
                { headers: { Authorization: `Bearer ${this.token}` } },
                ...options
             )
-            .then(respone => {
-               resolve(respone.data);
+            .then(response => {
+               resolve(response.data);
             })
             .catch(error => {
                reject(error.response.data);
@@ -181,11 +193,11 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance
             .post(url, data)
-            .then(respone => {
+            .then(response => {
                const res = {
-                  data: respone.data,
-                  status: respone.status,
-                  statusText: respone.statusText
+                  data: response.data,
+                  status: response.status,
+                  statusText: response.statusText
                };
                resolve(res)
             })
@@ -193,6 +205,21 @@ export class NetworkAxios {
                reject(error.response.data);
             });
       });
+   }
+   static postAsyncWithNoToken = async (url, data = {}, options = {}) => {
+      return axiosInstance
+         .post(url, data)
+         .then(response => {
+            const res = {
+               data: response.data,
+               status: response.status,
+               statusText: response.statusText
+            };
+            return (res);
+         })
+         .catch(error => {
+            return error.response;
+         });
    }
 }
 export default {
@@ -213,5 +240,11 @@ export default {
    },
    postWithNoToken(url, data) {
       return NetworkAxios.postWithNoToken(url, data);
-   }
+   },
+   getAsync(url, data) {
+      return NetworkAxios.getAsync(url, data);
+   },
+   postAsyncWithNoToken(url, data) {
+      return NetworkAxios.postAsyncWithNoToken(url, data);
+   },
 };
