@@ -1,46 +1,98 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Divider, Tag, Input } from "antd";
+import { Table, Divider, Tag, Input, Button, Icon } from "antd";
 const { Search } = Input;
-const data = [
-   {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-   },
-   {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-   },
-   {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-   },
-];
+
 
 class LoanProduct extends Component {
-
+   state = { searchText: "", searchedColumn: "" };
    onSearch = key => {
       const keyword = key.trim();
       const { dispatch } = this.props;
-      if(keyword){
+      if (keyword) {
          dispatch({
             type: "loanProductModel/getLoanProducts"
          });
-      }else{
+      } else {
          dispatch({
             type: "loanProductModel/getLoanProducts"
          });
       }
    }
+
+   getColumnSearchProps = dataIndex => ({
+      filterDropdown: ({
+         setSelectedKeys,
+         selectedKeys,
+         confirm,
+         clearFilters
+      }) => (
+            <div style={{ padding: 8 }}>
+               <Input
+                  ref={node => {
+                     this.searchInput = node;
+                  }}
+                  placeholder={`Search ${dataIndex}`}
+                  value={selectedKeys[0]}
+                  onChange={e =>
+                     setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  }
+                  onPressEnter={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  style={{ width: 188, marginBottom: 8, display: "block" }}
+               />
+               <Button
+                  type="primary"
+                  onClick={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  icon="search"
+                  size="small"
+                  style={{ width: 90, marginRight: 8 }}
+               >
+                  Search
+            </Button>
+               <Button
+                  onClick={() => this.handleReset(clearFilters)}
+                  size="small"
+                  style={{ width: 90 }}
+               >
+                  Reset
+            </Button>
+            </div>
+         ),
+      filterIcon: filtered => (
+         <Icon
+            type="search"
+            style={{ color: filtered ? "#1890ff" : undefined }}
+         />
+      ),
+      onFilter: (value, record) =>
+         record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase()),
+      onFilterDropdownVisibleChange: visible => {
+         if (visible) {
+            setTimeout(() => this.searchInput.select());
+         }
+      },
+      render: text => (this.state.searchedColumn === dataIndex ? text : text)
+   });
+
+   handleSearch = (selectedKeys, confirm, dataIndex) => {
+      confirm();
+      this.setState({
+         searchText: selectedKeys[0],
+         searchedColumn: dataIndex
+      });
+   };
+
+   handleReset = clearFilters => {
+      clearFilters();
+      this.setState({ searchText: "" });
+   };
 
    render() {
       const { lists, loading } = this.props;
@@ -50,12 +102,14 @@ class LoanProduct extends Component {
             dataIndex: 'name',
             key: 'name',
             render: text => <a>{text}</a>,
+            ...this.getColumnSearchProps("name")
          },
          {
             title: 'Short name',
             dataIndex: 'shortName',
             key: 'shortName',
             render: text => <a>{text}</a>,
+            ...this.getColumnSearchProps("shortName")
          },
          {
             title: 'Expiry Date',
@@ -79,13 +133,13 @@ class LoanProduct extends Component {
       ];
       return (
          <React.Fragment>
-            <div >
+            {/* <div >
                <Search
                   placeholder="Search by name or short name"
                   style={{ width: 300, height: 33 }}
                   onSearch={ev => this.onSearch(ev)}
                />
-            </div>
+            </div> */}
             <Table columns={columns} dataSource={lists} rowKey={record => record.id} loading={loading} />
          </React.Fragment>
       );
