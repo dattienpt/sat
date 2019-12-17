@@ -118,7 +118,7 @@ class ShareProduct extends Component {
             <div className={style.search}></div>
             <div className={style.content}>
                <Table loading ={this.state.isLoading}
-                  dataSource={pageItems}
+                  dataSource={Array.isArray(pageItems)?pageItems:[]}
                   columns={column}
                   pagination={false}
                   rowKey={sv => sv.id}
