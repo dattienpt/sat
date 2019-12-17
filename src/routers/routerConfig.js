@@ -50,11 +50,12 @@ const PrivateRoute = ({ children, ...rest }) => {
 function RouterConfig({ history }) {
    return (
       <Router history={history}>
+                        <Suspense fallback={<Spin tip="Loading..." />}>
+
          <Switch>
             <Route path="/login" component={LoginForm} />
             <PrivateRoute path="/">
                <Layout history={history}>
-               <Suspense fallback={<Spin tip="Loading..." />}>
                      <Switch>
                         <Route
                            path="/user-management/user-list"
@@ -81,13 +82,14 @@ function RouterConfig({ history }) {
 
                         <Route path="*" exact component={NotFound} />
                      </Switch>
-                  </Suspense>
                </Layout>
             </PrivateRoute>
             {/* <PrivateRoute path="*">
                <NotFound></NotFound>
             </PrivateRoute> */}
          </Switch>
+         </Suspense>
+
       </Router>
    );
 }
