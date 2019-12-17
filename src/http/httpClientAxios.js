@@ -120,20 +120,10 @@ export class NetworkAxios {
          url += `?` + parseQuery(data);
       return axiosInstance.get(url, { headers: { Authorization: `Bearer ${this.token}` } })
          .then(response => {
-            const res = {
-               data: response.data,
-               status: response.status,
-               statusText: response.statusText
-            };
-            return res;
+            return response.data;
          })
          .catch(error => {
-            console.log(error.response);
-            if (error) {
-               return this.checkStatus(error.response);
-            } else {
-               return error;
-            }
+            return this.checkStatus(error.response);
          });
    }
 

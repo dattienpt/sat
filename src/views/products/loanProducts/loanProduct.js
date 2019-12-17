@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import { Table, Divider, Tag, Input, Button, Icon } from "antd";
-const { Search } = Input;
-
 
 class LoanProduct extends Component {
    state = { searchText: "", searchedColumn: "" };
@@ -11,19 +9,6 @@ class LoanProduct extends Component {
       dispatch({
          type: "loanProductModel/getLoanProducts"
       });
-   }
-   onSearch = key => {
-      const keyword = key.trim();
-      const { dispatch } = this.props;
-      if (keyword) {
-         dispatch({
-            type: "loanProductModel/getLoanProducts"
-         });
-      } else {
-         dispatch({
-            type: "loanProductModel/getLoanProducts"
-         });
-      }
    }
 
    getColumnSearchProps = dataIndex => ({
@@ -101,7 +86,10 @@ class LoanProduct extends Component {
    };
 
    render() {
-      const { lists, loading } = this.props;
+      let { loading, lists } = this.props;
+      if (this.props.lists.data) {
+         lists = this.props.lists.data;
+      }
       const columns = [
          {
             title: 'Name',
@@ -139,20 +127,13 @@ class LoanProduct extends Component {
       ];
       return (
          <React.Fragment>
-            {/* <div >
-               <Search
-                  placeholder="Search by name or short name"
-                  style={{ width: 300, height: 33 }}
-                  onSearch={ev => this.onSearch(ev)}
-               />
-            </div> */}
             <Table columns={columns} dataSource={lists} rowKey={record => record.id} loading={loading} />
          </React.Fragment>
       );
    }
 }
 function mapStateToPrors(state) {
-   const { lists } = state.loanProductModel;
-   return { lists, loading: state.loading.global };
+   const { lists, loading } = state.loanProductModel;
+   return { lists, loading };
 }
 export default connect(mapStateToPrors)(LoanProduct);
