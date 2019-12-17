@@ -28,7 +28,7 @@ class ClientList extends Component {
    componentWillMount() {
       this.props.dispatch({
          type: "clients/clientList",
-         payload: { limit: 10, offset: 0 }
+         payload: { limit: 10, offset: 1 }
       });
    }
 
@@ -91,8 +91,7 @@ class ClientList extends Component {
                />
                <div className={style.pagination}>
                   <Pagination
-                     current={1}
-                     pageSize={15}
+                     pageSize={10}
 
                      onChange={this.onChangPage}
                      total={totalFilteredRecords}
