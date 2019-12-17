@@ -1,16 +1,20 @@
 import NetworkAxios from "../../http/httpClientAxios";
 import * as localStorageService from '../../utils/localStorageService';
-
+import { getUserLoginDetail, changeInfoUser } from '../../http/api/requestApi';
+import { app } from '../../index';
 export default {
-   namespace: "handlePassword",
+   namespace: "handlePasswordModel",
    state: {
-
+      changed: true
    },
 
    reducers: {
       setToken(state, { payload: token }) {
          return { ...state, token };
       },
+      setStatus(state, { changed }) {
+         return { ...state, changed };
+      }
    },
    effects: {
       *changePassword({ payload: values, history: history }, { call, put }) {
@@ -18,15 +22,24 @@ export default {
          const data = {
             access_token: userLocal['access_token']
          }
-         NetworkAxios.get('v1/userdetails', data).then(res => {
-            const url = `v1/users/${res['userId']}`;
+         NetworkAxios.get(getUserLoginDetail, data).then(res => {
+            const url = `${changeInfoUser}/${res['userId']}`;
             NetworkAxios.put(url, values).then(res => {
                if (res['changes']) {
                   localStorageService.clearUserInfo();
                   history.push("/dashboard");
+
+               }
+            }).catch(error => {
+               if (error.httpStatusCode === '400') {
+                  app._store.dispatch({
+                     type: "handlePasswordModel/setStatus",
+                     changed: false
+                  });
                }
             })
          })
+
       }
    },
    subscriptions: {

@@ -15,10 +15,6 @@ class Users extends Component {
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-   state = {
-      searchText: "",
-      searchedColumn: ""
-   };
 
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
