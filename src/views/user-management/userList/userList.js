@@ -137,7 +137,7 @@ class Users extends Component {
                   className={stype.table}
                   columns={column}
                   loading={this.state.isloading}
-                  dataSource={Array.isArray(this.props.users)?this.props.users:[]}
+                  dataSource={Array.isArray(this.props.users) ? this.props.users : []}
                   rowKey={user => user.id}
                />
             </div>
