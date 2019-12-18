@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { connect } from "dva";
 import { withRouter } from "react-router-dom";
-import "./LoginForm.less";
+import "./LoginForm.scss";
 import * as localStorageService from '../../utils/localStorageService';
 
 class NormalLoginForm extends React.Component {

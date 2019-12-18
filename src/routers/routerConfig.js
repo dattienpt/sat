@@ -47,7 +47,7 @@ const PrivateRoute = ({ children, ...rest }) => {
 function RouterConfig({ history }) {
    return (
       <Router history={history}>
-         <Suspense fallback={<Spin tip="Loading..." />}>
+         <Suspense fallback={<Spin tip="Loading..." size={'large'}  style={{width:'100%',height:'100vh',textAlign:'center',top:'50%',position:'absolute'}} />}>
             <Switch>
                <Route path="/login" component={LoginForm} />
                <PrivateRoute path="/">

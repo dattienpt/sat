@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import style from "./shareProduct.scss";
-import { Table, Pagination, Button, Icon, Input } from "antd";
+import { Table, Button, Icon, Input } from "antd";
 
 class ShareProduct extends Component {
    state = { isLoading: true,searchText: "", searchedColumn: "" };

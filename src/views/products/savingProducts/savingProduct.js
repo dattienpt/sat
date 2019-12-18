@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import style from "./saving.scss";
-import { Table, Pagination, Button, Icon, Input } from "antd";
-const { Search } = Input;
+import { Table, Button, Icon, Input } from "antd";
 
 class SavingProduct extends Component {
    state = { isLoading: true,searchText: "", searchedColumn: "" };
