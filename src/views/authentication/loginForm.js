@@ -41,17 +41,14 @@ class NormalLoginForm extends React.Component {
                      <Form.Item>
                         <h3 className="login-form__box-title">SAT Team</h3>
                      </Form.Item>
-                     {!isLogin && (
-                        <Form.Item>
-                           <Alert
-                              message="Log in to continue using"
-                              type="warning"
-                              showIcon
-                              closable
-                           />
-                        </Form.Item>
-                     )}
+
                      <Form onSubmit={this.handleSubmit}>
+                        {!isLogin && (
+                           <Form.Item>
+                              <Alert message="Incorrect username or password." type="error" showIcon />
+                           </Form.Item>
+                        )}
+
                         <Form.Item>
                            {getFieldDecorator("username", {
                               rules: [
@@ -69,7 +66,7 @@ class NormalLoginForm extends React.Component {
                                     />
                                  }
                                  placeholder="Username"
-                                 className="ant-input-lg"
+                                 className="sat-input-lg"
                               />
                            )}
                         </Form.Item>
