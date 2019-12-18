@@ -9,7 +9,7 @@ import * as localStorageService from '../utils/localStorageService';
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
    transfromresponses: [
-      (data, header) => {
+      (data) => {
          return data;
       }
    ],
@@ -62,7 +62,7 @@ export class NetworkAxios {
    static checkStatus = async response => {
       if (response.status === requestStatus.expired) {
          //Access token expired
-         console.warn('watting refresh token....');
+        // console.warn('watting refresh token....');
          const userLocal = localStorageService.getUserInfo();
          await app._store.dispatch({
             type: "loginModel/refreshToken",
@@ -123,7 +123,7 @@ export class NetworkAxios {
          });
    }
 
-   static delete = (url, options = {}) => {
+   static delete = (url) => {
       return new Promise((resolve, reject) => {
          axiosInstance
             .delete(
@@ -139,7 +139,7 @@ export class NetworkAxios {
             });
       });
    };
-   static post = (url, data = {}, options = {}) => {
+   static post = (url, data = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance
             .post(url, data, {
@@ -153,7 +153,7 @@ export class NetworkAxios {
             });
       });
    };
-   static put = (url, data = {}, options = {}) => {
+   static put = (url, data = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance.put(url, data, { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
@@ -164,7 +164,7 @@ export class NetworkAxios {
             });
       });
    };
-   static patch = (url, data = {}, options = {}) => {
+   static patch = (url, data = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance
             .patch(
@@ -181,7 +181,7 @@ export class NetworkAxios {
             });
       });
    };
-   static postWithNoToken = (url, data = {}, options = {}) => {
+   static postWithNoToken = (url, data = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance
             .post(url, data)
@@ -198,7 +198,7 @@ export class NetworkAxios {
             });
       });
    }
-   static postAsyncWithNoToken = async (url, data = {}, options = {}) => {
+   static postAsyncWithNoToken = async (url, data = {}) => {
       return axiosInstance
          .post(url, data)
          .then(response => {
