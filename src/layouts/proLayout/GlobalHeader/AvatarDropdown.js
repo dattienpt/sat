@@ -11,6 +11,10 @@ import { app } from '../../../index';
 class AvatarDropdown extends React.Component {
    state = { visible: false };
    onLogout = () => {
+      app._store.dispatch({
+         type: "loginModel/loginStatus",
+         isLogin: true
+      });
       const { history } = this.props;
       localStorageService.clearUserInfo();
       history.push("/login");

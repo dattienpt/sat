@@ -27,8 +27,11 @@ export default {
             NetworkAxios.put(url, values).then(res => {
                if (res['changes']) {
                   localStorageService.clearUserInfo();
-                  history.push("/dashboard");
-
+                  history.push("/login");
+                  app._store.dispatch({
+                     type: "loginModel/loginStatus",
+                     isLogin: true
+                  });
                }
             }).catch(error => {
                if (error.httpStatusCode === '400') {

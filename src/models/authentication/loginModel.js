@@ -33,21 +33,29 @@ export default {
             tenantIdentifier: "default"
          };
          let url = OauthUrl + parseQuery(data);
-         const response = yield call(NetworkAxios.postWithNoToken, url);
-         if (response) {
-            if (response.status === 200) {
-               const now = new Date();
-               now.setSeconds(now.getSeconds() + response.data.expires_in);
-               response.data['username'] = values.username;
-               response.data['expiresTime'] = now.getTime();
-               localStorageService.setUserInfo(response.data);
-               app._store.dispatch({
-                  type: "common/setToken",
-                  payload: response.data.access_token
-               });
-               history.push("/dashboard");
+         NetworkAxios.postWithNoToken(url).then(response => {
+            if (response) {
+               if (response.status === 200) {
+                  const now = new Date();
+                  now.setSeconds(now.getSeconds() + response.data.expires_in);
+                  response.data['username'] = values.username;
+                  response.data['expiresTime'] = now.getTime();
+                  localStorageService.setUserInfo(response.data);
+                  app._store.dispatch({
+                     type: "common/setToken",
+                     payload: response.data.access_token
+                  });
+                  history.push("/dashboard");
+               }
             }
-         }
+         }).catch(err => {
+            if (err) {
+               app._store.dispatch({
+                  type: "loginModel/loginStatus",
+                  isLogin: false
+               });
+            }
+         })
       },
       *refreshToken({ payload: refreshData }, { call }) {
          localStorageService.clearUserInfo();
