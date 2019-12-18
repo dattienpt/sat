@@ -10,7 +10,12 @@ class ProductList extends Component {
    callback = key => {
       console.log(key);
    };
-
+   componentWillMount(){
+      this.props.dispatch({
+         type: "users/namePage",
+         payload: ''
+      });
+      }
    render() {
       return (
          <div className={style.container}>
