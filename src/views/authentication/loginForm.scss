@@ -1,8 +1,8 @@
 :global(.login-form) {
    background: #00ca88;
-   /* fallback for old browsers */
+   //   fallback for old browsers
    background: -webkit-linear-gradient(to left, #00ca88, #00c3ff, #2a2ab5);
-   /* Chrome 10-25, Safari 5.1-6 */
+   //   Chrome 10-25, Safari 5.1-6
    background: linear-gradient(to left, #00ca88, #00c3ff, #2a2ab5);
    height: 100vh;
 
@@ -18,20 +18,19 @@
          // height: 40px;
       }
 
-      .ant-input-lg {
-         height: 40px;
-         font-size: 16px;
-      }
-
       &-title {
          text-align: center;
          text-shadow: 2px 1px;
          color: #415a8c;
       }
    }
+}
 
-   .ant-form-item-control {
-      width: 400px;
-   }
+:global(.ant-form-item-control) {
+   width: 400px;
+}
 
+:global(.ant-input-lg) {
+   height: 40px;
+   font-size: 16px;
 }

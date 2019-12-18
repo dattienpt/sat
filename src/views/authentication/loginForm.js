@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { connect } from "dva";
 import { withRouter } from "react-router-dom";
-import style from './LoginForm.scss';
+import "./LoginForm.scss";
 import * as localStorageService from '../../utils/localStorageService';
 
 class NormalLoginForm extends React.Component {
@@ -29,7 +29,7 @@ class NormalLoginForm extends React.Component {
       const { isLogin } = this.props;
       const { getFieldDecorator } = this.props.form;
       return (
-         <div className={style.loginForm}>
+         <div className="login-form">
             <Row
                type="flex"
                justify="center"
@@ -37,9 +37,9 @@ class NormalLoginForm extends React.Component {
                style={{ minHeight: "80vh" }}
             >
                <Col>
-                  <div className={style.loginFormBox}>
+                  <div className="login-form__box">
                      <Form.Item>
-                        <h3 className={style.loginFormBoxTitle}>SAT Team</h3>
+                        <h3 className="login-form__box-title">SAT Team</h3>
                      </Form.Item>
                      {!isLogin && (
                         <Form.Item>
@@ -69,7 +69,7 @@ class NormalLoginForm extends React.Component {
                                     />
                                  }
                                  placeholder="Username"
-                                 className={style.antInputLg}
+                                 className="ant-input-lg"
                               />
                            )}
                         </Form.Item>
@@ -91,7 +91,7 @@ class NormalLoginForm extends React.Component {
                                  }
                                  type="password"
                                  placeholder="Password"
-                                 className={style.antInputLg}
+                                 className="ant-input-lg"
                               />
                            )}
                         </Form.Item>
@@ -100,7 +100,7 @@ class NormalLoginForm extends React.Component {
                            <Button
                               type="primary"
                               htmlType="submit"
-                              className={style.loginFormBoxButton}
+                              className="login-form__box-button"
                            >
                               Log in
                            </Button>
