@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import style from "./saving.scss";
+import style from "./savingProduct.scss";
 import { Table, Button, Icon, Input } from "antd";
 
 class SavingProduct extends Component {
-   state = { isLoading: true,searchText: "", searchedColumn: "" };
+   state = { isLoading: true, searchText: "", searchedColumn: "" };
 
    componentWillReceiveProps(ev) {
       this.setState({ isLoading: false });
@@ -28,41 +28,41 @@ class SavingProduct extends Component {
          confirm,
          clearFilters
       }) => (
-         <div style={{ padding: 8 }}>
-            <Input
-               ref={node => {
-                  this.searchInput = node;
-               }}
-               placeholder={`Search ${dataIndex}`}
-               value={selectedKeys[0]}
-               onChange={e =>
-                  setSelectedKeys(e.target.value ? [e.target.value] : [])
-               }
-               onPressEnter={() =>
-                  this.handleSearch(selectedKeys, confirm, dataIndex)
-               }
-               style={{ width: 188, marginBottom: 8, display: "block" }}
-            />
-            <Button
-               type="primary"
-               onClick={() =>
-                  this.handleSearch(selectedKeys, confirm, dataIndex)
-               }
-               icon="search"
-               size="small"
-               style={{ width: 90, marginRight: 8 }}
-            >
-               Search
+            <div style={{ padding: 8 }}>
+               <Input
+                  ref={node => {
+                     this.searchInput = node;
+                  }}
+                  placeholder={`Search ${dataIndex}`}
+                  value={selectedKeys[0]}
+                  onChange={e =>
+                     setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  }
+                  onPressEnter={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  style={{ width: 188, marginBottom: 8, display: "block" }}
+               />
+               <Button
+                  type="primary"
+                  onClick={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  icon="search"
+                  size="small"
+                  style={{ width: 90, marginRight: 8 }}
+               >
+                  Search
             </Button>
-            <Button
-               onClick={() => this.handleReset(clearFilters)}
-               size="small"
-               style={{ width: 90 }}
-            >
-               Reset
+               <Button
+                  onClick={() => this.handleReset(clearFilters)}
+                  size="small"
+                  style={{ width: 90 }}
+               >
+                  Reset
             </Button>
-         </div>
-      ),
+            </div>
+         ),
       filterIcon: filtered => (
          <Icon
             type="search"
@@ -115,7 +115,7 @@ class SavingProduct extends Component {
             <div className={style.content}>
                <Table
                   loading={this.state.isLoading}
-                  dataSource={Array.isArray(list)?list:[]}
+                  dataSource={Array.isArray(list) ? list : []}
                   columns={column}
                   rowKey={sv => sv.id}
                   

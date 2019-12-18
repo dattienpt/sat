@@ -29,18 +29,9 @@ const checkLogin = () => {
 
 const PrivateRoute = ({ children, ...rest }) => {
    return (
-      <Route
-         {...rest}
-         render={({ location }) => {
-            return checkLogin() ? (
-               children
-            ) : (
-                  <Redirect
-                     to={{ pathname: "/login", state: { from: location } }}
-                  />
-               );
-         }}
-      />
+      <Route {...rest} render={({ location }) => {
+         return checkLogin() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />);
+      }} />
    );
 };
 

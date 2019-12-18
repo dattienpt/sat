@@ -3,17 +3,17 @@ import { shareProduct } from "../../http/api/requestApi";
 export default {
    namespace: "share",
    state: {
-    totalFilteredRecords: 0,
-    pageItems:[]
+      totalFilteredRecords: 0,
+      pageItems: []
    },
 
    reducers: {
-      save(state, { payload  }) {
+      save(state, { payload }) {
          return { ...payload };
       }
    },
    effects: {
-      *getShare({}, { call, put }) {
+      *getShare({ }, { call, put }) {
          const response = yield call(API.get, shareProduct);
          yield put({
             type: "save",
