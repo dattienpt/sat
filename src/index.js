@@ -11,8 +11,7 @@ import RouterConfig from "./routers/routerConfig";
 // 1. Initialize
 export const app = dva({
    history: createHashHistory(),
-   onError(err, dispatch) {
-      console.log(err);
+   onError(err) {
       if (err.defaultUserMessage) {
          err.errors.map(item => message.error(item.userMessageGlobalisationCode, 10))
       } else if (err.srv) {
@@ -35,4 +34,3 @@ app.router(RouterConfig);
 
 // 5. Start
 app.start("#root");
-console.log(app);

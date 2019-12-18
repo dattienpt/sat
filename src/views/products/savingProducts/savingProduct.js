@@ -127,7 +127,6 @@ class SavingProduct extends Component {
    }
 }
 function mapStateToProps(state) {
-   console.log(state.saving);
    return {
       ...state.saving
    };
