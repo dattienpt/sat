@@ -27,7 +27,7 @@ export default {
       *clientList({ payload }, { call, put }) {
          const respons = yield call(
             API.get,
-            clients + "limit=" + payload.limit + "&offset=" + payload.offset
+            clients + "limit=" + payload.limit + "&offset=" + (payload.offset-1)*payload.limit
          );
          yield put({ type: "litst", listclient: respons });
       },

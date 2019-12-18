@@ -52,7 +52,7 @@ export class NetworkAxios {
          .get(url)
          .then(response => response.data)
          .catch(({ response }) => {
-            if (response.status === 400 || response.status === 401) {
+            if (response.status === requestStatus.expired || response.status === requestStatus.forceExpired) {
                return response;
             } else {
                return {
@@ -109,10 +109,10 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               if(error.response.status==401)
-               resolve(this.checkStatus(error.response));
+               if (error.response.status == 401)
+                  resolve(this.checkStatus(error.response));
                else
-               reject(error.response.data);
+                  reject(error.response.data);
             });
       });
    };
@@ -128,7 +128,6 @@ export class NetworkAxios {
             return this.checkStatus(error.response);
          });
    }
-
 
    static delete = (url, options = {}) => {
       return new Promise((resolve, reject) => {

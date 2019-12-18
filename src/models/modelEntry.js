@@ -1,12 +1,10 @@
-import common from "./common/commonModel";
+import commonModel from "./common/commonModel";
 import loginModel from "../models/authentication/loginModel";
-import users from "./user-management/usersModel";
+import usersModel from "./user-management/usersModel";
 import handlePasswordModel from './authentication/handlePasswordModel';
-import client from './clients/clients';
+import clientModel from './clients/clients';
 import loanProductModel from './products/loanProductModel';
-import saving from './products/savingProductModel';
-import share from './products/shareProductModel';
+import savingModel from './products/savingProductModel';
+import shareModel from './products/shareProductModel';
 
-
-
-export default [common, loginModel, users, handlePasswordModel, client, loanProductModel,saving,share];
+export default [commonModel, loginModel, usersModel, handlePasswordModel, clientModel, loanProductModel, savingModel, shareModel];
