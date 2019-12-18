@@ -1,25 +1,10 @@
 import React, { Suspense } from "react";
-import {
-   Route,
-   BrowserRouter as Router,
-   Switch,
-   Redirect,
-   browserHistory
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
 import * as localStorageService from "../utils/localStorageService";
 import { Spin } from "antd";
-import {
-   userList,
-   editUser,
-   userDetail,
-   dashboard,
-   ClientList,
-   clientDetail,
-   productList,
-   LoginForm
-} from "./lazyLoad";
+import { userList, editUser, userDetail, dashboard, ClientList, clientDetail, productList, LoginForm } from "./lazyLoad";
 
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
@@ -44,27 +29,13 @@ function RouterConfig({ history }) {
                <PrivateRoute path="/">
                   <Layout history={history}>
                      <Switch>
-                        <Route
-                           path="/user-management/user-list"
-                           name="User list"
-                           exact={false}
-                           component={userList}
-                        />
-                        <Route
-                           path="/user-management/user-detail/:userId"
-                           component={userDetail}
-                        />
+                        <Route path="/" exact component={dashboard} />
                         <Route path="/dashboard" exact component={dashboard} />
-                        <Route
-                           path="/user-management/user-create"
-                           component={editUser}
-                        />
+                        <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
+                        <Route path="/user-management/user-detail/:userId" component={userDetail} />
+                        <Route path="/user-management/user-create" component={editUser} />
                         <Route path="/clients" exact component={ClientList} />
-                        <Route
-                           path="/clients/:idClient"
-                           exact
-                           component={clientDetail}
-                        />
+                        <Route path="/clients/:idClient" exact component={clientDetail} />
                         <Route path="/products" exact component={productList} />
                         <Route path="*" exact component={NotFound} />
                      </Switch>

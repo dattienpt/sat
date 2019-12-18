@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import style from "./savingProduct.scss";
-import { Table, Pagination, Button, Icon, Input } from "antd";
+import { Table, Button, Icon, Input } from "antd";
 
 class SavingProduct extends Component {
    state = { isLoading: true, searchText: "", searchedColumn: "" };
@@ -118,9 +118,9 @@ class SavingProduct extends Component {
                   dataSource={Array.isArray(list) ? list : []}
                   columns={column}
                   rowKey={sv => sv.id}
-                  
+
                />
-            
+
             </div>
          </div>
       );

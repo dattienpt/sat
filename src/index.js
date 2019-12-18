@@ -4,7 +4,7 @@ import createLoading from "dva-loading";
 import { createHashHistory } from "history";
 import modelEntry from "./models/modelEntry";
 import { message } from "antd";
-import "./styles/index.less";
+import "./styles/index.scss";
 import "antd/dist/antd.css";
 import RouterConfig from "./routers/routerConfig";
 

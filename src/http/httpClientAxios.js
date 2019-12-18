@@ -55,13 +55,7 @@ export class NetworkAxios {
             if (response.status === requestStatus.expired || response.status === requestStatus.forceExpired) {
                return response;
             } else {
-               return {
-                  data: {
-                     message:
-                        "Sorry, the system is unstable, please try again later",
-                     code: "2"
-                  }
-               };
+               return connectedFailed;
             }
          });
    };
