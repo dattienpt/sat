@@ -196,7 +196,7 @@ export default {
                     "action": "saveState",
                     "showValidations": true,
                     "disableOnInvalid": true,
-                    "customClass": "button-and",
+                    "customClass": "btn-custom ant-btn-primary",
                     "key": "submit",
                     "type": "button",
                     "input": false,
