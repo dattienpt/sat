@@ -1,12 +1,12 @@
 export default {
-    title: 'SAT Team',
+    title: 'SAT TEAM',
     navTheme: 'dark',
     logo: "https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ",
-  //  layout: "topmenu",
-  contentWidth: "Fluid",
-  fixedHeader: true,
-  autoHideHeader: false,
-  fixSiderbar: true,
+    //  layout: "topmenu",
+    contentWidth: "Fluid",
+    fixedHeader: true,
+    autoHideHeader: false,
+    fixSiderbar: true,
     menuDataRender: () => [
         {
             path: "/dashboard",
