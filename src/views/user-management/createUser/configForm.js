@@ -196,6 +196,7 @@ export default {
                     "action": "saveState",
                     "showValidations": true,
                     "disableOnInvalid": true,
+                    "customClass": "button-and",
                     "key": "submit",
                     "type": "button",
                     "input": false,
