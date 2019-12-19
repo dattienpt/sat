@@ -29,7 +29,7 @@ export default {
          state.namePage = '';
          return { ...state, template };
       },
-      namePage(state, { namePage }) {
+      name(state, { namePage }) {
          state.namePage = namePage
          return state;
       }
@@ -67,7 +67,7 @@ export default {
          if (response.officeId) payload.history.replace("/user-management/user-list");
       },
       *namePage({ payload }, { put }) {
-         yield put({ type: "namePage", namePage: payload });
+         yield put({ type: "name", namePage: payload });
       }
       //   *updateUser({payload} , { call, put }){
       //     const response = yield call(puttAPI,['/v1/users/'+payload.id,payload.data]);
@@ -87,6 +87,10 @@ export default {
       // },
    },
    subscriptions: {
-      save({ dispatch, history }) { }
+      setup({ dispatch, history }) { 
+         history.listen(ev=>{
+            console.log(ev)
+         })
+      }
    }
 };

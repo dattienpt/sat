@@ -88,6 +88,10 @@
     padding: 0;
     -webkit-text-size-adjust: none;
   }
+  .btn-custom{
+    width: 120px;
+    border-radius: 3px;
+  }
 }
 :global(.ant-page-header-heading) {
   text-transform: uppercase;

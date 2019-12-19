@@ -18,7 +18,7 @@ const commonReqConfig = {
    validateStatus: function (status) {
       return status >= 200 && status < 300;
    },
-   headers: { "Fineract-Platform-TenantId": "default" }
+   headers: { "Fineract-Platform-TenantId": "default","Content-Type":"application/json;charset=UTF-8" }
 };
 
 const connectedFailed = {
@@ -149,7 +149,10 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               reject(error.response.data);
+               if (error.response.status == 401)
+                  resolve(this.checkStatus(error.response));
+               else
+                  reject(error.response.data);
             });
       });
    };

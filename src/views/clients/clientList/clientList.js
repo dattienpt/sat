@@ -30,6 +30,10 @@ class ClientList extends Component {
          type: "clients/clientList",
          payload: { limit: 10, offset: 1 }
       });
+      this.props.dispatch({
+         type: "users/namePage",
+         payload: ''
+      });
    }
 
    render() {
@@ -105,7 +109,6 @@ class ClientList extends Component {
    }
 }
 function mapStateToProps(state) {
-   console.log(state.clients);
    return {
       ...state.clients,loading:state.loading
    };

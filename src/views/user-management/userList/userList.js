@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "dva";
 import { Table, Button, Input, Icon } from "antd";
 import stype from "./userList.scss";
-import Layout from "../../../layouts/proLayout/mainProlayout";
 class Users extends Component {
    state = { searchText: "", searchedColumn: "", isloading: true };
 
@@ -128,8 +127,8 @@ class Users extends Component {
                      }}
                      icon="create"
                   >
-                     Create Users
-                  </Button>
+                    ADD USER
+                   </Button>
                </div>
 
                <Table
