@@ -3,8 +3,10 @@ export default {
     navTheme: 'dark',
     logo: "https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ",
   //  layout: "topmenu",
- // contentWidth: "Fluid",
-
+  contentWidth: "Fluid",
+  fixedHeader: true,
+  autoHideHeader: false,
+  fixSiderbar: true,
     menuDataRender: () => [
         {
             path: "/dashboard",
@@ -86,4 +88,18 @@ export default {
 //     "title": "Ant Design Pro",
 //     "pwa": false,
 //     "iconfontUrl": ""
-//   }
+//   }{
+//   "navTheme": "dark",
+//   "primaryColor": "daybreak",
+//   "layout": "sidemenu",
+//   "contentWidth": "Fluid",
+//   "fixedHeader": true,
+//   "autoHideHeader": false,
+//   "fixSiderbar": true,
+//   "menu": {
+//     "locale": true
+//   },
+//   "title": "Ant Design Pro",
+//   "pwa": false,
+//   "iconfontUrl": ""
+// }
