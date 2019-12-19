@@ -15,13 +15,13 @@ class ProductList extends Component {
       return (
          <div className={style.container}>
             <Tabs defaultActiveKey="1" onChange={this.callback}>
-               <TabPane tab="Loan Products" key="1">
+               <TabPane tab={<span className={style.titleProduct}>Loan Products</span>} key="1">
                   <LoanProduct></LoanProduct>
                </TabPane>
-               <TabPane tab="Savings Products" key="2">
+               <TabPane tab={<span className={style.titleProduct}>Savings Products</span>} key="2">
                   <SavingProduct> </SavingProduct>
                </TabPane>
-               <TabPane tab="Share Products" key="3">
+               <TabPane tab={<span className={style.titleProduct}>Share Products</span>} key="3">
                   <ShareProduct></ShareProduct>
                </TabPane>
             </Tabs>
