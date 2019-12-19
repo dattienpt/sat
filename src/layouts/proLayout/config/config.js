@@ -1,6 +1,6 @@
 export default {
     title: 'SAT Team',
-    navTheme: 'realDark',
+    navTheme: 'dark',
     logo: "https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ",
   //  layout: "topmenu",
  // contentWidth: "Fluid",
