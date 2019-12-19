@@ -120,7 +120,7 @@ class Users extends Component {
             <div className={stype.users}>
                <div className={stype.button}>
                   <Button
-                     type="primary"
+                     type="sunset"
                      onClick={() => {
                         this.props.history.replace(
                            "/user-management/user-create"

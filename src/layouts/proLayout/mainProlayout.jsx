@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import GlobalHeaderRight from "./GlobalHeader/RightContent";
 import { Link, } from "react-router-dom";
 import { connect } from "dva";
-
+import sesting from './config/config'
 class Layout extends React.Component {
 
   render() {
@@ -14,9 +14,7 @@ class Layout extends React.Component {
     return (
 
       <ProLayout
-        title="SAT Team"
-        fixSiderbar={true}
-        logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
+        {...sesting}
         menuHeaderRender={(logo, title) => (
           <div id="customize_menu_header">
             {logo}
@@ -24,40 +22,6 @@ class Layout extends React.Component {
           </div>
         )}
         breadcrumbRender={() => ''}
-        menuDataRender={() => [
-          {
-            path: "/dashboard",
-            name: "Dashboard",
-            icon: "home",
-          },
-          {
-            path: "/products",
-            name: "Products",
-            icon: "money-collect",
-          },
-          {
-            path: "/clients",
-            name: "Clients",
-            icon: "transaction",
-          },
-          {
-            path: "/user-management",
-            name: "User management",
-            icon: "user",
-            children: [
-              {
-                path: "/user-management/user-list",
-                name: "User List",
-                icon: "ordered-list"
-              },
-              {
-                path: "/user-management/user-create",
-                name: "Create new user",
-                icon: "user-add"
-              }
-            ]
-          }
-        ]}
         menuItemRender={(menuItemProps, defaultDom) => {
           return menuItemProps.isUrl ? (
             defaultDom
