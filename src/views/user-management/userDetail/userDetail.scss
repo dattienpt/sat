@@ -39,7 +39,10 @@
 }
 .box_left .box_role{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    p{
+        margin-right: 1em;
+    }
 }
 .text{
     font-weight: 400 !important;
