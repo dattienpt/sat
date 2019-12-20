@@ -87,9 +87,16 @@ class LoanProduct extends Component {
 
    render() {
       let { loading, lists } = this.props;
-      if (this.props.lists.data) {
-         lists = this.props.lists.data;
+      if (this.props.lists) {
+         if (this.props.lists.data) {
+            lists = this.props.lists.data;
+         }
       }
+      console.log(lists);
+      if (!lists) {
+         lists = [];
+      }
+
       const columns = [
          {
             title: 'Name',

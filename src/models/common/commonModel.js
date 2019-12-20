@@ -6,10 +6,7 @@ export default {
    namespace: "common",
    state: {
       token: userInfo["access_token"] ? userInfo["access_token"] : null,
-      userInfo: {
-         username: "",
-         userId: 0
-      },
+      userId: null,
       timeLogin: 0
    },
    reducers: {
@@ -17,9 +14,11 @@ export default {
          return { ...state, token };
       },
       clearToken(state) {
-         console.warn("token has been remove");
          return { ...state, token: "" };
-      }
+      },
+      setUserId(state, { payload: userId }) {
+         return { ...state, userId };
+      },
    },
    effects: {
    },

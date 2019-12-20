@@ -1,6 +1,8 @@
 import API from "../../http/httpClientAxios";
-import { listUser, userTemplate, userDetail } from "../../http/api/requestApi";
+import { listUser, userTemplate, userDetail, getUserLoginDetail } from "../../http/api/requestApi";
 import { postApi } from "./customRequest";
+import * as localStorageService from '../../utils/localStorageService';
+import { app } from '../../index';
 
 export default {
    namespace: "users",
@@ -33,13 +35,6 @@ export default {
          state.namePage = namePage
          return state;
       }
-      // userEdit(state,{staff,editTemplate}){
-      //   if(staff)  return {...state,staff:{...staff}}
-      //   if(editTemplate){
-      //     editTemplate.allowedOffices =  editTemplate.allowedOffices.map(item=>{return {value:item.id+"",label:item.name}});
-      //     return {...state,editTemplate:{...editTemplate}}
-      //   }
-      // }
    },
    effects: {
       *getUsers({ payload }, { call, put }) {
@@ -68,27 +63,26 @@ export default {
       },
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
-      }
-      //   *updateUser({payload} , { call, put }){
-      //     const response = yield call(puttAPI,['/v1/users/'+payload.id,payload.data]);
-      //     if(response.changes) payload.history.push('../detail/'+payload.id)
-      //   },
-      //   *deleteUser({payload} , { call, put }){
-      //     const response = yield call(deleteAPI,'/v1/users/'+payload.id);
-      //     if(response)payload.history.push('../')
-      //   },
-      //   *getUserTemplate({payload} , { call, put }){
-      //     const response = yield call(API.get,'/v1/users/'+payload+'?template=true');
-      //     yield put({ type: 'userEdit' ,editTemplate:response});
-      //   },
-      //   *getStaffUser({payload} , { call, put }){
-      //     const response = yield call(API.get,'/v1/staff?officeId='+payload+'&status=all')
-      //     yield put({ type: 'userEdit' ,staff:response});
-      // },
+      },
+      *getDetailUserLogin({ payload }, { call, put }) {
+         console.log(app._store.getState().common.token);
+         const token = {
+            access_token: app._store.getState().common.token
+         }
+         const response = yield call(API.get, getUserLoginDetail, token);
+         console.log(response);
+         if (response) {
+            app._store.dispatch({
+               type: "common/setUserId",
+               payload: response.userId
+            });
+         }
+      },
+
    },
    subscriptions: {
-      setup({ dispatch, history }) { 
-         history.listen(ev=>{
+      setup({ dispatch, history }) {
+         history.listen(ev => {
             console.log(ev)
          })
       }

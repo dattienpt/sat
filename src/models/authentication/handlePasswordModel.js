@@ -18,31 +18,36 @@ export default {
    },
    effects: {
       *changePassword({ payload: values, history: history }, { call, put }) {
-         const userLocal = localStorageService.getUserInfo();
-         const data = {
-            access_token: userLocal['access_token']
+         const token = {
+            access_token: app._store.getState().common.token
          }
-         NetworkAxios.get(getUserLoginDetail, data).then(res => {
-            const url = `${changeInfoUser}/${res['userId']}`;
-            NetworkAxios.put(url, values).then(res => {
-               if (res['changes']) {
-                  localStorageService.clearUserInfo();
-                  history.push("/login");
-                  app._store.dispatch({
-                     type: "loginModel/loginStatus",
-                     isLogin: true
-                  });
-               }
-            }).catch(error => {
-               if (error.httpStatusCode === '400') {
-                  app._store.dispatch({
-                     type: "handlePasswordModel/setStatus",
-                     changed: false
-                  });
-               }
-            })
+         const userId = localStorage.getItem("userId");
+         console.log(userId);
+         console.log(typeof userId);
+         // debugger;
+         const url = `${changeInfoUser}/${userId}`;
+         NetworkAxios.put(url, values).then(res => {
+            if (res['changes']) {
+               // debugger;
+               localStorageService.clearUserInfo();
+               history.push("/login");
+               app._store.dispatch({
+                  type: "loginModel/loginStatus",
+                  isLogin: true
+               });
+               app._store.dispatch({
+                  type: "handlePasswordModel/setStatus",
+                  changed: true
+               });
+            }
+         }).catch(error => {
+            if (error.httpStatusCode === '400') {
+               app._store.dispatch({
+                  type: "handlePasswordModel/setStatus",
+                  changed: false
+               });
+            }
          })
-
       }
    },
    subscriptions: {
