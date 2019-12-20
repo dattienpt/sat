@@ -70,7 +70,7 @@ export default {
             access_token: app._store.getState().common.token
          }
          const response = yield call(API.get, getUserLoginDetail, token);
-         // console.log(response);
+         console.log(response);
          if (response) {
             localStorage.setItem("userId", response.userId);
             app._store.dispatch({
