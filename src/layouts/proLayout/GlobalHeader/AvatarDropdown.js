@@ -16,7 +16,6 @@ class AvatarDropdown extends React.Component {
          isLogin: true
       });
       const { history } = this.props;
-      // debugger;
       localStorageService.clearUserInfo();
       localStorage.removeItem("userId");
       history.push("/login");

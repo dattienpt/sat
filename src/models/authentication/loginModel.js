@@ -73,7 +73,6 @@ export default {
                   type: "common/setToken",
                   payload: response.data.access_token
                });
-               // debugger;
                localStorageService.clearUserInfo();
                const now = new Date();
                now.setSeconds(now.getSeconds() + response.data.expires_in);

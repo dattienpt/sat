@@ -65,8 +65,6 @@ export class NetworkAxios {
          //Access token expired
          // console.warn('watting refresh token....');
          const userLocal = localStorageService.getUserInfo();
-         console.log(userLocal);
-         // debugger;
          await app._store.dispatch({
             type: "loginModel/refreshToken",
             payload: userLocal
@@ -85,8 +83,6 @@ export class NetworkAxios {
          }
       } else if (response.status === requestStatus.forceExpired) {
          //reload Url
-         console.log(response.status);
-         debugger;
          this.reload();
       } else {
          return {
@@ -108,7 +104,6 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               console.log(error.response);
                if (error.response.status == 401)
                   resolve(this.checkStatus(error.response));
                else

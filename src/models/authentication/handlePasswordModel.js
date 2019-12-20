@@ -24,7 +24,6 @@ export default {
          yield call(NetworkAxios.putAsync, url, values);
          NetworkAxios.put(url, values).then(res => {
             if (res['changes']) {
-               // debugger;
                localStorageService.clearUserInfo();
                localStorage.removeItem("userId");
                history.push("/login");
