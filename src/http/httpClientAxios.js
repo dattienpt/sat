@@ -182,7 +182,7 @@ export class NetworkAxios {
    static putAsync = async (url, data) => {
       if (data)
          url += `?` + parseQuery(data);
-      return axiosInstance.get(url, { headers: { Authorization: `Bearer ${this.token}` } })
+      return axiosInstance.put(url, { headers: { Authorization: `Bearer ${this.token}` } })
          .then(response => {
             return response.data;
          })
@@ -267,4 +267,7 @@ export default {
    postAsyncWithNoToken(url, data) {
       return NetworkAxios.postAsyncWithNoToken(url, data);
    },
+   putAsync(url, data) {
+      return NetworkAxios.putAsync(url, data);
+   }
 };

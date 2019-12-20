@@ -18,18 +18,15 @@ export default {
    },
    effects: {
       *changePassword({ payload: values, history: history }, { call, put }) {
-         const token = {
-            access_token: app._store.getState().common.token
-         }
-         const userId = localStorage.getItem("userId");
-         console.log(userId);
-         console.log(typeof userId);
-         // debugger;
+         const userId = app._store.getState().common.userId ? app._store.getState().common.userId : localStorage.getItem("userId");
+         console.log(userId, typeof userId);
          const url = `${changeInfoUser}/${userId}`;
+         yield call(NetworkAxios.putAsync, url, values);
          NetworkAxios.put(url, values).then(res => {
             if (res['changes']) {
                // debugger;
                localStorageService.clearUserInfo();
+               localStorage.removeItem("userId");
                history.push("/login");
                app._store.dispatch({
                   type: "loginModel/loginStatus",

@@ -18,6 +18,7 @@ class AvatarDropdown extends React.Component {
       const { history } = this.props;
       // debugger;
       localStorageService.clearUserInfo();
+      localStorage.removeItem("userId");
       history.push("/login");
    }
    onMenuClick = event => {

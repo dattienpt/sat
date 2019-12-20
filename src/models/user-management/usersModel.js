@@ -72,10 +72,16 @@ export default {
          const response = yield call(API.get, getUserLoginDetail, token);
          console.log(response);
          if (response) {
+            localStorage.setItem("userId", response.userId);
             app._store.dispatch({
                type: "common/setUserId",
                payload: response.userId
             });
+            app._store.dispatch({
+               type: "common/setUserId",
+               payload: response.userId
+            });
+
          }
       },
 

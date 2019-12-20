@@ -58,7 +58,6 @@ export default {
          })
       },
       *refreshToken({ payload: refreshData }, { call }) {
-         console.log(refreshData);
          let data = {
             client_id: "community-app",
             grant_type: "refresh_token",
@@ -68,8 +67,6 @@ export default {
          };
          let url = OauthUrl + parseQuery(data);
          const response = yield call(NetworkAxios.postAsyncWithNoToken, url);
-         console.log(response);
-
          if (response) {
             if (response.status === 200) {
                app._store.dispatch({
@@ -87,6 +84,7 @@ export default {
             }
             else {
                localStorageService.clearUserInfo();
+               localStorage.removeItem("userId");
                location.reload();
             }
          }

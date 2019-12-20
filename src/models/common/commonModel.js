@@ -6,7 +6,7 @@ export default {
    namespace: "common",
    state: {
       token: userInfo["access_token"] ? userInfo["access_token"] : null,
-      userId: null,
+      userId: userInfo["userId"] ? userInfo["userId"] : null,
       timeLogin: 0
    },
    reducers: {
