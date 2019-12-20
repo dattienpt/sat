@@ -17,9 +17,11 @@ class AvatarDropdown extends React.Component {
       });
       const { history } = this.props;
       localStorageService.clearUserInfo();
+      localStorage.removeItem("userId");
       history.push("/login");
    }
    onMenuClick = event => {
+      const { dispatch } = this.props;
       const { key } = event;
       if (key === "logout") {
          this.onLogout();
@@ -29,6 +31,9 @@ class AvatarDropdown extends React.Component {
       } else if (key === "changePassword") {
          this.setState({
             visible: true
+         });
+         dispatch({
+            type: "users/getDetailUserLogin"
          });
       }
    };
@@ -54,6 +59,9 @@ class AvatarDropdown extends React.Component {
 
    handleSubmit = e => {
       const { dispatch, history } = this.props;
+      dispatch({
+         type: "users/getDetailUserLogin"
+      });
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
          if (!err) {
@@ -88,7 +96,8 @@ class AvatarDropdown extends React.Component {
       callback();
    };
    render() {
-      const { username } = localStorageService.getUserInfo();
+      // console.log(localStorageService.getUserInfo());
+      const { username } = localStorageService.getUserInfo() ? localStorageService.getUserInfo() : '';
       const { changed } = this.props;
       const { currentUser = { avatar: "", name: "" }, menu } = this.props;
       const { getFieldDecorator } = this.props.form;
@@ -139,17 +148,6 @@ class AvatarDropdown extends React.Component {
             </Menu.Item>
          </Menu>
       );
-
-      // return currentUser && currentUser.name ? (
-      //   <HeaderDropdown overlay={menuHeaderDropdown}>
-      //     <span className={`${styles.action} ${styles.account}`}>
-      //       <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-      //       <span className={styles.name}>{currentUser.name}</span>
-      //     </span>
-      //   </HeaderDropdown>
-      // ) : (
-      //   <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
-      // );
 
       return (
          <React.Fragment>

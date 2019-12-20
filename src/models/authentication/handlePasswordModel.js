@@ -18,31 +18,32 @@ export default {
    },
    effects: {
       *changePassword({ payload: values, history: history }, { call, put }) {
-         const userLocal = localStorageService.getUserInfo();
-         const data = {
-            access_token: userLocal['access_token']
-         }
-         NetworkAxios.get(getUserLoginDetail, data).then(res => {
-            const url = `${changeInfoUser}/${res['userId']}`;
-            NetworkAxios.put(url, values).then(res => {
-               if (res['changes']) {
-                  localStorageService.clearUserInfo();
-                  history.push("/login");
-                  app._store.dispatch({
-                     type: "loginModel/loginStatus",
-                     isLogin: true
-                  });
-               }
-            }).catch(error => {
-               if (error.httpStatusCode === '400') {
-                  app._store.dispatch({
-                     type: "handlePasswordModel/setStatus",
-                     changed: false
-                  });
-               }
-            })
+         const userId = app._store.getState().common.userId ? app._store.getState().common.userId : localStorage.getItem("userId");
+         console.log(userId, typeof userId);
+         const url = `${changeInfoUser}/${userId}`;
+         yield call(NetworkAxios.putAsync, url, values);
+         NetworkAxios.put(url, values).then(res => {
+            if (res['changes']) {
+               localStorageService.clearUserInfo();
+               localStorage.removeItem("userId");
+               history.push("/login");
+               app._store.dispatch({
+                  type: "loginModel/loginStatus",
+                  isLogin: true
+               });
+               app._store.dispatch({
+                  type: "handlePasswordModel/setStatus",
+                  changed: true
+               });
+            }
+         }).catch(error => {
+            if (error.httpStatusCode === '400') {
+               app._store.dispatch({
+                  type: "handlePasswordModel/setStatus",
+                  changed: false
+               });
+            }
          })
-
       }
    },
    subscriptions: {

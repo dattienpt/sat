@@ -58,7 +58,6 @@ export default {
          })
       },
       *refreshToken({ payload: refreshData }, { call }) {
-         localStorageService.clearUserInfo();
          let data = {
             client_id: "community-app",
             grant_type: "refresh_token",
@@ -70,15 +69,22 @@ export default {
          const response = yield call(NetworkAxios.postAsyncWithNoToken, url);
          if (response) {
             if (response.status === 200) {
+               app._store.dispatch({
+                  type: "common/setToken",
+                  payload: response.data.access_token
+               });
+               localStorageService.clearUserInfo();
                const now = new Date();
                now.setSeconds(now.getSeconds() + response.data.expires_in);
                response.data['username'] = refreshData.username;
                response.data['expiresTime'] = now.getTime();
                localStorageService.setUserInfo(response.data);
-               app._store.dispatch({
-                  type: "common/setToken",
-                  payload: response.data.access_token
-               });
+
+            }
+            else {
+               localStorageService.clearUserInfo();
+               localStorage.removeItem("userId");
+               location.reload();
             }
          }
       }

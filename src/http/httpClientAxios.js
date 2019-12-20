@@ -18,7 +18,7 @@ const commonReqConfig = {
    validateStatus: function (status) {
       return status >= 200 && status < 300;
    },
-   headers: { "Fineract-Platform-TenantId": "default","Content-Type":"application/json;charset=UTF-8" }
+   headers: { "Fineract-Platform-TenantId": "default", "Content-Type": "application/json;charset=UTF-8" }
 };
 
 const connectedFailed = {
@@ -61,8 +61,9 @@ export class NetworkAxios {
    };
    static checkStatus = async response => {
       if (response.status === requestStatus.expired) {
+
          //Access token expired
-        // console.warn('watting refresh token....');
+         // console.warn('watting refresh token....');
          const userLocal = localStorageService.getUserInfo();
          await app._store.dispatch({
             type: "loginModel/refreshToken",
@@ -119,6 +120,7 @@ export class NetworkAxios {
             return response.data;
          })
          .catch(error => {
+            console.log(error.response);
             return this.checkStatus(error.response);
          });
    }
@@ -163,10 +165,28 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               reject(error.response.data);
+               console.log(error.response);
+               if (error.response.status == 401)
+                  resolve(this.checkStatus(error.response));
+               else
+                  reject(error.response.data);
             });
       });
    };
+
+   static putAsync = async (url, data) => {
+      if (data)
+         url += `?` + parseQuery(data);
+      return axiosInstance.put(url, { headers: { Authorization: `Bearer ${this.token}` } })
+         .then(response => {
+            return response.data;
+         })
+         .catch(error => {
+            console.log(error.response);
+            return this.checkStatus(error.response);
+         });
+   }
+
    static patch = (url, data = {}) => {
       return new Promise((resolve, reject) => {
          axiosInstance
@@ -242,4 +262,7 @@ export default {
    postAsyncWithNoToken(url, data) {
       return NetworkAxios.postAsyncWithNoToken(url, data);
    },
+   putAsync(url, data) {
+      return NetworkAxios.putAsync(url, data);
+   }
 };
