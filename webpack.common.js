@@ -3,6 +3,22 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
+const themeConfig = {
+  'primary-color': '#1DA57A', // primary color for all components
+  'link-color': '#1890ff', // link color
+  'success-color': '#52c41a', // success state color
+  'warning-color': '#faad14', // warning state color
+  'error-color': '#f5222d', // error state color
+  'font-size-base': '14px', // major text font size
+  'heading-color': '#1DA57A', // heading text color
+  'text-color': '#92973f', // major text color
+  'text-color-secondary': '#1DA57A', // secondary text color
+  'disabled-color': 'rgba(0, 0, 0, .25)', // disable state color
+  'border-radius-base': '4px', // major border radius
+  'border-color-base': '#d9d9d9', // major border color
+  'box-shadow-base': '#1DA57A', // major shadow for layers
+  'body-background': '#b8d9ab'// Background color for `<body>`
+}
 
 const target = path.resolve(__dirname, 'src/configs/prod.js');
 const getCurrentEvn = () => {
@@ -32,6 +48,7 @@ copy(conFig, target, err => {
     return console.log('copy error', err);
   } else {
     console.log('copy current env', conFig);
+
   }
 });
 
@@ -41,7 +58,8 @@ const config = {
   },
   output: {
     filename: '[name].[hash:8].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    //path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(process.cwd(), 'dist'),
     publicPath: '/'
   },
   resolve: {
@@ -99,28 +117,7 @@ const config = {
           {
             loader: 'less-loader',
             options: {
-              // modifyVars: {
-              //   'primary-color': '#1DA57A',
-              //   'link-color': '#1DA57A',
-              //   'border-radius-base': '2px',
-              //   'border-color-base': '#d9d9d9'
-              // },
-              modifyVars: {
-                'primary-color': '#1DA57A', // primary color for all components
-                'link-color': '#1890ff', // link color
-                'success-color': '#52c41a', // success state color
-                'warning-color': '#faad14', // warning state color
-                'error-color': '#f5222d', // error state color
-                'font-size-base': '14px', // major text font size
-                'heading-color': '#1DA57A', // heading text color
-                'text-color': '#92973f', // major text color
-                'text-color-secondary': '#1DA57A', // secondary text color
-                'disabled-color': 'rgba(0, 0, 0, .25)', // disable state color
-                'border-radius-base': '4px', // major border radius
-                'border-color-base': '#d9d9d9', // major border color
-                'box-shadow-base': '#1DA57A', // major shadow for layers
-                'body-background': '#b8d9ab'// Background color for `<body>`
-              },
+              modifyVars: themeConfig,
               javascriptEnabled: true,
             },
           }
@@ -155,7 +152,6 @@ const config = {
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-    //  new LodashModuleReplacementPlugin(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html'

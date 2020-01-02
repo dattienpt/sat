@@ -24,7 +24,7 @@ export default {
    },
    effects: {
       *checkLogin({ payload: values, history: history }, { call, put }) {
-         let data = {
+         const data = {
             username: values.username,
             password: values.password,
             client_id: "community-app",
@@ -32,7 +32,7 @@ export default {
             client_secret: 123,
             tenantIdentifier: "default"
          };
-         let url = OauthUrl + parseQuery(data);
+         const url = OauthUrl + parseQuery(data);
          NetworkAxios.postWithNoToken(url).then(response => {
             if (response) {
                if (response.status === 200) {
@@ -58,14 +58,14 @@ export default {
          })
       },
       *refreshToken({ payload: refreshData }, { call }) {
-         let data = {
+         const data = {
             client_id: "community-app",
             grant_type: "refresh_token",
             client_secret: 123,
             tenantIdentifier: "default",
             refresh_token: refreshData.refresh_token
          };
-         let url = OauthUrl + parseQuery(data);
+         const url = OauthUrl + parseQuery(data);
          const response = yield call(NetworkAxios.postAsyncWithNoToken, url);
          if (response) {
             if (response.status === 200) {

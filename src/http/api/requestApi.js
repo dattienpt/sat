@@ -12,5 +12,4 @@ export const changeInfoUser = APIVER + '/users';
 export const clientDetail = APIVER + '/clients';
 export const savingProduct = APIVER + '/savingsproducts';
 export const shareProduct = APIVER + '/products/share';
-//product
 export const GET_LOAN_PRODUCTS = APIVER + '/loanproducts';

@@ -65,12 +65,10 @@ export default {
          yield put({ type: "name", namePage: payload });
       },
       *getDetailUserLogin({ payload }, { call, put }) {
-         // console.log(app._store.getState().common.token);
          const token = {
             access_token: app._store.getState().common.token
          }
          const response = yield call(API.get, getUserLoginDetail, token);
-         // console.log(response);
          if (response) {
             localStorage.setItem("userId", response.userId);
             app._store.dispatch({
@@ -81,7 +79,6 @@ export default {
                type: "common/setUserId",
                payload: response.userId
             });
-
          }
       },
 

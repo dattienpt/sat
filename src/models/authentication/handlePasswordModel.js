@@ -1,6 +1,6 @@
 import NetworkAxios from "../../http/httpClientAxios";
 import * as localStorageService from '../../utils/localStorageService';
-import { getUserLoginDetail, changeInfoUser } from '../../http/api/requestApi';
+import { changeInfoUser } from '../../http/api/requestApi';
 import { app } from '../../index';
 export default {
    namespace: "handlePasswordModel",
@@ -17,9 +17,8 @@ export default {
       }
    },
    effects: {
-      *changePassword({ payload: values, history: history }, { call, put }) {
+      *changePassword({ payload: values, history: history }, { call }) {
          const userId = app._store.getState().common.userId ? app._store.getState().common.userId : localStorage.getItem("userId");
-         console.log(userId, typeof userId);
          const url = `${changeInfoUser}/${userId}`;
          yield call(NetworkAxios.putAsync, url, values);
          NetworkAxios.put(url, values).then(res => {

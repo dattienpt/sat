@@ -3,7 +3,7 @@
     "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
     "lint": "eslint ./src --fix",
     "start": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "cross-env NODE_ENV=prod evnConfig=prod webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@ant-design/pro-layout": "^4.9.6",

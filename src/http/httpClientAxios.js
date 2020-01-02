@@ -29,7 +29,6 @@ const connectedFailed = {
 };
 
 const axiosInstance = Axios.create(commonReqConfig);
-
 Axios.interceptors.request.use(config => {
    // Do something before request is sent
    return config;
@@ -61,9 +60,7 @@ export class NetworkAxios {
    };
    static checkStatus = async response => {
       if (response.status === requestStatus.expired) {
-
          //Access token expired
-         // console.warn('watting refresh token....');
          const userLocal = localStorageService.getUserInfo();
          await app._store.dispatch({
             type: "loginModel/refreshToken",
@@ -85,12 +82,7 @@ export class NetworkAxios {
          //reload Url
          this.reload();
       } else {
-         return {
-            data: {
-               message: "Sorry, the system is unstable, please try again later",
-               code: 2
-            }
-         };
+         return connectedFailed;
       }
    };
    static get = (url, data) => {
@@ -120,19 +112,13 @@ export class NetworkAxios {
             return response.data;
          })
          .catch(error => {
-            console.log(error.response);
             return this.checkStatus(error.response);
          });
    }
 
    static delete = (url) => {
       return new Promise((resolve, reject) => {
-         axiosInstance
-            .delete(
-               url,
-               { headers: { Authorization: `Bearer ${this.token}` } },
-               ...options
-            )
+         axiosInstanc.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
                resolve(response.data);
             })
@@ -143,10 +129,9 @@ export class NetworkAxios {
    };
    static post = (url, data = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance
-            .post(url, data, {
-               headers: { Authorization: `Bearer ${this.token}` }
-            })
+         axiosInstance.post(url, data, {
+            headers: { Authorization: `Bearer ${this.token}` }
+         })
             .then(response => {
                resolve(response.data);
             })
@@ -165,7 +150,6 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               console.log(error.response);
                if (error.response.status == 401)
                   resolve(this.checkStatus(error.response));
                else
@@ -182,20 +166,13 @@ export class NetworkAxios {
             return response.data;
          })
          .catch(error => {
-            console.log(error.response);
             return this.checkStatus(error.response);
          });
    }
 
    static patch = (url, data = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance
-            .patch(
-               url,
-               data,
-               { headers: { Authorization: `Bearer ${this.token}` } },
-               ...options
-            )
+         axiosInstance.patch(url, data, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
                resolve(response.data);
             })
@@ -206,8 +183,7 @@ export class NetworkAxios {
    };
    static postWithNoToken = (url, data = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance
-            .post(url, data)
+         axiosInstance.post(url, data)
             .then(response => {
                const res = {
                   data: response.data,
@@ -222,8 +198,7 @@ export class NetworkAxios {
       });
    }
    static postAsyncWithNoToken = async (url, data = {}) => {
-      return axiosInstance
-         .post(url, data)
+      return axiosInstance.post(url, data)
          .then(response => {
             const res = {
                data: response.data,
