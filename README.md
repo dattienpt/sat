@@ -1,12 +1,19 @@
 SAT Team ...
 
 # Install
+```
 npm install
+``` 
 # Develop mode: 
+```
 npm run start
+```
 # Build
+```
 npm run build
+```
 # Config
+```
 src/configs/dev.js
 
 export default {
@@ -17,6 +24,7 @@ export default {
     },
     host: "https://192.168.8.59:8443/fineract-provider/api",
 }
+```
 # Change Global Style 
  /webpack.common.js
 ```
@@ -36,3 +44,4 @@ export default {
   'box-shadow-base': '#1DA57A', // major shadow for layers
   'body-background': '#b8d9ab'// Background color for `<body>`
 }
+```
