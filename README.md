@@ -15,7 +15,7 @@ npm run build
 # Config
 ```
 src/configs/dev.js
-
+Change host connect to other api
 export default {
     params: {
         version: '1.0',
