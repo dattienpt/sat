@@ -7,7 +7,8 @@ npm run start
 # Build
 npm run build
 # Config
-src/configs/dev.j
+src/configs/dev.js
+
 sexport default {
     params: {
         version: '1.0',
