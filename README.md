@@ -9,7 +9,7 @@ npm run build
 # Config
 src/configs/dev.js
 
-sexport default {
+export default {
     params: {
         version: '1.0',
         format: 'json',
@@ -18,9 +18,9 @@ sexport default {
     host: "https://192.168.8.59:8443/fineract-provider/api",
 }
 # Change Global Style 
-/webpack.common.js
-
-const themeConfig = {
+ /webpack.common.js
+```
+ const themeConfig = {
   'primary-color': '#1DA57A', // primary color for all components
   'link-color': '#1890ff', // link color
   'success-color': '#52c41a', // success state color
