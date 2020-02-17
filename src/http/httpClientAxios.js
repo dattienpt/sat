@@ -5,6 +5,7 @@ import { OauthUrl } from "./api/requestApi";
 import { requestStatus } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
 import * as localStorageService from '../utils/localStorageService';
+import { aesPub, processRequest, processResponse, processParamsRequest } from './processEncrypt';
 
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
@@ -18,7 +19,7 @@ const commonReqConfig = {
    validateStatus: function (status) {
       return status >= 200 && status < 300;
    },
-   headers: { "Fineract-Platform-TenantId": "default", "Content-Type": "application/json;charset=UTF-8" }
+   headers: { "Content-Type": "application/json;charset=UTF-8" }
 };
 
 const connectedFailed = {
@@ -28,13 +29,17 @@ const connectedFailed = {
    }
 };
 
-const axiosInstance = Axios.create(commonReqConfig);
+let axiosInstance = Axios.create(commonReqConfig);
+const timeStamp = new Date().getTime();
+axiosInstance.defaults.params = {};
+axiosInstance.defaults.params['aesKey'] = aesPub || '';
+axiosInstance.defaults.params['timeStamp'] = timeStamp;
+
 Axios.interceptors.request.use(config => {
    // Do something before request is sent
    return config;
 });
 export class NetworkAxios {
-
    static get token() {
       return app._store.getState().common.token;
    }
@@ -86,8 +91,10 @@ export class NetworkAxios {
       }
    };
    static get = (url, data) => {
+      console.log(data);
+      console.log(url);
       if (data) {
-         url += `?` + parseQuery(data);
+         url += `?jsonStr=` + processParamsRequest(parseQuery(data));
       }
       return new Promise((resolve, reject) => {
          axiosInstance
@@ -96,7 +103,7 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               if (error.response.status == 401)
+               if (error.response && error.response.status == 401)
                   resolve(this.checkStatus(error.response));
                else
                   reject(error.response.data);
@@ -128,11 +135,14 @@ export class NetworkAxios {
       });
    };
    static post = (url, data = {}) => {
+      console.log(data);
+      console.log(url);
       return new Promise((resolve, reject) => {
-         axiosInstance.post(url, data, {
+         axiosInstance.post(url, processRequest(data), {
             headers: { Authorization: `Bearer ${this.token}` }
          })
             .then(response => {
+               response.data = response.data && processResponse(response.data);
                resolve(response.data);
             })
             .catch(error => {
@@ -197,6 +207,31 @@ export class NetworkAxios {
             });
       });
    }
+   static getTokenRequest2 = (url) => {
+      const instance = Axios.create({
+         baseURL: evnConfig.baseUrl.tokenHost,
+         responsesType: "json",
+         timeout: 30000,
+         validateStatus: function (status) {
+            return status >= 200 && status < 300;
+         },
+         headers: { "Content-Type": "application/json;charset=UTF-8" }
+      });
+      return new Promise((resolve, reject) => {
+         instance.get(url)
+            .then(response => {
+               const res = {
+                  data: response.data,
+                  status: response.status,
+                  statusText: response.statusText
+               };
+               resolve(res)
+            })
+            .catch(error => {
+               reject(error.response.data);
+            });
+      });
+   }
    static postAsyncWithNoToken = async (url, data = {}) => {
       return axiosInstance.post(url, data)
          .then(response => {
@@ -230,6 +265,9 @@ export default {
    },
    postWithNoToken(url, data) {
       return NetworkAxios.postWithNoToken(url, data);
+   },
+   getTokenRequest(url) {
+      return NetworkAxios.getTokenRequest2(url);
    },
    getAsync(url, data) {
       return NetworkAxios.getAsync(url, data);

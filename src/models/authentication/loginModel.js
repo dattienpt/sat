@@ -1,4 +1,5 @@
 import NetworkAxios from "../../http/httpClientAxios";
+import { encryptPassToken } from "../../http/processEncrypt";
 import { app } from "../../index";
 import { parseQuery } from "../../utils/processData";
 import { OauthUrl } from "../../http/api/requestApi";
@@ -26,14 +27,14 @@ export default {
       *checkLogin({ payload: values, history: history }, { call, put }) {
          const data = {
             username: values.username,
-            password: values.password,
-            client_id: "community-app",
+            password: encryptPassToken(values.password),
+            client_id: "client",
             grant_type: "password",
-            client_secret: 123,
-            tenantIdentifier: "default"
+            client_secret: "secret",
+            scope: "app"
          };
          const url = OauthUrl + parseQuery(data);
-         NetworkAxios.postWithNoToken(url).then(response => {
+         NetworkAxios.getTokenRequest(url).then(response => {
             if (response) {
                if (response.status === 200) {
                   const now = new Date();
@@ -59,14 +60,13 @@ export default {
       },
       *refreshToken({ payload: refreshData }, { call }) {
          const data = {
-            client_id: "community-app",
+            client_id: "client",
             grant_type: "refresh_token",
-            client_secret: 123,
-            tenantIdentifier: "default",
+            client_secret: "secret",
             refresh_token: refreshData.refresh_token
          };
          const url = OauthUrl + parseQuery(data);
-         const response = yield call(NetworkAxios.postAsyncWithNoToken, url);
+         const response = yield call(NetworkAxios.getTokenRequest, url);
          if (response) {
             if (response.status === 200) {
                app._store.dispatch({
