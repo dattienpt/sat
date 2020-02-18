@@ -9,14 +9,34 @@ class RegistrationForm extends React.Component {
       confirmDirty: false,
       autoCompleteResult: [],
       userId: null,
+      title: 'create new user',
+      formPass: true
    };
 
    componentWillMount() {
-      console.log(this.props.match.params.userId);
+      // console.log(this.props.match.params.userId);
    }
 
    componentDidMount() {
-      console.log(this.props.match.params.userId);
+      const data = {
+         password: "123456",
+         acctName: "lhlinh2",
+         mobileNo: "09877723237",
+         jobNum: "Admin",
+         loginFlag: "1",
+         acctStatus: "1"
+      }
+      const id = this.props.match.params.userId;
+      if (id) {
+         this.setState({ userId: id, title: 'update user' });
+      }
+      console.log(id);
+      // this.props.dispatch({
+      //    type: "loginModel/checkLogin",
+      //    payload: values,
+      //    history: history
+      // });
+      this.props.form.setFieldsValue(data)
    }
 
    success = () => {
@@ -140,6 +160,7 @@ class RegistrationForm extends React.Component {
                         />
                      } />)}
                </Form.Item>
+
                <Form.Item label="Confirm Password" hasFeedback>
                   {getFieldDecorator('confirm', {
                      rules: [
