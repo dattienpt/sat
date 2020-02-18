@@ -5,7 +5,7 @@ export const getListUser = APIVER + `/test`;
 export const listUser = APIVER + '/users';
 export const userTemplate = APIVER + '/users/template';
 export const userDetail = APIVER + '/users/';
-export const clients = APIVER + '/clients';
+export const clients = '/spring-security-oauth-resource/accounts';
 export const clientSearch = APIVER + '/search?exactMatch=false&query=';
 export const getUserLoginDetail = APIVER + '/userdetails';
 export const changeInfoUser = APIVER + '/users';

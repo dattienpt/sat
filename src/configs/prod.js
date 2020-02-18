@@ -4,7 +4,8 @@ export default {
     params: {
         version: '1.0',
         format: 'json',
-        mode: 'development'
+        signMethod: 'sha256',
+        secret: '90ed101b-f719-4db6-ab24-1cd4ecfbce9d'
     },
     host: "http://192.168.11.6:8090/",
     tokenHost: "http://192.168.11.6:8089/smart-oauth2",

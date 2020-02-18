@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js';
 import { JSEncrypt } from 'jsencrypt';
 import dev from '../configs/dev';
+import moment from 'moment';
 export const aesPub = getAESKey();
 
 export function processRequest(params) {
@@ -11,18 +12,15 @@ export function processRequest(params) {
     let encodeKey = null;
     requestData = encryptAES(JSON.stringify(Object.assign({}, params), aesPub));
     encodeKey = encryptRSA(aesPub);
-    Object.assign(result, {
+    Object.assign(result, dev.params, {
         requestId: timestamp,
+        timestamp: moment(nowtime).format('YYYYMMDDhhmmss'),
         requestData,
         encodeKey
     });
     result.sign = addSign(result);
     console.log(result);
     return result;
-}
-export function processParamsRequest(params) {
-    const res = processRequest(params);
-    return res.requestData;
 }
 
 export function encryptData(data) {
@@ -87,10 +85,8 @@ function addSign(params) {
 
 
 export function encryptPassToken(password) {
-    //const key1 = CryptoJS.MD5('295990').toString(CryptoJS.enc.Hex);
-    //const key2 = CryptoJS.HmacSHA256(password, key1).toString(CryptoJS.enc.Base64);
     const passwordTime = password + "$CurTime=" + (new Date().valueOf());
     let encryptOjc = new JSEncrypt();
-    encryptOjc.setPublicKey(dev.rsa_publicKey);
+    encryptOjc.setPublicKey(dev.publicKey);
     return encryptOjc.getKey().encrypt(passwordTime).toUpperCase();
 }

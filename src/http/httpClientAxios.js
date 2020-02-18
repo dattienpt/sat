@@ -1,11 +1,10 @@
 import evnConfig from "../configs/env";
 import Axios from "axios";
 import { app } from "../index";
-import { OauthUrl } from "./api/requestApi";
 import { requestStatus } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
 import * as localStorageService from '../utils/localStorageService';
-import { aesPub, processRequest, processResponse, processParamsRequest } from './processEncrypt';
+import { aesPub, processRequest, processResponse } from './processEncrypt';
 
 const commonReqConfig = {
    baseURL: evnConfig.baseUrl.host,
@@ -49,20 +48,6 @@ export class NetworkAxios {
       window.location.href = `${urlPrefix}#/login`;
    };
 
-   static getTokenRequest = data => {
-      let url = evnConfig.baseUrl.tokenHost + OauthUrl;
-      url += `?` + parseQuery(data);
-      return axiosInstance
-         .get(url)
-         .then(response => response.data)
-         .catch(({ response }) => {
-            if (response.status === requestStatus.expired || response.status === requestStatus.forceExpired) {
-               return response;
-            } else {
-               return connectedFailed;
-            }
-         });
-   };
    static checkStatus = async response => {
       if (response.status === requestStatus.expired) {
          //Access token expired
@@ -91,15 +76,16 @@ export class NetworkAxios {
       }
    };
    static get = (url, data) => {
-      console.log(data);
-      console.log(url);
       if (data) {
-         url += `?jsonStr=` + processParamsRequest(parseQuery(data));
+         url += `?` + parseQuery(data);
       }
       return new Promise((resolve, reject) => {
          axiosInstance
             .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -111,38 +97,15 @@ export class NetworkAxios {
       });
    };
 
-   static getAsync = async (url, data) => {
-      if (data)
-         url += `?` + parseQuery(data);
-      return axiosInstance.get(url, { headers: { Authorization: `Bearer ${this.token}` } })
-         .then(response => {
-            return response.data;
-         })
-         .catch(error => {
-            return this.checkStatus(error.response);
-         });
-   }
-
-   static delete = (url) => {
-      return new Promise((resolve, reject) => {
-         axiosInstanc.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
-            .then(response => {
-               resolve(response.data);
-            })
-            .catch(error => {
-               reject(error.response.data);
-            });
-      });
-   };
    static post = (url, data = {}) => {
-      console.log(data);
-      console.log(url);
       return new Promise((resolve, reject) => {
          axiosInstance.post(url, processRequest(data), {
             headers: { Authorization: `Bearer ${this.token}` }
          })
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -155,8 +118,28 @@ export class NetworkAxios {
    };
    static put = (url, data = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance.put(url, data, { headers: { Authorization: `Bearer ${this.token}` } })
+         axiosInstance.put(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
+               resolve(response.data);
+            })
+            .catch(error => {
+               if (error.response.status == 401)
+                  resolve(this.checkStatus(error.response));
+               else
+                  reject(error.response.data);
+            });
+      });
+   };
+   static delete = (url, options = {}) => {
+      return new Promise((resolve, reject) => {
+         axiosInstanc.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
+            .then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -168,46 +151,54 @@ export class NetworkAxios {
       });
    };
 
-   static putAsync = async (url, data) => {
-      if (data)
-         url += `?` + parseQuery(data);
-      return axiosInstance.put(url, { headers: { Authorization: `Bearer ${this.token}` } })
-         .then(response => {
-            return response.data;
-         })
-         .catch(error => {
-            return this.checkStatus(error.response);
-         });
-   }
-
    static patch = (url, data = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance.patch(url, data, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
+         axiosInstance.patch(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
+               resolve(response.data);
+            })
+            .catch(error => {
+               if (error.response.status == 401)
+                  resolve(this.checkStatus(error.response));
+               else
+                  reject(error.response.data);
+            });
+      });
+   };
+
+   static postWithNoToken = (url, data = {}) => {
+      return new Promise((resolve, reject) => {
+         axiosInstance.post(url, processRequest(data))
+            .then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
                reject(error.response.data);
             });
       });
-   };
-   static postWithNoToken = (url, data = {}) => {
+   }
+   static getWithNoToken = (url, data = {}) => {
       return new Promise((resolve, reject) => {
-         axiosInstance.post(url, data)
+         axiosInstance.get(url, processRequest(data))
             .then(response => {
-               const res = {
-                  data: response.data,
-                  status: response.status,
-                  statusText: response.statusText
-               };
-               resolve(res)
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
+               resolve(response.data);
             })
             .catch(error => {
                reject(error.response.data);
             });
       });
    }
-   static getTokenRequest2 = (url) => {
+
+   static getTokenRequest = (url) => {
       const instance = Axios.create({
          baseURL: evnConfig.baseUrl.tokenHost,
          responsesType: "json",
@@ -232,20 +223,7 @@ export class NetworkAxios {
             });
       });
    }
-   static postAsyncWithNoToken = async (url, data = {}) => {
-      return axiosInstance.post(url, data)
-         .then(response => {
-            const res = {
-               data: response.data,
-               status: response.status,
-               statusText: response.statusText
-            };
-            return (res);
-         })
-         .catch(error => {
-            return error.response;
-         });
-   }
+
 }
 export default {
    get(url, data) {
@@ -258,24 +236,15 @@ export default {
       return NetworkAxios.put(url, data);
    },
    patch(url, data) {
-      return NetworkAxios.post(url, data);
-   },
-   delete(url, data) {
-      return NetworkAxios.delete(url, data);
+      return NetworkAxios.patch(url, data);
    },
    postWithNoToken(url, data) {
       return NetworkAxios.postWithNoToken(url, data);
    },
    getTokenRequest(url) {
-      return NetworkAxios.getTokenRequest2(url);
+      return NetworkAxios.getTokenRequest(url);
    },
-   getAsync(url, data) {
-      return NetworkAxios.getAsync(url, data);
-   },
-   postAsyncWithNoToken(url, data) {
-      return NetworkAxios.postAsyncWithNoToken(url, data);
-   },
-   putAsync(url, data) {
-      return NetworkAxios.putAsync(url, data);
+   delete(url, data) {
+      return NetworkAxios.delete(url, { data: processRequest(data) });
    }
 };
