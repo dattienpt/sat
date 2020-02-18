@@ -37,16 +37,17 @@ export default {
          NetworkAxios.getTokenRequest(url).then(response => {
             if (response) {
                if (response.status === 200) {
-                  const now = new Date();
-                  now.setSeconds(now.getSeconds() + response.data.expires_in);
-                  response.data['username'] = values.username;
-                  response.data['expiresTime'] = now.getTime();
                   localStorageService.setUserInfo(response.data);
                   app._store.dispatch({
                      type: "common/setToken",
                      payload: response.data.access_token
                   });
                   history.push("/dashboard");
+               }
+               else {
+                  localStorageService.clearUserInfo();
+                  localStorage.removeItem("userId");
+                  location.reload();
                }
             }
          }).catch(err => {
@@ -74,12 +75,7 @@ export default {
                   payload: response.data.access_token
                });
                localStorageService.clearUserInfo();
-               const now = new Date();
-               now.setSeconds(now.getSeconds() + response.data.expires_in);
-               response.data['username'] = refreshData.username;
-               response.data['expiresTime'] = now.getTime();
                localStorageService.setUserInfo(response.data);
-
             }
             else {
                localStorageService.clearUserInfo();
