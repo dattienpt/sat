@@ -77,9 +77,9 @@ function encryptRSA(value) {
 function addSign(params) {
     let source = "";
     Object.keys(params).sort().forEach((key) => {
-        source += `${key}=${params[key]},`;
+        source += `${key}=${params[key]}, `;
     });
-    source.slice(0, -2);
+    source = source.slice(0, -2);
     return CryptoJS.SHA256(`{${source}}`).toString(CryptoJS.enc.Hex);
 }
 
