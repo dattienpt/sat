@@ -21,8 +21,8 @@ const commonReqConfig = {
    headers: { "Content-Type": "application/json;charset=UTF-8" }
 };
 
-function addAesKeyParam(axiosInstance) {
-   axiosInstance.defaults.params['aesKey'] = aesPub || '';
+function addAesKeyParam(axiosInstance, aesKey) {
+   axiosInstance.defaults.params['aesKey'] = aesKey || '';
 }
 
 const connectedFailed = {
@@ -84,7 +84,7 @@ export class NetworkAxios {
       if (data) {
          url += `?` + parseQuery(data);
       }
-      addAesKeyParam(axiosInstance);
+      addAesKeyParam(axiosInstance, aesPub);
       return new Promise((resolve, reject) => {
          axiosInstance
             .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
@@ -104,6 +104,7 @@ export class NetworkAxios {
    };
 
    static post = (url, data = {}) => {
+      delete axiosInstance.defaults.params['aesKey'];
       return new Promise((resolve, reject) => {
          axiosInstance.post(url, processRequest(data), {
             headers: { Authorization: `Bearer ${this.token}` }
@@ -123,6 +124,7 @@ export class NetworkAxios {
       });
    };
    static put = (url, data = {}) => {
+      delete axiosInstance.defaults.params['aesKey'];
       return new Promise((resolve, reject) => {
          axiosInstance.put(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
@@ -140,7 +142,7 @@ export class NetworkAxios {
       });
    };
    static delete = (url, options = {}) => {
-      addAesKeyParam();
+      addAesKeyParam(axiosInstance, aesPub);
       return new Promise((resolve, reject) => {
          axiosInstanc.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
@@ -159,6 +161,7 @@ export class NetworkAxios {
    };
 
    static patch = (url, data = {}) => {
+      delete axiosInstance.defaults.params['aesKey'];
       return new Promise((resolve, reject) => {
          axiosInstance.patch(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
@@ -177,6 +180,7 @@ export class NetworkAxios {
    };
 
    static postWithNoToken = (url, data = {}) => {
+      delete axiosInstance.defaults.params['aesKey'];
       return new Promise((resolve, reject) => {
          axiosInstance.post(url, processRequest(data))
             .then(response => {
@@ -191,7 +195,7 @@ export class NetworkAxios {
       });
    }
    static getWithNoToken = (url, data = {}) => {
-      addAesKeyParam();
+      addAesKeyParam(axiosInstance, aesPub);
       return new Promise((resolve, reject) => {
          axiosInstance.get(url, data)
             .then(response => {

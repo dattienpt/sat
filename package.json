@@ -3,7 +3,7 @@
     "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
     "lint": "eslint ./src --fix",
     "start": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js",
-    "prod": "cross-env NODE_ENV=production evnConfig=production webpack-dev-server --webpack --watch --open --config webpack.prod.js",
+    "prod": "cross-env NODE_ENV=production evnConfig=production webpack-dev-server --config webpack.prod.js",
     "build": "cross-env NODE_ENV=production evnConfig=production webpack --config webpack.prod.js"
   },
   "dependencies": {

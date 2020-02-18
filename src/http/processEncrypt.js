@@ -87,6 +87,6 @@ function addSign(params) {
 export function encryptPassToken(password) {
     const passwordTime = password + "$CurTime=" + (new Date().valueOf());
     let encryptOjc = new JSEncrypt();
-    encryptOjc.setPublicKey(dev.publicKey);
+    encryptOjc.setPublicKey(dev.rsa_publicKey);
     return encryptOjc.getKey().encrypt(passwordTime).toUpperCase();
 }
