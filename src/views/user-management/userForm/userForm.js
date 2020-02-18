@@ -21,6 +21,7 @@ class RegistrationForm extends React.Component {
 
    handleSubmit = e => {
       e.preventDefault();
+      const { history } = this.props;
       this.props.form.validateFieldsAndScroll((err, values) => {
          if (!err) {
             // console.log('Received values of form: ', values);
@@ -29,6 +30,7 @@ class RegistrationForm extends React.Component {
             //    payload: values,
             // });
             this.success();
+            history.push("/user-management/user-list");
          }
       });
    };
