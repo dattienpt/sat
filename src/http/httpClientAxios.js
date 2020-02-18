@@ -83,6 +83,9 @@ export class NetworkAxios {
          axiosInstance
             .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -100,7 +103,9 @@ export class NetworkAxios {
             headers: { Authorization: `Bearer ${this.token}` }
          })
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -115,7 +120,9 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.put(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -130,7 +137,9 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstanc.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -146,7 +155,9 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.patch(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -162,7 +173,9 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.post(url, processRequest(data))
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
@@ -174,7 +187,9 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.get(url, processRequest(data))
             .then(response => {
-               response.data = response.data && processResponse(response.data);
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                resolve(response.data);
             })
             .catch(error => {
