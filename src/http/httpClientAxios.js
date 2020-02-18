@@ -95,8 +95,6 @@ export class NetworkAxios {
    };
 
    static post = (url, data = {}) => {
-      console.log(data);
-      console.log(url);
       return new Promise((resolve, reject) => {
          axiosInstance.post(url, processRequest(data), {
             headers: { Authorization: `Bearer ${this.token}` }

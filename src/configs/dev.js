@@ -5,7 +5,7 @@ export default {
         version: '1.0',
         format: 'json',
         signMethod: 'sha256',
-        secret: '123-3rdf-4343-5fg-43-dsdsd---343-fdfdf'
+        secret: '90ed101b-f719-4db6-ab24-1cd4ecfbce9d'
     },
     host: "http://192.168.11.6:8090/",
     tokenHost: "http://192.168.11.6:8089/smart-oauth2",
