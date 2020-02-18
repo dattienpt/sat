@@ -117,9 +117,9 @@ class Users extends Component {
       });
    };
    onEditAcount(id) {
-      console.log(id);
       const { history } = this.props;
       history.push("/user-management/user-detail/" + id);
+    // this.props.history.push('/user-management/user-detail/'+id);
    }
    render() {
       const { status } = this.props;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import style from './userDetail.scss';
 import { Button, Modal, Icon, Spin } from 'antd';
+import { formatDateMMDDYYYY } from '../../../utils/formatDate';
 
 class UserDetail extends Component {
   state = { visible: false, isLoading: true }
@@ -37,19 +38,20 @@ class UserDetail extends Component {
 
         {this.state.isLoading ? <Spin /> : <div className={style.box_left}>
           <div ><Icon type="user" /> Full name: </div>
-          <div className={style.text}>{this.props.user.firstname} {this.props.user.lastname}</div>
-          <div><Icon type="user" /> Login Name:</div> <div className={style.text}>{this.props.user.username}</div>
-          <div><Icon type="user" /> First Name:</div> <div className={style.text}>{this.props.user.firstname}</div>
-          <div><Icon type="user" /> Last Name:</div>  <div className={style.text}>{this.props.user.lastname}</div>
+          <div className={style.text}> {this.props.user.acctName}</div>
+          <div><Icon type="user" />Join date:</div> <div className={style.text}>{formatDateMMDDYYYY(this.props.user.joinedDate)}</div>
+          <div><Icon type="user" />Update date:</div> <div className={style.text}>{formatDateMMDDYYYY(this.props.user.updatedDate)}</div>
+          {/* <div><Icon type="user" /> Last Name:</div>  <div className={style.text}>{this.props.user.lastname}</div> */}
           <div><Icon type="mail" /> Email:</div>  <div className={style.text}>{this.props.user.email}</div>
-          <div><Icon type="team" /> Office:</div>  <div className={style.text}>{this.props.user.officeName}</div>
-          <div><Icon type="solution" /> Roles:</div> <div className={style.box_role + ' ' + style.text}>{this.props.user.selectedRoles && this.props.user.selectedRoles.map((value, i) => <p key={i}>{value.name}</p>)}</div>
+          {/* <div><Icon type="team" /> Office:</div>  <div className={style.text}>{this.props.user.officeName}</div> */}
+          {/* <div><Icon type="solution" /> Roles:</div> <div className={style.box_role + ' ' + style.text}>{this.props.user.selectedRoles && this.props.user.selectedRoles.map((value, i) => <p key={i}>{value.name}</p>)}</div> */}
         </div>}
       </div>
     );
   }
 }
 function mapStateToProps(state) {
+  console.log(state.users);
   return {
     ...state.users
   }

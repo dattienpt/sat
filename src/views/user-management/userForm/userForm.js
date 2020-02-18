@@ -18,17 +18,21 @@ class RegistrationForm extends React.Component {
    }
 
    componentDidMount() {
-      const data = {
-         password: "123456",
-         acctName: "lhlinh2",
-         mobileNo: "09877723237",
-         jobNum: "Admin",
-         loginFlag: "1",
-         acctStatus: "1"
-      }
+      // const data = {
+      //    password: "123456",
+      //    acctName: "lhlinh2",
+      //    mobileNo: "09877723237",
+      //    jobNum: "Admin",
+      //    loginFlag: "1",
+      //    acctStatus: "1"
+      // }
       const id = this.props.match.params.userId;
       if (id) {
          this.setState({ userId: id, title: 'update user' });
+         this.props.dispatch({
+            type: "users/getUserDetail",
+            payload: 1,
+         });
       }
       console.log(id);
       // this.props.dispatch({
@@ -36,8 +40,12 @@ class RegistrationForm extends React.Component {
       //    payload: values,
       //    history: history
       // });
-      this.props.form.setFieldsValue(data)
+      // this.props.form.setFieldsValue(data)
    }
+
+   // componentWillReceiveProps(ev){
+   //    this.props.form.setFieldsValue(this.props.user);
+   // }
 
    success = () => {
       message.success('Add account successfully', 2);
