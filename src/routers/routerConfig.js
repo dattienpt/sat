@@ -32,7 +32,7 @@ function RouterConfig({ history }) {
                         <Route path="/" exact component={dashboard} />
                         <Route path="/dashboard" exact component={dashboard} />
                         <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
-                        <Route path="/user-management/user-detail/:userId" component={userDetail} />
+                        <Route path="/user-management/user-detail/:userId" component={userForm} />
                         <Route path="/user-management/user-create" component={userForm} />
                         <Route path="/clients" exact component={ClientList} />
                         <Route path="/clients/:idClient" exact component={clientDetail} />

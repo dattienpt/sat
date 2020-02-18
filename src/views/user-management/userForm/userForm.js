@@ -8,7 +8,16 @@ class RegistrationForm extends React.Component {
    state = {
       confirmDirty: false,
       autoCompleteResult: [],
+      userId: null,
    };
+
+   componentWillMount() {
+      console.log(this.props.match.params.userId);
+   }
+
+   componentDidMount() {
+      console.log(this.props.match.params.userId);
+   }
 
    success = () => {
       message.success('Add account successfully', 2);

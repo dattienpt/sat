@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon } from "antd";
+import { Table, Button, Input, Icon, Pagination, Modal } from "antd";
 import stype from "./userList.scss";
+import { formatDateMMDDYYYY } from "../../../utils/formatDate";
+
+const { confirm } = Modal;
 class Users extends Component {
    state = { searchText: "", searchedColumn: "", isloading: true };
 
@@ -9,12 +12,31 @@ class Users extends Component {
       this.setState({ isloading: false });
    }
    componentWillMount() {
-      this.props.dispatch({ type: "users/getUsers" });
+      this.props.dispatch({
+         type: "users/getUsers",
+         payload: { pageSize: 10, pageNum: 1 }
+      });
    }
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-
+   showConfirm = (id) => {
+      let acc = this.props;
+      confirm({
+         title: "Do you Want to delete these items?",
+         content: "Some descriptions",
+         onOk() {
+            console.log("OK" + id);
+            acc.dispatch({
+               type: "users/deleteUser",
+               payload: { acctId: id }
+            });
+         },
+         onCancel() {
+            console.log("Cancel");
+         }
+      });
+   }
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
          setSelectedKeys,
@@ -88,20 +110,41 @@ class Users extends Component {
       clearFilters();
       this.setState({ searchText: "" });
    };
-
+   onChange = page => {
+      this.props.dispatch({
+         type: "users/getUsers",
+         payload: { pageSize: 10, pageNum: page }
+      });
+   };
+   onEditAcount(id) {
+      console.log(id);
+      const { history } = this.props;
+      history.push("/user-management/user-detail/" + id);
+   }
    render() {
       const column = [
          {
-            title: "First Name",
-            dataIndex: "firstname",
-            key: "firstname",
-            ...this.getColumnSearchProps("firstname")
+            title: "Account name",
+            dataIndex: "acctName",
+            key: "acctName"
          },
          {
-            title: "Last Name",
-            dataIndex: "lastname",
+            title: "Joined Date",
+            dataIndex: "joinedDate",
+            key: "firstname",
+            render: key => {
+               return formatDateMMDDYYYY(+key);
+            }
+            //  ...this.getColumnSearchProps("firstname")
+         },
+         {
+            title: "Created Date",
+            dataIndex: "createdDate",
             key: "lastname",
-            ...this.getColumnSearchProps("lastname")
+            render: key => {
+               return formatDateMMDDYYYY(+key);
+            }
+            //  ...this.getColumnSearchProps("lastname")
          },
          {
             title: "Email",
@@ -109,9 +152,33 @@ class Users extends Component {
             key: "email"
          },
          {
-            title: "Office",
-            dataIndex: "officeName",
-            key: "officeName"
+            title: "Updated Date",
+            dataIndex: "updatedDate",
+            key: "updatedDate",
+            render: key => {
+               return formatDateMMDDYYYY(+key);
+            }
+         },
+         {
+            title: "Action",
+            dataIndex: "ac",
+            key: "action",
+            render: (a, b) => {
+               return (
+                  <div className={stype.action}>
+                     <Button
+                        onClick={() => {
+                           this.onEditAcount(b.acctId);
+                        }}
+                        icon="edit"
+                     ></Button>
+                     <Button
+                        onClick={() => this.showConfirm(b.acctId)}
+                        icon="delete"
+                     ></Button>
+                  </div>
+               );
+            }
          }
       ];
       return (
@@ -127,17 +194,25 @@ class Users extends Component {
                      }}
                      icon="create"
                   >
-                    ADD USER
-                   </Button>
+                     ADD USER
+                  </Button>
                </div>
 
                <Table
-                  onRowClick={(user) => { this.viewDetail(user.id) }}
                   className={stype.table}
                   columns={column}
                   loading={this.state.isloading}
-                  dataSource={Array.isArray(this.props.users) ? this.props.users : []}
+                  pagination={false}
+                  dataSource={
+                     Array.isArray(this.props.users) ? this.props.users : []
+                  }
                   rowKey={user => user.id}
+               />
+               <Pagination
+                  className={stype.rightPagination}
+                  pageSize={10}
+                  total={this.props.total}
+                  onChange={this.onChange}
                />
             </div>
          </div>
@@ -145,6 +220,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
+   //console.log(state.users );
    return { ...state.users };
 }
 export default connect(mapStateToPrors)(Users);

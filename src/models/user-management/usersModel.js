@@ -1,38 +1,54 @@
 import API from "../../http/httpClientAxios";
-import { listUser, userTemplate, userDetail, getUserLoginDetail, ADD_USER } from "../../http/api/requestApi";
+import {
+   listUser,
+   userTemplate,
+   userDetail,
+   getUserLoginDetail,
+   clients,
+   deleteclient,
+   ADD_USER
+} from "../../http/api/requestApi";
 import { postApi } from "./customRequest";
-import * as localStorageService from '../../utils/localStorageService';
-import { app } from '../../index';
+import * as localStorageService from "../../utils/localStorageService";
+import { app } from "../../index";
+//import { message } from "antd";
 
 export default {
    namespace: "users",
 
    state: {
       users: [],
+      pageNum: 0,
+      pageSize: 0,
+      total: 0,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
-      namePage: ''
+      namePage: ""
    },
    reducers: {
       save(state, { payload }) {
-         state.namePage = '';
-         state.users = payload;
-         return state;
+         state.namePage = "";
+         state.users = payload.list;
+         state.pageNum = payload.pageNum;
+         state.pageSize = payload.pageSize;
+         state.total = payload.totalNum;
+
+         return { ...state };
       },
       userDetail(state, { payload }) {
          state.user = payload;
-         state.namePage = 'User detail'
+         state.namePage = "User detail";
          return state;
       },
       template(state, { template }) {
          template.allowedOffices = template.allowedOffices.map(item => {
             return { value: item.id + "", label: item.name };
          });
-         state.namePage = '';
+         state.namePage = "";
          return { ...state, template };
       },
       name(state, { namePage }) {
-         state.namePage = namePage
+         state.namePage = namePage;
          return state;
       }
    },
@@ -43,30 +59,37 @@ export default {
          debugger;
       },
       *getUsers({ payload }, { call, put }) {
-         const response = yield call(API.get, listUser);
-         yield put({ type: "save", payload: response });
+         const response = yield call(API.get, clients, payload);
+         console.log(response);
+         yield put({ type: "save", payload: response.data });
+      },
+      *deleteUser({ payload }, { call, put }) {
+         console.log(payload);
+
+         let response = yield call(API.delete, deleteclient + payload.acctId);
+         if (response.message == "Success") {
+           // message.success({ content: 'delete success!', key, duration: 2 });
+            yield put({
+               type: "getUsers",
+               payload: { pageSize: 10, pageNum: 1 }
+            });
+         }
       },
       *getUserDetail({ payload }, { call, put }) {
-         const response = yield call(
-            API.get, userDetail + payload
-         );
+         const response = yield call(API.get, userDetail + payload);
          if (response) yield put({ type: "userDetail", payload: response });
       },
       *getTemplate({ payload }, { call, put }) {
-         const response = yield call(
-            API.get,
-            userTemplate
-         );
+         const response = yield call(API.get, userTemplate);
          if (response) yield put({ type: "template", template: response });
       },
-
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
       },
       *getDetailUserLogin({ payload }, { call, put }) {
          const token = {
             access_token: app._store.getState().common.token
-         }
+         };
          const response = yield call(API.get, getUserLoginDetail, token);
          if (response) {
             localStorage.setItem("userId", response.userId);
@@ -79,14 +102,13 @@ export default {
                payload: response.userId
             });
          }
-      },
-
+      }
    },
    subscriptions: {
       setup({ dispatch, history }) {
          history.listen(ev => {
-            console.log(ev)
-         })
+            console.log(ev);
+         });
       }
    }
 };

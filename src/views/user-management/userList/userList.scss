@@ -12,7 +12,14 @@
       display: flex;
    }
 }
-
+.action {
+   display: grid;
+   grid-column-gap: 0.5em;
+   grid-template-columns: 30px 30px;
+}
 .table {
    background: #ffffff;
+}
+.rightPagination {
+   justify-self: end;
 }

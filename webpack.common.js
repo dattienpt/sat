@@ -23,10 +23,11 @@ const themeConfig = {
 const target = path.resolve(__dirname, 'src/configs/prod.js');
 const getCurrentEvn = () => {
   const evnConfig = process.env.evnConfig;
+  console.log('evnConfig___________', evnConfig);
   switch (evnConfig) {
     case 'development':
       return path.resolve(__dirname, 'src/configs/dev.js');
-    case 'prod':
+    case 'production':
       return path.resolve(__dirname, 'src/configs/prod.js');
     default:
       return path.resolve(__dirname, 'src/configs/dev.js');
