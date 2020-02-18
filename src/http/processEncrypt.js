@@ -10,7 +10,7 @@ export function processRequest(params) {
     let result = {};
     let requestData = null;
     let encodeKey = null;
-    requestData = encryptAES(JSON.stringify(Object.assign({}, params), aesPub));
+    requestData = encryptAES((JSON.stringify(Object.assign({}, params))), aesPub);
     encodeKey = encryptRSA(aesPub);
     Object.assign(result, dev.params, {
         requestId: timestamp,
