@@ -65,6 +65,9 @@ export class NetworkAxios {
                   Authorization: `Bearer ${this.token}`
                }
             }).then(response => {
+               if (response.data.code == "000000") {
+                  response.data.data = response.data.data && processResponse(response.data.data);
+               }
                return response.data;
             }).catch(error => {
                return error.response;
