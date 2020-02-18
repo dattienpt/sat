@@ -34,9 +34,9 @@ function RouterConfig({ history }) {
                         <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
                         <Route path="/user-management/user-detail/:userId" component={userDetail} />
                         <Route path="/user-management/user-create" component={editUser} />
-                        <Route path="/clients" exact component={ClientList} />
+                        {/* <Route path="/clients" exact component={ClientList} />
                         <Route path="/clients/:idClient" exact component={clientDetail} />
-                        <Route path="/products" exact component={productList} />
+                        <Route path="/products" exact component={productList} /> */}
                         <Route path="*" exact component={NotFound} />
                      </Switch>
                   </Layout>
