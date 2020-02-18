@@ -26,10 +26,10 @@ export default {
    effects: {
       *clientList({ payload }, { call, put }) {
          const userDetail = {
-            acctId: 10,
+            acctId: 15,
             password: "123456",
-            acctName: "dtdat2",
-            mobileNo: "09877723237",
+            acctName: "dtdat23",
+            mobileNo: "0987722723237",
             jobNum: "Admin",
             loginFlag: "1",
             acctStatus: "1"
