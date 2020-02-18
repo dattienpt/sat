@@ -53,13 +53,14 @@ class RegistrationForm extends React.Component {
       const { history } = this.props;
       this.props.form.validateFieldsAndScroll((err, values) => {
          if (!err) {
-            // console.log('Received values of form: ', values);
-            // this.props.dispatch({
-            //    type: "users/addUser",
-            //    payload: values,
-            // });
-            this.success();
-            history.push("/user-management/user-list");
+            delete values.confirm;
+            this.props.dispatch({
+               type: "users/addUser",
+               payload: values,
+               history: history
+            });
+            // this.success();
+            // history.push("/user-management/user-list");
          }
       });
    };
@@ -127,7 +128,7 @@ class RegistrationForm extends React.Component {
          <div className={style.boxForm}>
             <Form {...formItemLayout} onSubmit={this.handleSubmit} autoComplete="off">
                <Form.Item label="Username">
-                  {getFieldDecorator('username', {
+                  {getFieldDecorator('acctName', {
                      rules: [
                         {
                            required: true,

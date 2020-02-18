@@ -23,7 +23,8 @@ export default {
       total: 0,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
-      namePage: ""
+      namePage: "",
+      addSuccess: null,
    },
    reducers: {
       save(state, { payload }) {
@@ -50,13 +51,19 @@ export default {
       name(state, { namePage }) {
          state.namePage = namePage;
          return state;
+      },
+      statusAdd(state, { status }) {
+         return { ...state, addSuccess: status };
       }
    },
    effects: {
-      *addUser({ payload }, { call, put }) {
+      *addUser({ payload, history }, { call, put }) {
          const res = yield call(API.post, ADD_USER, payload);
          console.log(res);
-         debugger;
+         if (res.code === '000000') {
+            history.push("/user-management/user-list");
+            yield put({ type: statusAdd, status: true })
+         }
       },
       *getUsers({ payload }, { call, put }) {
          const response = yield call(API.get, clients, payload);
@@ -64,11 +71,8 @@ export default {
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         console.log(payload);
-
          let response = yield call(API.delete, deleteclient + payload.acctId);
          if (response.message == "Success") {
-           // message.success({ content: 'delete success!', key, duration: 2 });
             yield put({
                type: "getUsers",
                payload: { pageSize: 10, pageNum: 1 }

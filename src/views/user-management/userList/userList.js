@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon, Pagination, Modal } from "antd";
+import { Table, Button, Input, Icon, Pagination, Modal, message } from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
@@ -122,6 +122,8 @@ class Users extends Component {
       history.push("/user-management/user-detail/" + id);
    }
    render() {
+      const { status } = this.props;
+      status && message.success('Add account successfully', 2);
       const column = [
          {
             title: "Account name",
@@ -220,6 +222,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
+
    //console.log(state.users );
    return { ...state.users };
 }

@@ -20,4 +20,4 @@ export const savingProduct = APIVER + '/savingsproducts';
 export const shareProduct = APIVER + '/products/share';
 export const GET_LOAN_PRODUCTS = APIVER + '/loanproducts';
 
-export const ADD_USER = '/spring-security-oauth-resource/add-account';
+export const ADD_USER = '/sme/v1/add-user2';
