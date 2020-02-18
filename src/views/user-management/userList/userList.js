@@ -105,6 +105,9 @@ class Users extends Component {
    onChange = page => {
       console.log(page);
    };
+   onEditAcount(id){
+      console.log(id);
+   }
    render() {
       const column = [
          {
@@ -147,10 +150,10 @@ class Users extends Component {
             title: "Action",
             dataIndex: "ac",
             key: "action",
-            render: () => {
+            render: (a,b) => {
                return (
                   <div className={stype.action}>
-                     <Button>Edit</Button>
+                     <Button onClick={()=>{this.onEditAcount(b.acctId)}}>Edit</Button>
                      <Button onClick={()=>this.showConfirm()}>Delete</Button>
                   </div>
                );
