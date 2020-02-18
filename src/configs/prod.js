@@ -9,5 +9,4 @@ export default {
     },
     host: "http://192.168.10.146:8090/",
     tokenHost: "http://192.168.10.146:8089/smart-oauth2",
-    mode: 'production'
 }

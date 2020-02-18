@@ -219,12 +219,7 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          instance.get(url)
             .then(response => {
-               const res = {
-                  data: response.data,
-                  status: response.status,
-                  statusText: response.statusText
-               };
-               resolve(res)
+               resolve(response);
             })
             .catch(error => {
                reject(error.response.data);
