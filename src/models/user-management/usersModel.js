@@ -1,5 +1,5 @@
 import API from "../../http/httpClientAxios";
-import { listUser, userTemplate, userDetail, getUserLoginDetail } from "../../http/api/requestApi";
+import { listUser, userTemplate, userDetail, getUserLoginDetail, ADD_USER } from "../../http/api/requestApi";
 import { postApi } from "./customRequest";
 import * as localStorageService from '../../utils/localStorageService';
 import { app } from '../../index';
@@ -37,6 +37,11 @@ export default {
       }
    },
    effects: {
+      *addUser({ payload }, { call, put }) {
+         const res = yield call(API.post, ADD_USER, payload);
+         console.log(res);
+         debugger;
+      },
       *getUsers({ payload }, { call, put }) {
          const response = yield call(API.get, listUser);
          yield put({ type: "save", payload: response });
@@ -54,13 +59,7 @@ export default {
          );
          if (response) yield put({ type: "template", template: response });
       },
-      *addUser({ payload }, { call, put }) {
-         const response = yield call(postApi, [
-            listUser,
-            payload.data
-         ]);
-         if (response.officeId) payload.history.replace("/user-management/user-list");
-      },
+
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
       },

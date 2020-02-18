@@ -6,42 +6,6 @@ import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Butto
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
-const residences = [
-   {
-      value: 'zhejiang',
-      label: 'Zhejiang',
-      children: [
-         {
-            value: 'hangzhou',
-            label: 'Hangzhou',
-            children: [
-               {
-                  value: 'xihu',
-                  label: 'West Lake',
-               },
-            ],
-         },
-      ],
-   },
-   {
-      value: 'jiangsu',
-      label: 'Jiangsu',
-      children: [
-         {
-            value: 'nanjing',
-            label: 'Nanjing',
-            children: [
-               {
-                  value: 'zhonghuamen',
-                  label: 'Zhong Hua Men',
-               },
-            ],
-         },
-      ],
-   },
-];
-
-
 class RegistrationForm extends React.Component {
    state = {
       confirmDirty: false,
@@ -53,6 +17,10 @@ class RegistrationForm extends React.Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
          if (!err) {
             console.log('Received values of form: ', values);
+            this.props.dispatch({
+               type: "users/addUser",
+               payload: values,
+            });
          }
       });
    };
@@ -96,11 +64,11 @@ class RegistrationForm extends React.Component {
       const formItemLayout = {
          labelCol: {
             xs: { span: 24 },
-            sm: { span: 8 },
+            sm: { span: 6 },
          },
          wrapperCol: {
             xs: { span: 24 },
-            sm: { span: 16 },
+            sm: { span: 12 },
          },
       };
       const tailFormItemLayout = {
@@ -110,8 +78,8 @@ class RegistrationForm extends React.Component {
                offset: 0,
             },
             sm: {
-               span: 16,
-               offset: 8,
+               span: 24,
+               offset: 6,
             },
          },
       };
@@ -119,14 +87,19 @@ class RegistrationForm extends React.Component {
       return (
          <Form {...formItemLayout} onSubmit={this.handleSubmit} autoComplete="off">
             <Form.Item label="Username">
-               {getFieldDecorator('email', {
+               {getFieldDecorator('username', {
                   rules: [
                      {
                         required: true,
                         message: 'Please input Username',
                      },
                   ],
-               })(<Input />)}
+               })(<Input prefix={
+                  <Icon
+                     type="user"
+                     style={{ color: "rgba(0,0,0,.25)" }}
+                  />
+               }/>)}
             </Form.Item>
             <Form.Item label="Password" hasFeedback>
                {getFieldDecorator('password', {
