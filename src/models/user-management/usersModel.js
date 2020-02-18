@@ -70,8 +70,8 @@ export default {
          }
       },
       *getUserDetail({ payload }, { call, put }) {
-         const response = yield call(API.get, userDetail + payload);
-         if (response) yield put({ type: "userDetail", payload: response });
+         const response = yield call(API.get, clients +"/"+ payload);
+         if (response) yield put({ type: "userDetail", payload: response.data });
       },
       *getTemplate({ payload }, { call, put }) {
          const response = yield call(API.get, userTemplate);
