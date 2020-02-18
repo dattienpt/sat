@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon, Pagination,Modal } from "antd";
+import { Table, Button, Input, Icon, Pagination, Modal } from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
@@ -12,23 +12,31 @@ class Users extends Component {
       this.setState({ isloading: false });
    }
    componentWillMount() {
-      this.props.dispatch({ type: "users/getUsers" });
+      this.props.dispatch({
+         type: "users/getUsers",
+         payload: { pageSize: 10, pageNum: 1 }
+      });
    }
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-   showConfirm() {
+   showConfirm = (id) =>{
+      let acc = this.props;
       confirm({
-        title: 'Do you Want to delete these items?',
-        content: 'Some descriptions',
-        onOk() {
-          console.log('OK');
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
+         title: "Do you Want to delete these items?",
+         content: "Some descriptions",
+         onOk() {
+            console.log("OK" + id);
+            acc.dispatch({
+               type: "users/deleteUser",
+               payload: { acctId: id}
+            });
+         },
+         onCancel() {
+            console.log("Cancel");
+         }
       });
-    }
+   }
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
          setSelectedKeys,
@@ -103,9 +111,12 @@ class Users extends Component {
       this.setState({ searchText: "" });
    };
    onChange = page => {
-      console.log(page);
+      this.props.dispatch({
+         type: "users/getUsers",
+         payload: { pageSize: 10, pageNum: page }
+      });
    };
-   onEditAcount(id){
+   onEditAcount(id) {
       console.log(id);
    }
    render() {
@@ -150,11 +161,19 @@ class Users extends Component {
             title: "Action",
             dataIndex: "ac",
             key: "action",
-            render: (a,b) => {
+            render: (a, b) => {
                return (
                   <div className={stype.action}>
-                     <Button onClick={()=>{this.onEditAcount(b.acctId)}}>Edit</Button>
-                     <Button onClick={()=>this.showConfirm()}>Delete</Button>
+                     <Button
+                        onClick={() => {
+                           this.onEditAcount(b.acctId);
+                        }}
+                        icon="edit"
+                     ></Button>
+                     <Button
+                        onClick={() => this.showConfirm(b.acctId)}
+                        icon="delete"
+                     ></Button>
                   </div>
                );
             }
@@ -199,7 +218,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
-   //console.log(...state.users );
+   //console.log(state.users );
    return { ...state.users };
 }
 export default connect(mapStateToPrors)(Users);
