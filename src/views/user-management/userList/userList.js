@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon } from "antd";
+import { Table, Button, Input, Icon, Pagination,Modal } from "antd";
 import stype from "./userList.scss";
+import { formatDateMMDDYYYY } from "../../../utils/formatDate";
+
+const { confirm } = Modal;
 class Users extends Component {
    state = { searchText: "", searchedColumn: "", isloading: true };
 
@@ -14,7 +17,18 @@ class Users extends Component {
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-
+   showConfirm() {
+      confirm({
+        title: 'Do you Want to delete these items?',
+        content: 'Some descriptions',
+        onOk() {
+          console.log('OK');
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    }
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
          setSelectedKeys,
@@ -22,41 +36,41 @@ class Users extends Component {
          confirm,
          clearFilters
       }) => (
-            <div style={{ padding: 8 }}>
-               <Input
-                  ref={node => {
-                     this.searchInput = node;
-                  }}
-                  placeholder={`Search ${dataIndex}`}
-                  value={selectedKeys[0]}
-                  onChange={e =>
-                     setSelectedKeys(e.target.value ? [e.target.value] : [])
-                  }
-                  onPressEnter={() =>
-                     this.handleSearch(selectedKeys, confirm, dataIndex)
-                  }
-                  style={{ width: 188, marginBottom: 8, display: "block" }}
-               />
-               <Button
-                  type="primary"
-                  onClick={() =>
-                     this.handleSearch(selectedKeys, confirm, dataIndex)
-                  }
-                  icon="search"
-                  size="small"
-                  style={{ width: 90, marginRight: 8 }}
-               >
-                  Search
+         <div style={{ padding: 8 }}>
+            <Input
+               ref={node => {
+                  this.searchInput = node;
+               }}
+               placeholder={`Search ${dataIndex}`}
+               value={selectedKeys[0]}
+               onChange={e =>
+                  setSelectedKeys(e.target.value ? [e.target.value] : [])
+               }
+               onPressEnter={() =>
+                  this.handleSearch(selectedKeys, confirm, dataIndex)
+               }
+               style={{ width: 188, marginBottom: 8, display: "block" }}
+            />
+            <Button
+               type="primary"
+               onClick={() =>
+                  this.handleSearch(selectedKeys, confirm, dataIndex)
+               }
+               icon="search"
+               size="small"
+               style={{ width: 90, marginRight: 8 }}
+            >
+               Search
             </Button>
-               <Button
-                  onClick={() => this.handleReset(clearFilters)}
-                  size="small"
-                  style={{ width: 90 }}
-               >
-                  Reset
+            <Button
+               onClick={() => this.handleReset(clearFilters)}
+               size="small"
+               style={{ width: 90 }}
+            >
+               Reset
             </Button>
-            </div>
-         ),
+         </div>
+      ),
       filterIcon: filtered => (
          <Icon
             type="search"
@@ -88,20 +102,33 @@ class Users extends Component {
       clearFilters();
       this.setState({ searchText: "" });
    };
-
+   onChange = page => {
+      console.log(page);
+   };
    render() {
       const column = [
          {
-            title: "First Name",
-            dataIndex: "firstname",
-            key: "firstname",
-            ...this.getColumnSearchProps("firstname")
+            title: "Account name",
+            dataIndex: "acctName",
+            key: "acctName"
          },
          {
-            title: "Last Name",
-            dataIndex: "lastname",
+            title: "Joined Date",
+            dataIndex: "joinedDate",
+            key: "firstname",
+            render: key => {
+               return formatDateMMDDYYYY(+key);
+            }
+            //  ...this.getColumnSearchProps("firstname")
+         },
+         {
+            title: "Created Date",
+            dataIndex: "createdDate",
             key: "lastname",
-            ...this.getColumnSearchProps("lastname")
+            render: key => {
+               return formatDateMMDDYYYY(+key);
+            }
+            //  ...this.getColumnSearchProps("lastname")
          },
          {
             title: "Email",
@@ -109,9 +136,25 @@ class Users extends Component {
             key: "email"
          },
          {
-            title: "Office",
-            dataIndex: "officeName",
-            key: "officeName"
+            title: "Updated Date",
+            dataIndex: "updatedDate",
+            key: "updatedDate",
+            render: key => {
+               return formatDateMMDDYYYY(+key);
+            }
+         },
+         {
+            title: "Action",
+            dataIndex: "ac",
+            key: "action",
+            render: () => {
+               return (
+                  <div className={stype.action}>
+                     <Button>Edit</Button>
+                     <Button onClick={()=>this.showConfirm()}>Delete</Button>
+                  </div>
+               );
+            }
          }
       ];
       return (
@@ -127,17 +170,25 @@ class Users extends Component {
                      }}
                      icon="create"
                   >
-                    ADD USER
-                   </Button>
+                     ADD USER
+                  </Button>
                </div>
 
                <Table
-                  onRowClick={(user) => { this.viewDetail(user.id) }}
                   className={stype.table}
                   columns={column}
                   loading={this.state.isloading}
-                  dataSource={Array.isArray(this.props.users) ? this.props.users : []}
+                  pagination={false}
+                  dataSource={
+                     Array.isArray(this.props.users) ? this.props.users : []
+                  }
                   rowKey={user => user.id}
+               />
+               <Pagination
+                  className={stype.rightPagination}
+                  pageSize={10}
+                  total={this.props.total}
+                  onChange={this.onChange}
                />
             </div>
          </div>
@@ -145,6 +196,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
+   //console.log(...state.users );
    return { ...state.users };
 }
 export default connect(mapStateToPrors)(Users);

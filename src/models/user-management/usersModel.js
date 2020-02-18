@@ -1,5 +1,5 @@
 import API from "../../http/httpClientAxios";
-import { listUser, userTemplate, userDetail, getUserLoginDetail } from "../../http/api/requestApi";
+import { listUser, userTemplate, userDetail, getUserLoginDetail ,clients} from "../../http/api/requestApi";
 import { postApi } from "./customRequest";
 import * as localStorageService from '../../utils/localStorageService';
 import { app } from '../../index';
@@ -9,6 +9,9 @@ export default {
 
    state: {
       users: [],
+      pageNum:0,
+      pageSize:0,
+      total:0,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
       namePage: ''
@@ -16,8 +19,12 @@ export default {
    reducers: {
       save(state, { payload }) {
          state.namePage = '';
-         state.users = payload;
-         return state;
+         state.users = payload.list;
+         state.pageNum = payload.pageNum;
+         state.pageSize = payload.pageSize;
+         state.total = payload.totalNum;
+
+         return {...state};
       },
       userDetail(state, { payload }) {
          state.user = payload;
@@ -38,8 +45,9 @@ export default {
    },
    effects: {
       *getUsers({ payload }, { call, put }) {
-         const response = yield call(API.get, listUser);
-         yield put({ type: "save", payload: response });
+         const response = yield call(API.get, clients, { pageSize: 10, pageNum: 1 });
+         console.log(response)
+      yield put({ type: "save", payload: response.data });
       },
       *getUserDetail({ payload }, { call, put }) {
          const response = yield call(
