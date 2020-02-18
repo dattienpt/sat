@@ -21,6 +21,10 @@ const commonReqConfig = {
    headers: { "Content-Type": "application/json;charset=UTF-8" }
 };
 
+function addAesKeyParam(axiosInstance) {
+   axiosInstance.defaults.params['aesKey'] = aesPub || '';
+}
+
 const connectedFailed = {
    errorType: 2,
    message: {
@@ -31,9 +35,7 @@ const connectedFailed = {
 let axiosInstance = Axios.create(commonReqConfig);
 const timeStamp = new Date().getTime();
 axiosInstance.defaults.params = {};
-axiosInstance.defaults.params['aesKey'] = aesPub || '';
 axiosInstance.defaults.params['timeStamp'] = timeStamp;
-
 Axios.interceptors.request.use(config => {
    // Do something before request is sent
    return config;
@@ -79,6 +81,7 @@ export class NetworkAxios {
       if (data) {
          url += `?` + parseQuery(data);
       }
+      addAesKeyParam(axiosInstance);
       return new Promise((resolve, reject) => {
          axiosInstance
             .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
@@ -134,6 +137,7 @@ export class NetworkAxios {
       });
    };
    static delete = (url, options = {}) => {
+      addAesKeyParam();
       return new Promise((resolve, reject) => {
          axiosInstanc.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
@@ -184,8 +188,9 @@ export class NetworkAxios {
       });
    }
    static getWithNoToken = (url, data = {}) => {
+      addAesKeyParam();
       return new Promise((resolve, reject) => {
-         axiosInstance.get(url, processRequest(data))
+         axiosInstance.get(url, data)
             .then(response => {
                if (response.data.code == "000000") {
                   response.data.data = response.data.data && processResponse(response.data.data);
