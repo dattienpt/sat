@@ -8,5 +8,5 @@ export default {
         secret: '563fc0e9-44b4-475e-90eb-d0b72414d7e1'
     },
     host: "http://192.168.11.6:8090/",
-    tokenHost: "http://192.168.10.146:8089/smart-oauth2",
+    tokenHost: "http://192.168.11.6:8089/smart-oauth2",
 }

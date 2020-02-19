@@ -4,49 +4,36 @@ import Layout from "../../../layouts/proLayout/mainProlayout";
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
 import style from "./userForm.scss";
 
+const { Option } = Select;
+
 class RegistrationForm extends React.Component {
    state = {
       confirmDirty: false,
-      autoCompleteResult: [],
       userId: null,
       title: 'create new user',
-      formPass: true
+      formPass: true,
    };
 
    componentWillMount() {
-      // console.log(this.props.match.params.userId);
+      const id = this.props.match.params.userId;
+      console.log(id);
+      if (id) {
+         this.props.dispatch({
+            type: "users/getUserDetail",
+            payload: id,
+         });
+         this.setState({ formPass: false, userId: id });
+      } else {
+         this.props.dispatch({
+            type: "users/getUserDetail",
+            payload: null,
+         });
+      }
    }
 
    componentDidMount() {
-      // const data = {
-      //    password: "123456",
-      //    acctName: "lhlinh2",
-      //    mobileNo: "09877723237",
-      //    jobNum: "Admin",
-      //    loginFlag: "1",
-      //    acctStatus: "1"
-      // }
-      const id = this.props.match.params.userId;
-      if (id) {
-         this.setState({ userId: id, title: 'update user' });
-         this.props.dispatch({
-            type: "users/getUserDetail",
-            payload: 1,
-         });
-      }
-      console.log(id);
-      // this.props.dispatch({
-      //    type: "loginModel/checkLogin",
-      //    payload: values,
-      //    history: history
-      // });
-      // this.props.form.setFieldsValue(data)
+      this.props.form.resetFields();
    }
-
-   // componentWillReceiveProps(ev){
-   //    this.props.form.setFieldsValue(this.props.user);
-   // }
-
    success = () => {
       message.success('Add account successfully', 2);
    };
@@ -58,17 +45,31 @@ class RegistrationForm extends React.Component {
 
    handleSubmit = e => {
       e.preventDefault();
+      console.log(this.state.userId);
       const { history } = this.props;
       this.props.form.validateFieldsAndScroll((err, values) => {
+         console.log(values);
+         console.log(typeof values.acctStatus);
          if (!err) {
             delete values.confirm;
-            this.props.dispatch({
-               type: "users/addUser",
-               payload: values,
-               history: history
-            });
-            // this.success();
-            // history.push("/user-management/user-list");
+            if (this.state.userId) {
+               values.jobNum = 1;
+               values.loginFlag = 1;
+               values.acctId = this.state.userId;
+               this.props.dispatch({
+                  type: "users/updateUser",
+                  payload: values,
+                  history: history
+               });
+            } else {
+               values.jobNum = 1;
+               values.loginFlag = 1;
+               this.props.dispatch({
+                  type: "users/addUser",
+                  payload: values,
+                  history: history
+               });
+            }
          }
       });
    };
@@ -95,20 +96,10 @@ class RegistrationForm extends React.Component {
       callback();
    };
 
-   handleWebsiteChange = value => {
-      let autoCompleteResult;
-      if (!value) {
-         autoCompleteResult = [];
-      } else {
-         autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-      }
-      this.setState({ autoCompleteResult });
-   };
-
    render() {
+      console.log(this.props.user);
+      const { acctName, mobileNo, jobNum, loginFlag, acctStatus, email } = this.props.user;
       const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
-
       const formItemLayout = {
          labelCol: {
             xs: { span: 24 },
@@ -137,6 +128,7 @@ class RegistrationForm extends React.Component {
             <Form {...formItemLayout} onSubmit={this.handleSubmit} autoComplete="off">
                <Form.Item label="Username">
                   {getFieldDecorator('acctName', {
+                     initialValue: acctName,
                      rules: [
                         {
                            required: true,
@@ -150,12 +142,12 @@ class RegistrationForm extends React.Component {
                      />
                   } />)}
                </Form.Item>
-               <Form.Item label="Password" hasFeedback>
+               {this.state.formPass && <Form.Item label="Password" hasFeedback>
                   {getFieldDecorator('password', {
                      rules: [
                         {
                            required: true,
-                           message: 'Please input your password!',
+                           message: 'Please input your password !',
                         },
                         {
                            validator: this.validateToNextPassword,
@@ -169,13 +161,13 @@ class RegistrationForm extends React.Component {
                         />
                      } />)}
                </Form.Item>
-
-               <Form.Item label="Confirm Password" hasFeedback>
+               }
+               {this.state.formPass && <Form.Item label="Confirm Password" hasFeedback>
                   {getFieldDecorator('confirm', {
                      rules: [
                         {
                            required: true,
-                           message: 'Please confirm your password!',
+                           message: 'Please confirm your password !',
                         },
                         {
                            validator: this.compareToFirstPassword,
@@ -189,12 +181,36 @@ class RegistrationForm extends React.Component {
                         />
                      }
                      onBlur={this.handleConfirmBlur} />)}
+               </Form.Item>}
+
+               <Form.Item label="E-mail">
+                  {getFieldDecorator('email', {
+                     initialValue: email,
+                     rules: [
+                        {
+                           type: 'email',
+                           message: 'The input is not valid E-mail !',
+                        },
+                        {
+                           required: true,
+                           message: 'Please input your E-mail !',
+                        },
+                     ],
+                  })(<Input
+                     prefix={
+                        <Icon
+                           type="mail"
+                           style={{ color: "rgba(0,0,0,.25)" }}
+                        />
+                     } />)}
                </Form.Item>
+
                <Form.Item
-                  label={<span> mobileNo </span>}
+                  label={<span> Phone number </span>}
                >
                   {getFieldDecorator('mobileNo', {
-                     rules: [{ required: true, message: 'Please input your mobileNo!', whitespace: true }],
+                     initialValue: mobileNo,
+                     rules: [{ required: true, message: 'Please input your phone number !', whitespace: true }],
                   })(<Input
                      prefix={
                         <Icon
@@ -205,10 +221,11 @@ class RegistrationForm extends React.Component {
                   />)}
                </Form.Item>
 
-               <Form.Item
+               {/* <Form.Item
                   label={<span> jobNum </span>}
                >
                   {getFieldDecorator('jobNum', {
+                     initialValue: jobNum,
                      rules: [{ required: true, message: 'Please input your jobNum!', whitespace: true }],
                   })(<Input />)}
                </Form.Item>
@@ -217,23 +234,38 @@ class RegistrationForm extends React.Component {
                   label={<span> loginFlag </span>}
                >
                   {getFieldDecorator('loginFlag', {
+                     initialValue: loginFlag,
                      rules: [{ required: true, message: 'Please input your loginFlag!', whitespace: true }],
                   })(<Input />)}
-               </Form.Item>
+               </Form.Item> */}
 
                <Form.Item
-                  label={<span> acctStatus </span>}
+                  label={<span> Status </span>}
                >
                   {getFieldDecorator('acctStatus', {
-                     rules: [{ required: true, message: 'Please input your acctStatus!', whitespace: true }],
-                  })(<Input />)}
+                     initialValue: acctStatus,
+                     rules: [{ required: true, message: 'Please choose !', whitespace: true }],
+                  })(
+                     <Select
+                        showSearch
+                        placeholder="Please choose"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                           option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                     >
+                        <Option value="0">Please choose</Option>
+                        <Option value="1">Active</Option>
+                        <Option value="2">Inactive</Option>
+                     </Select>,
+                  )}
                </Form.Item>
 
 
                <Form.Item {...tailFormItemLayout}>
                   <Button type="primary" htmlType="submit">
-                     Register
-           </Button>
+                     Submit
+                  </Button>
                </Form.Item>
             </Form>
          </div>
@@ -243,10 +275,9 @@ class RegistrationForm extends React.Component {
 
 const UserForm = Form.create({ name: 'register' })(RegistrationForm);
 
-
 function mapStateToProps(state) {
    return {
-
+      ...state.users
    };
 }
 
