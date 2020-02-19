@@ -4,7 +4,7 @@ import {
    clients,
    ADD_USER,
    UPDATE_USER,
-   deleteclient} from "../../http/api/requestApi";
+   } from "../../http/api/requestApi";
 import { app } from "../../index";
 export default {
    namespace: "users",
@@ -13,6 +13,7 @@ export default {
       pageNum: 0,
       pageSize: 0,
       total: 0,
+      defaultCurrent:1,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
       namePage: "",
@@ -25,6 +26,7 @@ export default {
          state.pageNum = payload.pageNum;
          state.pageSize = payload.pageSize;
          state.total = payload.totalNum;
+         state.defaultCurrent = payload.defaultCurrent;
 
          return { ...state };
       },
@@ -64,14 +66,15 @@ export default {
       },
       *getUsers({ payload }, { call, put }) {
          const response = yield call(API.get, clients, payload);
+         response.data.defaultCurrent = payload.defaultCurrent;
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         const response = yield call(API.delete, deleteclient+"/"+payload.id);
+         const response = yield call(API.delete, clients+"/"+payload.id);
          if (response.message == "Success") {
             yield put({
                type: "getUsers",
-               payload: { pageSize: 10, pageNum: 1 }
+               payload: { pageSize: 10, pageNum: 1,defaultCurrent:payload.defaultCurrent }
             });
          }
       },

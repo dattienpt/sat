@@ -3,11 +3,8 @@ import { connect } from "dva";
 import {
    Table,
    Button,
-   Input,
-   Icon,
    Pagination,
    Modal,
-   message,
    Tag
 } from "antd";
 import stype from "./userList.scss";
@@ -18,7 +15,7 @@ class Users extends Component {
    componentWillMount() {
       this.props.dispatch({
          type: "users/getUsers",
-         payload: { pageSize: 10, pageNum: 1 }
+         payload: { pageSize: 10, pageNum: 1,defaultCurrent:1 }
       });
    }
    viewDetail = iduser => {
@@ -31,7 +28,7 @@ class Users extends Component {
          onOk() {
             acc.dispatch({
                type: "users/deleteUser",
-               payload: { id: id }
+               payload: { id: id,defaultCurrent:1 }
             });
          },
          onCancel() {}
@@ -41,7 +38,7 @@ class Users extends Component {
    onChange = page => {
       this.props.dispatch({
          type: "users/getUsers",
-         payload: { pageSize: 10, pageNum: page }
+         payload: { pageSize: 10, pageNum: page ,defaultCurrent:page}
       });
    };
    onEditAcount(id) {
@@ -110,11 +107,13 @@ class Users extends Component {
             render: tag => {
                switch (+tag) {
                   case 0: {
-                     <span>
-                        <Tag color={"gold"} key={tag}>
-                           {"Pending"}
-                        </Tag>
-                     </span>;
+                     return (
+                        <span>
+                           <Tag color={"gold"} key={tag}>
+                              {"Pending"}
+                           </Tag>
+                        </span>
+                     );
                   }
                   case 1: {
                      return (
@@ -197,6 +196,7 @@ class Users extends Component {
                   rowKey={user => user.id}
                />
                <Pagination
+                  current={this.props.defaultCurrent}
                   className={stype.rightPagination}
                   pageSize={10}
                   total={this.props.total}
