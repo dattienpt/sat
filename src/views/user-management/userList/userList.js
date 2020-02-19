@@ -193,7 +193,7 @@ class Users extends Component {
                   dataSource={
                      Array.isArray(this.props.users) ? this.props.users : []
                   }
-                  rowKey={user => user.id}
+                  rowKey={user => user.acctId}
                />
                <div className={stype.pagination}>
                <div className={stype.leftPagination}>Total: {this.props.total}</div>
