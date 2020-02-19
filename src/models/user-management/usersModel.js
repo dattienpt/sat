@@ -1,11 +1,10 @@
 import API from "../../http/httpClientAxios";
 import {
-   userTemplate,
    getUserLoginDetail,
    clients,
    ADD_USER,
-   UPDATE_USER
-} from "../../http/api/requestApi";
+   UPDATE_USER,
+   deleteclient} from "../../http/api/requestApi";
 import { app } from "../../index";
 export default {
    namespace: "users",
@@ -48,7 +47,6 @@ export default {
       }
    },
    effects: {
-
       *addUser({ payload, history }, { call, put }) {
          const res = yield call(API.post, ADD_USER, payload);
          if (res.code === '000000') {
@@ -69,27 +67,13 @@ export default {
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         console.log(payload);
-
-         const response = yield call(API.delete, clients,{...payload});
+         const response = yield call(API.delete, deleteclient+"/"+payload.id);
          if (response.message == "Success") {
             yield put({
                type: "getUsers",
                payload: { pageSize: 10, pageNum: 1 }
             });
          }
-      },
-      *getUserDetail({ payload }, { call, put }) {
-         if (payload) {
-            const response = yield call(API.get, clients + "/" + payload);
-            if (response) yield put({ type: "userDetail", payload: response.data });
-         } else {
-            yield put({ type: "userDetail", payload: {} });
-         }
-      },
-      *getTemplate({ payload }, { call, put }) {
-         const response = yield call(API.get, userTemplate);
-         if (response) yield put({ type: "template", template: response });
       },
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
