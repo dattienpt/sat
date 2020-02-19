@@ -17,7 +17,7 @@ export default {
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
       namePage: "",
-      addSuccess: null,
+      addSuccess: null
    },
    reducers: {
       save(state, { payload }) {
@@ -48,44 +48,49 @@ export default {
       }
    },
    effects: {
-
       *addUser({ payload, history }, { call, put }) {
          const res = yield call(API.post, ADD_USER, payload);
-         if (res.code === '000000') {
+         if (res.code === "000000") {
             history.push("/user-management/user-list");
-            yield put({ type: "statusAdd", status: true })
+            yield put({ type: "statusAdd", status: true });
          }
       },
       *updateUser({ payload, history }, { call, put }) {
-         const res = yield call(API.put, UPDATE_USER + `/${payload.acctId}`, payload);
-         if (res.code === '000000') {
+         const res = yield call(
+            API.put,
+            UPDATE_USER + `/${payload.acctId}`,
+            payload
+         );
+         if (res.code === "000000") {
             history.push("/user-management/user-list");
-            yield put({ type: "statusAdd", status: true })
+            yield put({ type: "statusAdd", status: true });
          }
-
       },
       *getUsers({ payload }, { call, put }) {
-         let current =  payload.defaultCurrent;
+         const current = payload.defaultCurrent;
          delete payload.defaultCurrent;
          const response = yield call(API.get, clients, payload);
          response.data.defaultCurrent = current;
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         let current =  payload.defaultCurrent;
-         delete payload.defaultCurrent;
-         const response = yield call(API.delete, clients+"/"+payload.id);
+         const response = yield call(API.delete, clients + "/" + payload.id);
          if (response.message == "Success") {
             yield put({
                type: "getUsers",
-               payload: { pageSize: 10, pageNum: 1,defaultCurrent:current }
+               payload: {
+                  pageSize: 10,
+                  pageNum: 1,
+                  defaultCurrent: payload.defaultCurrent
+               }
             });
          }
       },
       *getUserDetail({ payload }, { call, put }) {
          if (payload) {
             const response = yield call(API.get, clients + "/" + payload);
-            if (response) yield put({ type: "userDetail", payload: response.data });
+            if (response)
+               yield put({ type: "userDetail", payload: response.data });
          } else {
             yield put({ type: "userDetail", payload: {} });
          }
@@ -123,4 +128,3 @@ export default {
       }
    }
 };
-

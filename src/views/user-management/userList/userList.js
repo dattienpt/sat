@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import {
-   Table,
-   Button,
-   Pagination,
-   Modal,
-   Tag
-} from "antd";
+import { Table, Button, Pagination, Modal, Tag } from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
@@ -15,7 +9,7 @@ class Users extends Component {
    componentWillMount() {
       this.props.dispatch({
          type: "users/getUsers",
-         payload: { pageSize: 10, pageNum: 1,defaultCurrent:1 }
+         payload: { pageSize: 10, pageNum: 1, defaultCurrent: 1 }
       });
    }
    viewDetail = iduser => {
@@ -28,7 +22,7 @@ class Users extends Component {
          onOk() {
             acc.dispatch({
                type: "users/deleteUser",
-               payload: { id: id,defaultCurrent:1 }
+               payload: { id: id, defaultCurrent: 1 }
             });
          },
          onCancel() {}
@@ -38,7 +32,7 @@ class Users extends Component {
    onChange = page => {
       this.props.dispatch({
          type: "users/getUsers",
-         payload: { pageSize: 10, pageNum: page ,defaultCurrent:page}
+         payload: { pageSize: 10, pageNum: page, defaultCurrent: page }
       });
    };
    onEditAcount(id) {
@@ -196,14 +190,16 @@ class Users extends Component {
                   rowKey={user => user.acctId}
                />
                <div className={stype.pagination}>
-               <div className={stype.leftPagination}>Total: {this.props.total}</div>
-               <Pagination
-                  current={this.props.defaultCurrent}
-                  className={stype.rightPagination}
-                  pageSize={10}
-                  total={this.props.total}
-                  onChange={this.onChange}
-               />
+                  <div className={stype.leftPagination}>
+                     Total: {this.props.total}
+                  </div>
+                  <Pagination
+                     current={this.props.defaultCurrent}
+                     className={stype.rightPagination}
+                     pageSize={10}
+                     total={this.props.total}
+                     onChange={this.onChange}
+                  />
                </div>
             </div>
          </div>
