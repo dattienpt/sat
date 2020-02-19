@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import Layout from "../../../layouts/proLayout/mainProlayout";
 import { Form, Input, Icon, Select, Button, message } from 'antd';
 import style from "./userForm.scss";
 
@@ -10,7 +9,6 @@ class RegistrationForm extends React.Component {
    state = {
       confirmDirty: false,
       userId: null,
-      title: 'create new user',
       formPass: true,
    };
 
@@ -28,8 +26,9 @@ class RegistrationForm extends React.Component {
    }
 
    componentDidMount() {
-      this.props.form.resetFields();
+
    }
+
    success = () => {
       message.success('Add account successfully', 2);
    };
@@ -41,10 +40,8 @@ class RegistrationForm extends React.Component {
 
    handleSubmit = e => {
       e.preventDefault();
-      console.log(this.state.userId);
       const { history } = this.props;
       this.props.form.validateFieldsAndScroll((err, values) => {
-         console.log(typeof values.acctStatus);
          if (!err) {
             delete values.confirm;
             if (this.state.userId) {
@@ -94,8 +91,9 @@ class RegistrationForm extends React.Component {
 
    render() {
       // console.log(this.props.user);
-      const { acctName, mobileNo, jobNum, loginFlag, email } = this.props.user;
-      const { acctStatus } = (String(this.props.user.acctStatus));
+      const { acctName, mobileNo, email } = this.props.user;
+      // console.log(acctStatus, ' ------', typeof acctStatus)
+      const acctStatus = this.props.user.acctStatus ? this.props.user.acctStatus : "1";
       const { getFieldDecorator } = this.props.form;
       const formItemLayout = {
          labelCol: {
@@ -218,11 +216,12 @@ class RegistrationForm extends React.Component {
                   />)}
                </Form.Item>
 
+
                <Form.Item
                   label={<span> Status </span>}
                >
                   {getFieldDecorator('acctStatus', {
-                     initialValue: "1",
+                     initialValue: acctStatus,
                      rules: [{ required: true, message: 'Please choose !', whitespace: true }],
                   })(
                      <Select

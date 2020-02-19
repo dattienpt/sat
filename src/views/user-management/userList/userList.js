@@ -20,7 +20,7 @@ class Users extends Component {
    showConfirm = id => {
       let acc = this.props;
       confirm({
-         title: "Do you Want to delete these user?",
+         title: "Do you want to delete  user?",
          onOk() {
             acc.dispatch({
                type: "users/deleteUser",
@@ -185,10 +185,10 @@ class Users extends Component {
                   </span>
                } else {
                   return <span>
-                     <Tag color={"volcano"} key={tag}>
-                        {"inactive "}
-                     </Tag>
-                     );
+                  <Tag color={"volcano"} key={tag}>
+                       {"inactive"}
+                    </Tag>
+                 );
               </span>
                }
             },

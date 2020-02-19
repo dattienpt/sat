@@ -142,12 +142,10 @@ export class NetworkAxios {
       });
    };
    static delete = (url,data) => {
-      console.log(data);
-      // if (data) {
-      //    url += `?` + parseQuery(data);
-      // }
-      console.log(url);
-      addAesKeyParam(axiosInstance);
+      if (data) {
+         url += `?` + parseQuery(data);
+      }
+      addAesKeyParam(axiosInstance,aesPub);
       return new Promise((resolve, reject) => {
          axiosInstance.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, )
             .then(response => {
@@ -257,6 +255,6 @@ export default {
       return NetworkAxios.getTokenRequest(url);
    },
    delete(url, data) {
-      return NetworkAxios.delete(url, { data: processRequest(data) });
+      return NetworkAxios.delete(url, data);
    }
 };

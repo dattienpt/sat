@@ -3,7 +3,6 @@ import {
    userTemplate,
    getUserLoginDetail,
    clients,
-   deleteclient,
    ADD_USER,
    UPDATE_USER
 } from "../../http/api/requestApi";
@@ -70,7 +69,9 @@ export default {
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         let response = yield call(API.delete, deleteclient + payload.acctId);
+         console.log(payload);
+
+         const response = yield call(API.delete, clients, { ...payload });
          if (response.message == "Success") {
             yield put({
                type: "getUsers",

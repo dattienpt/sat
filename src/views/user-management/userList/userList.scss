@@ -23,3 +23,7 @@
 .rightPagination {
    justify-self: end;
 }
+:global(ant-table-thead > tr > th, .ant-table-tbody > tr > td) {
+   padding: 13px 16px;
+   overflow-wrap: break-word;
+}
