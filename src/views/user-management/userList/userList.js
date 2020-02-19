@@ -207,7 +207,6 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
-   console.log(state);
    const { loading, users } = state;
    return { ...users, loading };
 }

@@ -1,7 +1,6 @@
 import API from "../../http/httpClientAxios";
 import {
    userTemplate,
-   getUserLoginDetail,
    clients,
    ADD_USER,
    UPDATE_USER
@@ -14,6 +13,7 @@ export default {
       pageNum: 0,
       pageSize: 0,
       total: 0,
+      defaultCurrent: 1,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
       namePage: "",
@@ -26,6 +26,7 @@ export default {
          state.pageNum = payload.pageNum;
          state.pageSize = payload.pageSize;
          state.total = payload.totalNum;
+         state.defaultCurrent = payload.defaultCurrent;
 
          return { ...state };
       },
@@ -101,23 +102,6 @@ export default {
       },
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
-      },
-      *getDetailUserLogin({ payload }, { call, put }) {
-         const token = {
-            access_token: app._store.getState().common.token
-         };
-         const response = yield call(API.get, getUserLoginDetail, token);
-         if (response) {
-            localStorage.setItem("userId", response.userId);
-            app._store.dispatch({
-               type: "common/setUserId",
-               payload: response.userId
-            });
-            app._store.dispatch({
-               type: "common/setUserId",
-               payload: response.userId
-            });
-         }
       }
    },
    subscriptions: {
