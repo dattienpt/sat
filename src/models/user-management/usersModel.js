@@ -65,16 +65,20 @@ export default {
 
       },
       *getUsers({ payload }, { call, put }) {
+         let current =  payload.defaultCurrent;
+         delete payload.defaultCurrent;
          const response = yield call(API.get, clients, payload);
-         response.data.defaultCurrent = payload.defaultCurrent;
+         response.data.defaultCurrent = current;
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
+         let current =  payload.defaultCurrent;
+         delete payload.defaultCurrent;
          const response = yield call(API.delete, clients+"/"+payload.id);
          if (response.message == "Success") {
             yield put({
                type: "getUsers",
-               payload: { pageSize: 10, pageNum: 1,defaultCurrent:payload.defaultCurrent }
+               payload: { pageSize: 10, pageNum: 1,defaultCurrent:current }
             });
          }
       },
