@@ -3,6 +3,6 @@ export function formatDateMMDDYYYY(date){
      let  data = new Date(date);
         return data.getDate() + '/' +data.getMonth()+1 +'/'+data.getFullYear(); 
     }else{
-        throw("error not date number");
+      return "";
     }
 }

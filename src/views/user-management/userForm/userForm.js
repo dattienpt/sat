@@ -64,6 +64,7 @@ class RegistrationForm extends React.Component {
             } else {
                values.jobNum = 1;
                values.loginFlag = 1;
+               values.acctStatus = (typeof values.acctStatus === 'string') ? Number(values.acctStatus) : values.acctStatus;
                this.props.dispatch({
                   type: "users/addUser",
                   payload: values,
@@ -98,7 +99,8 @@ class RegistrationForm extends React.Component {
 
    render() {
       console.log(this.props.user);
-      const { acctName, mobileNo, jobNum, loginFlag, acctStatus, email } = this.props.user;
+      const { acctName, mobileNo, jobNum, loginFlag, email, acctStatus } = this.props.user;
+      // const { acctStatus } = this.props.user.acctStatus.toString();
       const { getFieldDecorator } = this.props.form;
       const formItemLayout = {
          labelCol: {
@@ -254,7 +256,6 @@ class RegistrationForm extends React.Component {
                            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                      >
-                        <Option value="0">Please choose</Option>
                         <Option value="1">Active</Option>
                         <Option value="2">Inactive</Option>
                      </Select>,

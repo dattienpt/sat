@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon, Pagination, Modal, message } from "antd";
+import { Table, Button, Input, Icon, Pagination, Modal, message, Tag } from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
 const { confirm } = Modal;
 class Users extends Component {
-   state = { searchText: "", searchedColumn: "", isloading: true };
+   state = { searchText: "", searchedColumn: "" };
 
-   componentWillReceiveProps() {
-      this.setState({ isloading: false });
-   }
    componentWillMount() {
       this.props.dispatch({
          type: "users/getUsers",
@@ -20,23 +17,20 @@ class Users extends Component {
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-   showConfirm = (id) => {
+   showConfirm = id => {
       let acc = this.props;
       confirm({
-         title: "Do you Want to delete these items?",
-         content: "Some descriptions",
+         title: "Do you Want to delete these user?",
          onOk() {
-            console.log("OK" + id);
             acc.dispatch({
                type: "users/deleteUser",
                payload: { acctId: id }
             });
          },
          onCancel() {
-            console.log("Cancel");
          }
       });
-   }
+   };
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
          setSelectedKeys,
@@ -117,49 +111,88 @@ class Users extends Component {
       });
    };
    onEditAcount(id) {
-      const { history } = this.props;
-      history.push("/user-management/user-detail/" + id);
-    // this.props.history.push('/user-management/user-detail/'+id);
+      console.log(id);
+      this.props.history.push('/user-management/user-detail/'+id);
    }
    render() {
-      const { status } = this.props;
-      status && message.success('Add account successfully', 2);
+      const { loading } = this.props;
+      const isload = loading.effects["users/getUsers"];
       const column = [
          {
             title: "Account name",
             dataIndex: "acctName",
-            key: "acctName"
+            key: "acctName",
+            sorter: (a, b) => {
+               if ( a.acctName < b.acctName ){
+                  return -1;
+                }
+                if ( a.acctName > b.acctName ){
+                  return 1;
+                }
+                return 0
+
+            },
          },
          {
             title: "Joined Date",
             dataIndex: "joinedDate",
             key: "firstname",
             render: key => {
-               return formatDateMMDDYYYY(+key);
-            }
-            //  ...this.getColumnSearchProps("firstname")
+               return formatDateMMDDYYYY(key);
+            },
+             sorter: (a, b) => a.joinedDate - b.joinedDate,
          },
          {
             title: "Created Date",
             dataIndex: "createdDate",
             key: "lastname",
             render: key => {
-               return formatDateMMDDYYYY(+key);
-            }
-            //  ...this.getColumnSearchProps("lastname")
-         },
+               return formatDateMMDDYYYY(key);
+            },
+             sorter: (a, b) => a.createdDate - b.createdDate,
+             },
          {
             title: "Email",
             dataIndex: "email",
-            key: "email"
+            key: "email",
+            sorter: (a, b) => {
+               if ( a.email < b.email ){
+                  return -1;
+                }
+                if ( a.email > b.email ){
+                  return 1;
+                }
+                return 0
+            },
          },
          {
-            title: "Updated Date",
-            dataIndex: "updatedDate",
-            key: "updatedDate",
-            render: key => {
-               return formatDateMMDDYYYY(+key);
-            }
+            title: "Phone number",
+            dataIndex: "mobileNo",
+            key: "mobileNo",
+            sorter: (a, b) => a.mobileNo - b.mobileNo,
+         },
+         {
+            title: "Status",
+            dataIndex: "acctStatus",
+            key: "acctStatus",
+            render: tag => {
+               if (+tag === 1) {
+                  return <span>
+                      <Tag color={"green"} key={tag}>
+                           {"Active"}
+                        </Tag>
+
+                  </span>
+               }else{
+                  return <span>
+                  <Tag color={"volcano"} key={tag}>
+                       {"inactive "}
+                    </Tag>
+                 );
+              </span>
+               }
+            },
+            sorter: (a, b) => a.acctStatus - b.acctStatus,
          },
          {
             title: "Action",
@@ -194,7 +227,7 @@ class Users extends Component {
                            "/user-management/user-create"
                         );
                      }}
-                     icon="create"
+                     icon="plus"
                   >
                      ADD USER
                   </Button>
@@ -203,7 +236,7 @@ class Users extends Component {
                <Table
                   className={stype.table}
                   columns={column}
-                  loading={this.state.isloading}
+                  loading={isload}
                   pagination={false}
                   dataSource={
                      Array.isArray(this.props.users) ? this.props.users : []
@@ -222,8 +255,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
-
-   //console.log(state.users );
-   return { ...state.users };
+   const { loading, users } = state;
+   return { ...users, loading };
 }
 export default connect(mapStateToPrors)(Users);
