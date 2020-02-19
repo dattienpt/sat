@@ -195,6 +195,8 @@ class Users extends Component {
                   }
                   rowKey={user => user.id}
                />
+               <div className={stype.pagination}>
+               <div className={stype.leftPagination}>Total: {this.props.total}</div>
                <Pagination
                   current={this.props.defaultCurrent}
                   className={stype.rightPagination}
@@ -202,6 +204,7 @@ class Users extends Component {
                   total={this.props.total}
                   onChange={this.onChange}
                />
+               </div>
             </div>
          </div>
       );
