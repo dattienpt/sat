@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon, Pagination, Modal,Tag } from "antd";
+import { Table, Button, Input, Icon, Pagination, Modal, message, Tag } from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
@@ -38,41 +38,41 @@ class Users extends Component {
          confirm,
          clearFilters
       }) => (
-         <div style={{ padding: 8 }}>
-            <Input
-               ref={node => {
-                  this.searchInput = node;
-               }}
-               placeholder={`Search ${dataIndex}`}
-               value={selectedKeys[0]}
-               onChange={e =>
-                  setSelectedKeys(e.target.value ? [e.target.value] : [])
-               }
-               onPressEnter={() =>
-                  this.handleSearch(selectedKeys, confirm, dataIndex)
-               }
-               style={{ width: 188, marginBottom: 8, display: "block" }}
-            />
-            <Button
-               type="primary"
-               onClick={() =>
-                  this.handleSearch(selectedKeys, confirm, dataIndex)
-               }
-               icon="search"
-               size="small"
-               style={{ width: 90, marginRight: 8 }}
-            >
-               Search
+            <div style={{ padding: 8 }}>
+               <Input
+                  ref={node => {
+                     this.searchInput = node;
+                  }}
+                  placeholder={`Search ${dataIndex}`}
+                  value={selectedKeys[0]}
+                  onChange={e =>
+                     setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  }
+                  onPressEnter={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  style={{ width: 188, marginBottom: 8, display: "block" }}
+               />
+               <Button
+                  type="primary"
+                  onClick={() =>
+                     this.handleSearch(selectedKeys, confirm, dataIndex)
+                  }
+                  icon="search"
+                  size="small"
+                  style={{ width: 90, marginRight: 8 }}
+               >
+                  Search
             </Button>
-            <Button
-               onClick={() => this.handleReset(clearFilters)}
-               size="small"
-               style={{ width: 90 }}
-            >
-               Reset
+               <Button
+                  onClick={() => this.handleReset(clearFilters)}
+                  size="small"
+                  style={{ width: 90 }}
+               >
+                  Reset
             </Button>
-         </div>
-      ),
+            </div>
+         ),
       filterIcon: filtered => (
          <Icon
             type="search"
@@ -112,7 +112,7 @@ class Users extends Component {
    };
    onEditAcount(id) {
       console.log(id);
-      // this.props.history.push('/user-management/user-detail/'+id);
+      this.props.history.push('/user-management/user-detail/'+id);
    }
    render() {
       const { loading } = this.props;
@@ -130,7 +130,7 @@ class Users extends Component {
                   return 1;
                 }
                 return 0
-            
+
             },
          },
          {
@@ -149,7 +149,7 @@ class Users extends Component {
             render: key => {
                return formatDateMMDDYYYY(key);
             },
-             sorter: (a, b) => a.createdDate - b.createdDate,        
+             sorter: (a, b) => a.createdDate - b.createdDate,
              },
          {
             title: "Email",
@@ -163,13 +163,13 @@ class Users extends Component {
                   return 1;
                 }
                 return 0
-            },     
+            },
          },
          {
             title: "Phone number",
             dataIndex: "mobileNo",
             key: "mobileNo",
-            sorter: (a, b) => a.mobileNo - b.mobileNo,     
+            sorter: (a, b) => a.mobileNo - b.mobileNo,
          },
          {
             title: "Status",
@@ -181,7 +181,7 @@ class Users extends Component {
                       <Tag color={"green"} key={tag}>
                            {"Active"}
                         </Tag>
-                     
+
                   </span>
                }else{
                   return <span>
@@ -192,7 +192,7 @@ class Users extends Component {
               </span>
                }
             },
-            sorter: (a, b) => a.acctStatus - b.acctStatus,     
+            sorter: (a, b) => a.acctStatus - b.acctStatus,
          },
          {
             title: "Action",

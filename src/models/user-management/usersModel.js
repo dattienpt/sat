@@ -1,20 +1,15 @@
 import API from "../../http/httpClientAxios";
 import {
-   listUser,
    userTemplate,
-   userDetail,
    getUserLoginDetail,
    clients,
-   deleteclient
+   deleteclient,
+   ADD_USER,
+   UPDATE_USER
 } from "../../http/api/requestApi";
-import { postApi } from "./customRequest";
-import * as localStorageService from "../../utils/localStorageService";
 import { app } from "../../index";
-//import { message } from "antd";
-
 export default {
    namespace: "users",
-
    state: {
       users: [],
       pageNum: 0,
@@ -22,7 +17,8 @@ export default {
       total: 0,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
-      namePage: ""
+      namePage: "",
+      addSuccess: null,
    },
    reducers: {
       save(state, { payload }) {
@@ -35,9 +31,7 @@ export default {
          return { ...state };
       },
       userDetail(state, { payload }) {
-         state.user = payload;
-         state.namePage = "User detail";
-         return state;
+         return { ...state, user: payload };
       },
       template(state, { template }) {
          template.allowedOffices = template.allowedOffices.map(item => {
@@ -49,20 +43,35 @@ export default {
       name(state, { namePage }) {
          state.namePage = namePage;
          return state;
+      },
+      statusAdd(state, { status }) {
+         return { ...state, addSuccess: status };
       }
    },
    effects: {
+
+      *addUser({ payload, history }, { call, put }) {
+         const res = yield call(API.post, ADD_USER, payload);
+         if (res.code === '000000') {
+            history.push("/user-management/user-list");
+            yield put({ type: statusAdd, status: true })
+         }
+      },
+      *updateUser({ payload, history }, { call, put }) {
+         const res = yield call(API.put, UPDATE_USER + `/${payload.acctId}`, payload);
+         if (res.code === '000000') {
+            history.push("/user-management/user-list");
+            yield put({ type: statusAdd, status: true })
+         }
+
+      },
       *getUsers({ payload }, { call, put }) {
          const response = yield call(API.get, clients, payload);
-         console.log(response);
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         console.log(payload);
-
          let response = yield call(API.delete, deleteclient + payload.acctId);
          if (response.message == "Success") {
-           // message.success({ content: 'delete success!', key, duration: 2 });
             yield put({
                type: "getUsers",
                payload: { pageSize: 10, pageNum: 1 }
@@ -70,17 +79,16 @@ export default {
          }
       },
       *getUserDetail({ payload }, { call, put }) {
-         const response = yield call(API.get, clients +"/"+ payload);
-         if (response) yield put({ type: "userDetail", payload: response.data });
+         if (payload) {
+            const response = yield call(API.get, clients + "/" + payload);
+            if (response) yield put({ type: "userDetail", payload: response.data });
+         } else {
+            yield put({ type: "userDetail", payload: {} });
+         }
       },
       *getTemplate({ payload }, { call, put }) {
          const response = yield call(API.get, userTemplate);
          if (response) yield put({ type: "template", template: response });
-      },
-      *addUser({ payload }, { call, put }) {
-         const response = yield call(postApi, [listUser, payload.data]);
-         if (response.officeId)
-            payload.history.replace("/user-management/user-list");
       },
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
@@ -111,3 +119,4 @@ export default {
       }
    }
 };
+

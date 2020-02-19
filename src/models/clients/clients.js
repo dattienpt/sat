@@ -1,5 +1,5 @@
 // import API from "../../http/httpClientAxios";
-// import { clients, clientSearch, clientDetail, addUser } from "../../http/api/requestApi";
+// import { clients, clientSearch, clientDetail } from "../../http/api/requestApi";
 // export default {
 //    namespace: "clients",
 
@@ -25,28 +25,6 @@
 //    },
 //    effects: {
 //       *clientList({ payload }, { call, put }) {
-//          const userDetail = {
-//             acctId: 15,
-//             password: "123456",
-//             acctName: "dtdat23",
-//             mobileNo: "0987722723237",
-//             jobNum: "Admin",
-//             loginFlag: "1",
-//             acctStatus: "1"
-//          };
-//          const res = yield call(API.post, addUser, userDetail);
-//          const respone = yield call(
-//             API.get,
-//             clients,
-//             // {
-//             //    limit: payload.limit,
-//             //    offset: (payload.offset - 1) * payload.limit
-//             // }
-//          );
-
-
-
-//          yield put({ type: "litst", listclient: respone });
 //       },
 //       *searchClient({ payload }, { call, put }) {
 //          const respone = yield call(API.get, clientSearch + payload.key + "&resource=clients,clientIdentifiers"
