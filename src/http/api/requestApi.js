@@ -6,8 +6,6 @@ export const listUser = APIVER + '/users';
 export const userTemplate = APIVER + '/users/template';
 export const userDetail = APIVER + '/users/';
 export const clients = APIVER + '/accounts';
-export const deleteclient = APIVER + '/accounts?acctId=';
-
 export const clientSearch = APIVER + '/search?exactMatch=false&query=';
 export const getUserLoginDetail = APIVER + '/userdetails';
 export const changeInfoUser = APIVER + '/users';

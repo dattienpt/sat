@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
+import Layout from "../../../layouts/proLayout/mainProlayout";
 import { Form, Input, Icon, Select, Button, message } from 'antd';
 import style from "./userForm.scss";
 
@@ -10,6 +11,7 @@ class RegistrationForm extends React.Component {
       confirmDirty: false,
       userId: null,
       formPass: true,
+      userDetail: {}
    };
 
    componentWillMount() {
@@ -26,7 +28,7 @@ class RegistrationForm extends React.Component {
    }
 
    componentDidMount() {
-
+      this.setState({ userDetail: this.props.user });
    }
 
    success = () => {
@@ -234,7 +236,7 @@ class RegistrationForm extends React.Component {
                      >
                         <Option value="1">Active</Option>
                         <Option value="0">Pending</Option>
-                        <Option value="2">Disabled</Option>
+                        <Option value="2">Inactive</Option>
                         <Option value="4">Locked</Option>
                      </Select>,
                   )}

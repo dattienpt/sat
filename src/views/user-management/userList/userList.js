@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon, Pagination, Modal, message, Tag } from "antd";
+import {
+   Table,
+   Button,
+   Pagination,
+   Modal,
+   Tag
+} from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
 const { confirm } = Modal;
 class Users extends Component {
-   state = { searchText: "", searchedColumn: "" };
-
    componentWillMount() {
       this.props.dispatch({
          type: "users/getUsers",
-         payload: { pageSize: 10, pageNum: 1 }
+         payload: { pageSize: 10, pageNum: 1,defaultCurrent:1 }
       });
    }
    viewDetail = iduser => {
@@ -24,95 +28,21 @@ class Users extends Component {
          onOk() {
             acc.dispatch({
                type: "users/deleteUser",
-               payload: { acctId: id }
+               payload: { id: id,defaultCurrent:1 }
             });
          },
-         onCancel() {
-         }
-      });
-   };
-   getColumnSearchProps = dataIndex => ({
-      filterDropdown: ({
-         setSelectedKeys,
-         selectedKeys,
-         confirm,
-         clearFilters
-      }) => (
-            <div style={{ padding: 8 }}>
-               <Input
-                  ref={node => {
-                     this.searchInput = node;
-                  }}
-                  placeholder={`Search ${dataIndex}`}
-                  value={selectedKeys[0]}
-                  onChange={e =>
-                     setSelectedKeys(e.target.value ? [e.target.value] : [])
-                  }
-                  onPressEnter={() =>
-                     this.handleSearch(selectedKeys, confirm, dataIndex)
-                  }
-                  style={{ width: 188, marginBottom: 8, display: "block" }}
-               />
-               <Button
-                  type="primary"
-                  onClick={() =>
-                     this.handleSearch(selectedKeys, confirm, dataIndex)
-                  }
-                  icon="search"
-                  size="small"
-                  style={{ width: 90, marginRight: 8 }}
-               >
-                  Search
-            </Button>
-               <Button
-                  onClick={() => this.handleReset(clearFilters)}
-                  size="small"
-                  style={{ width: 90 }}
-               >
-                  Reset
-            </Button>
-            </div>
-         ),
-      filterIcon: filtered => (
-         <Icon
-            type="search"
-            style={{ color: filtered ? "#1890ff" : undefined }}
-         />
-      ),
-      onFilter: (value, record) =>
-         record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase()),
-      onFilterDropdownVisibleChange: visible => {
-         if (visible) {
-            setTimeout(() => this.searchInput.select());
-         }
-      },
-      render: text => (this.state.searchedColumn === dataIndex ? text : text)
-   });
-
-   handleSearch = (selectedKeys, confirm, dataIndex) => {
-      confirm();
-      this.setState({
-         searchText: selectedKeys[0],
-         searchedColumn: dataIndex
+         onCancel() {}
       });
    };
 
-   handleReset = clearFilters => {
-      clearFilters();
-      this.setState({ searchText: "" });
-   };
    onChange = page => {
       this.props.dispatch({
          type: "users/getUsers",
-         payload: { pageSize: 10, pageNum: page }
+         payload: { pageSize: 10, pageNum: page ,defaultCurrent:page}
       });
    };
    onEditAcount(id) {
-      console.log(id);
-      this.props.history.push('/user-management/user-detail/' + id);
+      this.props.history.push("/user-management/user-detail/" + id);
    }
    render() {
       const { loading } = this.props;
@@ -129,9 +59,8 @@ class Users extends Component {
                if (a.acctName > b.acctName) {
                   return 1;
                }
-               return 0
-
-            },
+               return 0;
+            }
          },
          {
             title: "Joined Date",
@@ -140,7 +69,7 @@ class Users extends Component {
             render: key => {
                return formatDateMMDDYYYY(key);
             },
-            sorter: (a, b) => a.joinedDate - b.joinedDate,
+            sorter: (a, b) => a.joinedDate - b.joinedDate
          },
          {
             title: "Created Date",
@@ -149,7 +78,7 @@ class Users extends Component {
             render: key => {
                return formatDateMMDDYYYY(key);
             },
-            sorter: (a, b) => a.createdDate - b.createdDate,
+            sorter: (a, b) => a.createdDate - b.createdDate
          },
          {
             title: "Email",
@@ -162,37 +91,60 @@ class Users extends Component {
                if (a.email > b.email) {
                   return 1;
                }
-               return 0
-            },
+               return 0;
+            }
          },
          {
             title: "Phone number",
             dataIndex: "mobileNo",
             key: "mobileNo",
-            sorter: (a, b) => a.mobileNo - b.mobileNo,
+            sorter: (a, b) => a.mobileNo - b.mobileNo
          },
          {
             title: "Status",
             dataIndex: "acctStatus",
             key: "acctStatus",
             render: tag => {
-               if (+tag === 1) {
-                  return <span>
-                     <Tag color={"green"} key={tag}>
-                        {"Active"}
-                     </Tag>
-
-                  </span>
-               } else {
-                  return <span>
-                  <Tag color={"volcano"} key={tag}>
-                       {"inactive"}
-                    </Tag>
-                 );
-              </span>
+               switch (+tag) {
+                  case 0: {
+                     return (
+                        <span>
+                           <Tag color={"gold"} key={tag}>
+                              {"Pending"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+                  case 1: {
+                     return (
+                        <span>
+                           <Tag color={"green"} key={tag}>
+                              {"Active"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+                  case 2: {
+                     return (
+                        <span>
+                           <Tag color={"#D3D3D3"} key={tag}>
+                              {"Inactive"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+                  case 4: {
+                     return (
+                        <span>
+                           <Tag color={"magenta"} key={tag}>
+                              {"Locked"}
+                           </Tag>
+                        </span>
+                     );
+                  }
                }
             },
-            sorter: (a, b) => a.acctStatus - b.acctStatus,
+            sorter: (a, b) => a.acctStatus - b.acctStatus
          },
          {
             title: "Action",
@@ -243,12 +195,16 @@ class Users extends Component {
                   }
                   rowKey={user => user.id}
                />
+               <div className={stype.pagination}>
+               <div className={stype.leftPagination}>Total: {this.props.total}</div>
                <Pagination
+                  current={this.props.defaultCurrent}
                   className={stype.rightPagination}
                   pageSize={10}
                   total={this.props.total}
                   onChange={this.onChange}
                />
+               </div>
             </div>
          </div>
       );

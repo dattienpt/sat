@@ -71,7 +71,7 @@ export default {
       *deleteUser({ payload }, { call, put }) {
          console.log(payload);
 
-         const response = yield call(API.delete, clients, { ...payload });
+         const response = yield call(API.delete, clients,{...payload});
          if (response.message == "Success") {
             yield put({
                type: "getUsers",
