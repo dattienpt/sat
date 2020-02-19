@@ -137,7 +137,7 @@ class Users extends Component {
                      return (
                         <span>
                            <Tag color={"magenta"} key={tag}>
-                              {"Lock"}
+                              {"Locked"}
                            </Tag>
                         </span>
                      );
@@ -211,6 +211,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
+   console.log(state);
    const { loading, users } = state;
    return { ...users, loading };
 }

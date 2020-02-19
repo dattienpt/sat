@@ -35,7 +35,7 @@ export default {
                 },
                 {
                     path: "/user-management/user-create",
-                    name: "Create new user",
+                    name: "",
                     icon: "user-add"
                 }
             ]

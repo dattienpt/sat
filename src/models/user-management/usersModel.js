@@ -1,10 +1,11 @@
 import API from "../../http/httpClientAxios";
 import {
+   userTemplate,
    getUserLoginDetail,
    clients,
    ADD_USER,
-   UPDATE_USER,
-   } from "../../http/api/requestApi";
+   UPDATE_USER
+} from "../../http/api/requestApi";
 import { app } from "../../index";
 export default {
    namespace: "users",
@@ -13,7 +14,6 @@ export default {
       pageNum: 0,
       pageSize: 0,
       total: 0,
-      defaultCurrent:1,
       user: {},
       template: { availableRoles: [], allowedOffices: [] },
       namePage: "",
@@ -26,7 +26,6 @@ export default {
          state.pageNum = payload.pageNum;
          state.pageSize = payload.pageSize;
          state.total = payload.totalNum;
-         state.defaultCurrent = payload.defaultCurrent;
 
          return { ...state };
       },
@@ -49,18 +48,19 @@ export default {
       }
    },
    effects: {
+
       *addUser({ payload, history }, { call, put }) {
          const res = yield call(API.post, ADD_USER, payload);
          if (res.code === '000000') {
             history.push("/user-management/user-list");
-            yield put({ type: statusAdd, status: true })
+            yield put({ type: "statusAdd", status: true })
          }
       },
       *updateUser({ payload, history }, { call, put }) {
          const res = yield call(API.put, UPDATE_USER + `/${payload.acctId}`, payload);
          if (res.code === '000000') {
             history.push("/user-management/user-list");
-            yield put({ type: statusAdd, status: true })
+            yield put({ type: "statusAdd", status: true })
          }
 
       },
@@ -68,6 +68,7 @@ export default {
          let current =  payload.defaultCurrent;
          delete payload.defaultCurrent;
          const response = yield call(API.get, clients, payload);
+<<<<<<< HEAD
          response.data.defaultCurrent = current;
          yield put({ type: "save", payload: response.data });
       },
@@ -79,8 +80,32 @@ export default {
             yield put({
                type: "getUsers",
                payload: { pageSize: 10, pageNum: 1,defaultCurrent:current }
+=======
+         yield put({ type: "save", payload: response.data });
+      },
+      *deleteUser({ payload }, { call, put }) {
+         console.log(payload);
+
+         const response = yield call(API.delete, clients,{...payload});
+         if (response.message == "Success") {
+            yield put({
+               type: "getUsers",
+               payload: { pageSize: 10, pageNum: 1 }
+>>>>>>> 20dc6956ef47502318099fafde6ac96c0613ff53
             });
          }
+      },
+      *getUserDetail({ payload }, { call, put }) {
+         if (payload) {
+            const response = yield call(API.get, clients + "/" + payload);
+            if (response) yield put({ type: "userDetail", payload: response.data });
+         } else {
+            yield put({ type: "userDetail", payload: {} });
+         }
+      },
+      *getTemplate({ payload }, { call, put }) {
+         const response = yield call(API.get, userTemplate);
+         if (response) yield put({ type: "template", template: response });
       },
       *namePage({ payload }, { put }) {
          yield put({ type: "name", namePage: payload });
