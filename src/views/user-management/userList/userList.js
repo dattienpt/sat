@@ -20,17 +20,14 @@ class Users extends Component {
    showConfirm = id => {
       let acc = this.props;
       confirm({
-         title: "Do you Want to delete these items?",
-         content: "Some descriptions",
+         title: "Do you Want to delete these user?",
          onOk() {
-            console.log("OK" + id);
             acc.dispatch({
                type: "users/deleteUser",
                payload: { acctId: id }
             });
          },
          onCancel() {
-            console.log("Cancel");
          }
       });
    };
