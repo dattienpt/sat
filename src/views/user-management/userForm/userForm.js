@@ -98,7 +98,7 @@ class RegistrationForm extends React.Component {
    };
 
    render() {
-      console.log(this.props.user);
+      // console.log(this.props.user);
       const { acctName, mobileNo, jobNum, loginFlag, email, acctStatus } = this.props.user;
       // const { acctStatus } = this.props.user.acctStatus.toString();
       const { getFieldDecorator } = this.props.form;
