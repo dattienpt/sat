@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon, Pagination, Modal } from "antd";
+import { Table, Button, Input, Icon, Pagination, Modal,Tag } from "antd";
 import stype from "./userList.scss";
 import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
 const { confirm } = Modal;
 class Users extends Component {
-   state = { searchText: "", searchedColumn: ""};
+   state = { searchText: "", searchedColumn: "" };
 
- 
    componentWillMount() {
       this.props.dispatch({
          type: "users/getUsers",
@@ -18,7 +17,7 @@ class Users extends Component {
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-   showConfirm = (id) =>{
+   showConfirm = id => {
       let acc = this.props;
       confirm({
          title: "Do you Want to delete these items?",
@@ -27,14 +26,14 @@ class Users extends Component {
             console.log("OK" + id);
             acc.dispatch({
                type: "users/deleteUser",
-               payload: { acctId: id}
+               payload: { acctId: id }
             });
          },
          onCancel() {
             console.log("Cancel");
          }
       });
-   }
+   };
    getColumnSearchProps = dataIndex => ({
       filterDropdown: ({
          setSelectedKeys,
@@ -115,17 +114,27 @@ class Users extends Component {
       });
    };
    onEditAcount(id) {
-      console.log(id)
-    // this.props.history.push('/user-management/user-detail/'+id);
+      console.log(id);
+      // this.props.history.push('/user-management/user-detail/'+id);
    }
    render() {
-      const {loading} = this.props;
-      const isload = loading.effects['users/getUsers'];
+      const { loading } = this.props;
+      const isload = loading.effects["users/getUsers"];
       const column = [
          {
             title: "Account name",
             dataIndex: "acctName",
-            key: "acctName"
+            key: "acctName",
+            sorter: (a, b) => {
+               if ( a.acctName < b.acctName ){
+                  return -1;
+                }
+                if ( a.acctName > b.acctName ){
+                  return 1;
+                }
+                return 0
+            
+            },
          },
          {
             title: "Joined Date",
@@ -133,8 +142,8 @@ class Users extends Component {
             key: "firstname",
             render: key => {
                return formatDateMMDDYYYY(key);
-            }
-            //  ...this.getColumnSearchProps("firstname")
+            },
+             sorter: (a, b) => a.joinedDate - b.joinedDate,
          },
          {
             title: "Created Date",
@@ -142,27 +151,51 @@ class Users extends Component {
             key: "lastname",
             render: key => {
                return formatDateMMDDYYYY(key);
-            }
-            //  ...this.getColumnSearchProps("lastname")
-         },
+            },
+             sorter: (a, b) => a.createdDate - b.createdDate,        
+             },
          {
             title: "Email",
             dataIndex: "email",
-            key: "email"
-         },
-         {
-            title: "Updated Date",
-            dataIndex: "updatedDate",
-            key: "updatedDate",
-            render: key => {
-               return formatDateMMDDYYYY(key);
-            }
+            key: "email",
+            sorter: (a, b) => {
+               if ( a.email < b.email ){
+                  return -1;
+                }
+                if ( a.email > b.email ){
+                  return 1;
+                }
+                return 0
+            },     
          },
          {
             title: "Phone number",
             dataIndex: "mobileNo",
             key: "mobileNo",
-           
+            sorter: (a, b) => a.mobileNo - b.mobileNo,     
+         },
+         {
+            title: "Status",
+            dataIndex: "acctStatus",
+            key: "acctStatus",
+            render: tag => {
+               if (+tag === 1) {
+                  return <span>
+                      <Tag color={"green"} key={tag}>
+                           {"Active"}
+                        </Tag>
+                     
+                  </span>
+               }else{
+                  return <span>
+                  <Tag color={"volcano"} key={tag}>
+                       {"disActive"}
+                    </Tag>
+                 );
+              </span>
+               }
+            },
+            sorter: (a, b) => a.acctStatus - b.acctStatus,     
          },
          {
             title: "Action",
@@ -197,7 +230,7 @@ class Users extends Component {
                            "/user-management/user-create"
                         );
                      }}
-                     icon="create"
+                     icon="plus"
                   >
                      ADD USER
                   </Button>
@@ -225,7 +258,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
-    const {loading,users} = state;
-   return { ...users,loading };
+   const { loading, users } = state;
+   return { ...users, loading };
 }
 export default connect(mapStateToPrors)(Users);
