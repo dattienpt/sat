@@ -13,16 +13,16 @@ export default {
             name: "Dashboard",
             icon: "home",
         },
-        {
-            path: "/products",
-            name: "Products",
-            icon: "money-collect",
-        },
-        {
-            path: "/clients",
-            name: "Clients",
-            icon: "transaction",
-        },
+        // {
+        //     path: "/products",
+        //     name: "Products",
+        //     icon: "money-collect",
+        // },
+        // {
+        //     path: "/clients",
+        //     name: "Clients",
+        //     icon: "transaction",
+        // },
         {
             path: "/user-management",
             name: "User management",
@@ -35,7 +35,7 @@ export default {
                 },
                 {
                     path: "/user-management/user-create",
-                    name: "Create new user",
+                    name: "",
                     icon: "user-add"
                 }
             ]

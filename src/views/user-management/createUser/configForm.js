@@ -108,7 +108,7 @@ export default {
                               {
                                 "var": "data.sendPasswordToEmail"
                               },
-                             false                           
+                             false
                              ]
                           }
                     },
@@ -133,7 +133,7 @@ export default {
                         //       {
                         //         "var": "data.sendPasswordToEmail"
                         //       },
-                        //      false                           
+                        //      false
                         //      ]
                         //   }
                     },
@@ -149,7 +149,7 @@ export default {
                     },
                     "selectThreshold": 0.3,
                     "validate": {
-                        "required": true,
+                        "required": false,
                         "unique": false,
                         "multiple": false
                     },

@@ -9,10 +9,7 @@ import sesting from './config/config'
 class Layout extends React.Component {
 
   render() {
-    // const {collapsed, handleMenuCollapse} = useState(true);
-    // const [settings] = useState({});
     return (
-
       <ProLayout
         {...sesting}
         menuHeaderRender={(logo, title) => (
@@ -37,7 +34,6 @@ class Layout extends React.Component {
           {this.props.children}
         </PageHeaderWrapper>
       </ProLayout>
-
     );
   };
 }
