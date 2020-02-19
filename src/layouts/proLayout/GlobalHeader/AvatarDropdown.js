@@ -97,7 +97,7 @@ class AvatarDropdown extends React.Component {
    };
    render() {
       // console.log(localStorageService.getUserInfo());
-      const { username } = localStorageService.getUserInfo() ? localStorageService.getUserInfo() : '';
+      const { acctName } = localStorageService.getUserInfo() ? localStorageService.getUserInfo() : '';
       const { changed } = this.props;
       const { currentUser = { avatar: "", name: "" }, menu } = this.props;
       const { getFieldDecorator } = this.props.form;
@@ -154,7 +154,7 @@ class AvatarDropdown extends React.Component {
             <HeaderDropdown overlay={menuHeaderDropdown}>
                <span className={`${styles.action} ${styles.account}`}>
                   <Icon type="user" className={styles.avatar} />
-                  <b className={styles.name}>{username}</b>
+                  <b className={styles.name}>{acctName}</b>
                </span>
             </HeaderDropdown>
             <div>
@@ -217,9 +217,9 @@ class AvatarDropdown extends React.Component {
 
 const WrappedAvatarDropdown = Form.create({ name: "register" })(AvatarDropdown);
 const mapStateToProps = state => {
-   const { username } = state.loginModel;
+   const { acctName } = state.loginModel;
    const { changed } = state.handlePasswordModel;
-   return { username, changed };
+   return { acctName, changed };
 };
 
 export default connect(mapStateToProps, null)(withRouter(WrappedAvatarDropdown));

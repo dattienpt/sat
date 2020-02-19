@@ -1,117 +1,171 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table, Button, Input, Icon } from "antd";
+import {
+   Table,
+   Button,
+   Pagination,
+   Modal,
+   Tag
+} from "antd";
 import stype from "./userList.scss";
-class Users extends Component {
-   state = { searchText: "", searchedColumn: "", isloading: true };
+import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
-   componentWillReceiveProps() {
-      this.setState({ isloading: false });
-   }
+const { confirm } = Modal;
+class Users extends Component {
    componentWillMount() {
-      this.props.dispatch({ type: "users/getUsers" });
+      this.props.dispatch({
+         type: "users/getUsers",
+         payload: { pageSize: 10, pageNum: 1,defaultCurrent:1 }
+      });
    }
    viewDetail = iduser => {
       this.props.history.replace("/user-management/user-detail/" + iduser);
    };
-
-   getColumnSearchProps = dataIndex => ({
-      filterDropdown: ({
-         setSelectedKeys,
-         selectedKeys,
-         confirm,
-         clearFilters
-      }) => (
-            <div style={{ padding: 8 }}>
-               <Input
-                  ref={node => {
-                     this.searchInput = node;
-                  }}
-                  placeholder={`Search ${dataIndex}`}
-                  value={selectedKeys[0]}
-                  onChange={e =>
-                     setSelectedKeys(e.target.value ? [e.target.value] : [])
-                  }
-                  onPressEnter={() =>
-                     this.handleSearch(selectedKeys, confirm, dataIndex)
-                  }
-                  style={{ width: 188, marginBottom: 8, display: "block" }}
-               />
-               <Button
-                  type="primary"
-                  onClick={() =>
-                     this.handleSearch(selectedKeys, confirm, dataIndex)
-                  }
-                  icon="search"
-                  size="small"
-                  style={{ width: 90, marginRight: 8 }}
-               >
-                  Search
-            </Button>
-               <Button
-                  onClick={() => this.handleReset(clearFilters)}
-                  size="small"
-                  style={{ width: 90 }}
-               >
-                  Reset
-            </Button>
-            </div>
-         ),
-      filterIcon: filtered => (
-         <Icon
-            type="search"
-            style={{ color: filtered ? "#1890ff" : undefined }}
-         />
-      ),
-      onFilter: (value, record) =>
-         record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase()),
-      onFilterDropdownVisibleChange: visible => {
-         if (visible) {
-            setTimeout(() => this.searchInput.select());
-         }
-      },
-      render: text => (this.state.searchedColumn === dataIndex ? text : text)
-   });
-
-   handleSearch = (selectedKeys, confirm, dataIndex) => {
-      confirm();
-      this.setState({
-         searchText: selectedKeys[0],
-         searchedColumn: dataIndex
+   showConfirm = id => {
+      let acc = this.props;
+      confirm({
+         title: "Do you want to delete  user?",
+         onOk() {
+            acc.dispatch({
+               type: "users/deleteUser",
+               payload: { id: id,defaultCurrent:1 }
+            });
+         },
+         onCancel() {}
       });
    };
 
-   handleReset = clearFilters => {
-      clearFilters();
-      this.setState({ searchText: "" });
+   onChange = page => {
+      this.props.dispatch({
+         type: "users/getUsers",
+         payload: { pageSize: 10, pageNum: page ,defaultCurrent:page}
+      });
    };
-
+   onEditAcount(id) {
+      this.props.history.push("/user-management/user-detail/" + id);
+   }
    render() {
+      const { loading } = this.props;
+      const isload = loading.effects["users/getUsers"];
       const column = [
          {
-            title: "First Name",
-            dataIndex: "firstname",
-            key: "firstname",
-            ...this.getColumnSearchProps("firstname")
+            title: "Account name",
+            dataIndex: "acctName",
+            key: "acctName",
+            sorter: (a, b) => {
+               if (a.acctName < b.acctName) {
+                  return -1;
+               }
+               if (a.acctName > b.acctName) {
+                  return 1;
+               }
+               return 0;
+            }
          },
          {
-            title: "Last Name",
-            dataIndex: "lastname",
+            title: "Joined Date",
+            dataIndex: "joinedDate",
+            key: "firstname",
+            render: key => {
+               return formatDateMMDDYYYY(key);
+            },
+            sorter: (a, b) => a.joinedDate - b.joinedDate
+         },
+         {
+            title: "Created Date",
+            dataIndex: "createdDate",
             key: "lastname",
-            ...this.getColumnSearchProps("lastname")
+            render: key => {
+               return formatDateMMDDYYYY(key);
+            },
+            sorter: (a, b) => a.createdDate - b.createdDate
          },
          {
             title: "Email",
             dataIndex: "email",
-            key: "email"
+            key: "email",
+            sorter: (a, b) => {
+               if (a.email < b.email) {
+                  return -1;
+               }
+               if (a.email > b.email) {
+                  return 1;
+               }
+               return 0;
+            }
          },
          {
-            title: "Office",
-            dataIndex: "officeName",
-            key: "officeName"
+            title: "Phone number",
+            dataIndex: "mobileNo",
+            key: "mobileNo",
+            sorter: (a, b) => a.mobileNo - b.mobileNo
+         },
+         {
+            title: "Status",
+            dataIndex: "acctStatus",
+            key: "acctStatus",
+            render: tag => {
+               switch (+tag) {
+                  case 0: {
+                     return (
+                        <span>
+                           <Tag color={"gold"} key={tag}>
+                              {"Pending"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+                  case 1: {
+                     return (
+                        <span>
+                           <Tag color={"green"} key={tag}>
+                              {"Active"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+                  case 2: {
+                     return (
+                        <span>
+                           <Tag color={"#D3D3D3"} key={tag}>
+                              {"Inactive"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+                  case 4: {
+                     return (
+                        <span>
+                           <Tag color={"magenta"} key={tag}>
+                              {"Locked"}
+                           </Tag>
+                        </span>
+                     );
+                  }
+               }
+            },
+            sorter: (a, b) => a.acctStatus - b.acctStatus
+         },
+         {
+            title: "Action",
+            dataIndex: "ac",
+            key: "action",
+            render: (a, b) => {
+               return (
+                  <div className={stype.action}>
+                     <Button
+                        onClick={() => {
+                           this.onEditAcount(b.acctId);
+                        }}
+                        icon="edit"
+                     ></Button>
+                     <Button
+                        onClick={() => this.showConfirm(b.acctId)}
+                        icon="delete"
+                     ></Button>
+                  </div>
+               );
+            }
          }
       ];
       return (
@@ -125,26 +179,40 @@ class Users extends Component {
                            "/user-management/user-create"
                         );
                      }}
-                     icon="create"
+                     icon="plus"
                   >
-                    ADD USER
-                   </Button>
+                     ADD USER
+                  </Button>
                </div>
 
                <Table
-                  onRowClick={(user) => { this.viewDetail(user.id) }}
                   className={stype.table}
                   columns={column}
-                  loading={this.state.isloading}
-                  dataSource={Array.isArray(this.props.users) ? this.props.users : []}
-                  rowKey={user => user.id}
+                  loading={isload}
+                  pagination={false}
+                  dataSource={
+                     Array.isArray(this.props.users) ? this.props.users : []
+                  }
+                  rowKey={user => user.acctId}
                />
+               <div className={stype.pagination}>
+               <div className={stype.leftPagination}>Total: {this.props.total}</div>
+               <Pagination
+                  current={this.props.defaultCurrent}
+                  className={stype.rightPagination}
+                  pageSize={10}
+                  total={this.props.total}
+                  onChange={this.onChange}
+               />
+               </div>
             </div>
          </div>
       );
    }
 }
 function mapStateToPrors(state) {
-   return { ...state.users };
+   console.log(state);
+   const { loading, users } = state;
+   return { ...users, loading };
 }
 export default connect(mapStateToPrors)(Users);

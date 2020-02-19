@@ -3,7 +3,8 @@
     "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
     "lint": "eslint ./src --fix",
     "start": "cross-env NODE_ENV=development evnConfig=development webpack-dev-server --webpack --watch --open --config webpack.dev.js",
-    "build": "cross-env NODE_ENV=prod evnConfig=prod webpack --config webpack.prod.js"
+    "prod": "cross-env NODE_ENV=production evnConfig=production webpack-dev-server --config webpack.prod.js",
+    "build": "cross-env NODE_ENV=production evnConfig=production webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@ant-design/pro-layout": "^4.9.6",
@@ -17,13 +18,14 @@
     "chart.js": "^2.9.2",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^6.0.3",
+    "crypto-js": "^4.0.0",
     "dva": "^2.1.0",
     "dva-loading": "^1.0.4",
     "flex.css": "^1.1.7",
     "increase-memory-limit": "^1.0.7",
+    "jsencrypt": "^3.0.0-rc.1",
     "less": "^2.7.2",
     "lodash": "^4.17.15",
-    "moment": "^2.21.0",
     "path-to-regexp": "^2.1.0",
     "prop-types": "^15.6.1",
     "qs": "^6.5.1",
@@ -60,6 +62,7 @@
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",
     "less-loader": "^5.0.0",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "react-favicon": "0.0.17",
     "react-router-config": "^5.1.1",

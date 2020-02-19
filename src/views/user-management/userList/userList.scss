@@ -12,7 +12,27 @@
       display: flex;
    }
 }
-
+.action {
+   display: grid;
+   grid-column-gap: 0.5em;
+   grid-template-columns: 30px 30px;
+}
 .table {
    background: #ffffff;
+}
+.rightPagination {
+   justify-self: end;
+}
+.pagination {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+}
+.leftPagination {
+   justify-self: start;
+   font-weight: 700;
+   font-size: 18px;
+}
+:global(ant-table-thead > tr > th, .ant-table-tbody > tr > td) {
+   padding: 13px 16px;
+   overflow-wrap: break-word;
 }
