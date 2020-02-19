@@ -54,14 +54,14 @@ export default {
          const res = yield call(API.post, ADD_USER, payload);
          if (res.code === '000000') {
             history.push("/user-management/user-list");
-            yield put({ type: statusAdd, status: true })
+            yield put({ type: "statusAdd", status: true })
          }
       },
       *updateUser({ payload, history }, { call, put }) {
          const res = yield call(API.put, UPDATE_USER + `/${payload.acctId}`, payload);
          if (res.code === '000000') {
             history.push("/user-management/user-list");
-            yield put({ type: statusAdd, status: true })
+            yield put({ type: "statusAdd", status: true })
          }
 
       },

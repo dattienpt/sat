@@ -112,7 +112,7 @@ class Users extends Component {
    };
    onEditAcount(id) {
       console.log(id);
-      this.props.history.push('/user-management/user-detail/'+id);
+      this.props.history.push('/user-management/user-detail/' + id);
    }
    render() {
       const { loading } = this.props;
@@ -123,13 +123,13 @@ class Users extends Component {
             dataIndex: "acctName",
             key: "acctName",
             sorter: (a, b) => {
-               if ( a.acctName < b.acctName ){
+               if (a.acctName < b.acctName) {
                   return -1;
-                }
-                if ( a.acctName > b.acctName ){
+               }
+               if (a.acctName > b.acctName) {
                   return 1;
-                }
-                return 0
+               }
+               return 0
 
             },
          },
@@ -140,7 +140,7 @@ class Users extends Component {
             render: key => {
                return formatDateMMDDYYYY(key);
             },
-             sorter: (a, b) => a.joinedDate - b.joinedDate,
+            sorter: (a, b) => a.joinedDate - b.joinedDate,
          },
          {
             title: "Created Date",
@@ -149,20 +149,20 @@ class Users extends Component {
             render: key => {
                return formatDateMMDDYYYY(key);
             },
-             sorter: (a, b) => a.createdDate - b.createdDate,
-             },
+            sorter: (a, b) => a.createdDate - b.createdDate,
+         },
          {
             title: "Email",
             dataIndex: "email",
             key: "email",
             sorter: (a, b) => {
-               if ( a.email < b.email ){
+               if (a.email < b.email) {
                   return -1;
-                }
-                if ( a.email > b.email ){
+               }
+               if (a.email > b.email) {
                   return 1;
-                }
-                return 0
+               }
+               return 0
             },
          },
          {
@@ -178,17 +178,17 @@ class Users extends Component {
             render: tag => {
                if (+tag === 1) {
                   return <span>
-                      <Tag color={"green"} key={tag}>
-                           {"Active"}
-                        </Tag>
+                     <Tag color={"green"} key={tag}>
+                        {"Active"}
+                     </Tag>
 
                   </span>
-               }else{
+               } else {
                   return <span>
-                  <Tag color={"volcano"} key={tag}>
-                       {"inactive "}
-                    </Tag>
-                 );
+                     <Tag color={"volcano"} key={tag}>
+                        {"inactive "}
+                     </Tag>
+                     );
               </span>
                }
             },
@@ -255,6 +255,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
+   console.log(state);
    const { loading, users } = state;
    return { ...users, loading };
 }

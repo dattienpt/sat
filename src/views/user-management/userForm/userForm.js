@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import Layout from "../../../layouts/proLayout/mainProlayout";
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
+import { Form, Input, Icon, Select, Button, message } from 'antd';
 import style from "./userForm.scss";
 
 const { Option } = Select;
@@ -15,20 +15,16 @@ class RegistrationForm extends React.Component {
    };
 
    componentWillMount() {
+      let payload = null;
       const id = this.props.match.params.userId;
-      console.log(id);
       if (id) {
-         this.props.dispatch({
-            type: "users/getUserDetail",
-            payload: id,
-         });
+         payload = id;
          this.setState({ formPass: false, userId: id });
-      } else {
-         this.props.dispatch({
-            type: "users/getUserDetail",
-            payload: null,
-         });
       }
+      this.props.dispatch({
+         type: "users/getUserDetail",
+         payload: payload,
+      });
    }
 
    componentDidMount() {
@@ -48,7 +44,6 @@ class RegistrationForm extends React.Component {
       console.log(this.state.userId);
       const { history } = this.props;
       this.props.form.validateFieldsAndScroll((err, values) => {
-         console.log(values);
          console.log(typeof values.acctStatus);
          if (!err) {
             delete values.confirm;
@@ -99,8 +94,8 @@ class RegistrationForm extends React.Component {
 
    render() {
       // console.log(this.props.user);
-      const { acctName, mobileNo, jobNum, loginFlag, email, acctStatus } = this.props.user;
-      // const { acctStatus } = this.props.user.acctStatus.toString();
+      const { acctName, mobileNo, jobNum, loginFlag, email } = this.props.user;
+      const { acctStatus } = (String(this.props.user.acctStatus));
       const { getFieldDecorator } = this.props.form;
       const formItemLayout = {
          labelCol: {
@@ -223,29 +218,11 @@ class RegistrationForm extends React.Component {
                   />)}
                </Form.Item>
 
-               {/* <Form.Item
-                  label={<span> jobNum </span>}
-               >
-                  {getFieldDecorator('jobNum', {
-                     initialValue: jobNum,
-                     rules: [{ required: true, message: 'Please input your jobNum!', whitespace: true }],
-                  })(<Input />)}
-               </Form.Item>
-
-               <Form.Item
-                  label={<span> loginFlag </span>}
-               >
-                  {getFieldDecorator('loginFlag', {
-                     initialValue: loginFlag,
-                     rules: [{ required: true, message: 'Please input your loginFlag!', whitespace: true }],
-                  })(<Input />)}
-               </Form.Item> */}
-
                <Form.Item
                   label={<span> Status </span>}
                >
                   {getFieldDecorator('acctStatus', {
-                     initialValue: acctStatus,
+                     initialValue: "1",
                      rules: [{ required: true, message: 'Please choose !', whitespace: true }],
                   })(
                      <Select
@@ -257,7 +234,9 @@ class RegistrationForm extends React.Component {
                         }
                      >
                         <Option value="1">Active</Option>
-                        <Option value="2">Inactive</Option>
+                        <Option value="0">Pending</Option>
+                        <Option value="2">Disabled</Option>
+                        <Option value="4">Locked</Option>
                      </Select>,
                   )}
                </Form.Item>
