@@ -6,11 +6,9 @@ import { formatDateMMDDYYYY } from "../../../utils/formatDate";
 
 const { confirm } = Modal;
 class Users extends Component {
-   state = { searchText: "", searchedColumn: "", isloading: true };
+   state = { searchText: "", searchedColumn: ""};
 
-   componentWillReceiveProps() {
-      this.setState({ isloading: false });
-   }
+ 
    componentWillMount() {
       this.props.dispatch({
          type: "users/getUsers",
@@ -121,6 +119,8 @@ class Users extends Component {
     // this.props.history.push('/user-management/user-detail/'+id);
    }
    render() {
+      const {loading} = this.props;
+      const isload = loading.effects['users/getUsers'];
       const column = [
          {
             title: "Account name",
@@ -132,7 +132,7 @@ class Users extends Component {
             dataIndex: "joinedDate",
             key: "firstname",
             render: key => {
-               return formatDateMMDDYYYY(+key);
+               return formatDateMMDDYYYY(key);
             }
             //  ...this.getColumnSearchProps("firstname")
          },
@@ -141,7 +141,7 @@ class Users extends Component {
             dataIndex: "createdDate",
             key: "lastname",
             render: key => {
-               return formatDateMMDDYYYY(+key);
+               return formatDateMMDDYYYY(key);
             }
             //  ...this.getColumnSearchProps("lastname")
          },
@@ -155,8 +155,14 @@ class Users extends Component {
             dataIndex: "updatedDate",
             key: "updatedDate",
             render: key => {
-               return formatDateMMDDYYYY(+key);
+               return formatDateMMDDYYYY(key);
             }
+         },
+         {
+            title: "Phone number",
+            dataIndex: "mobileNo",
+            key: "mobileNo",
+           
          },
          {
             title: "Action",
@@ -200,7 +206,7 @@ class Users extends Component {
                <Table
                   className={stype.table}
                   columns={column}
-                  loading={this.state.isloading}
+                  loading={isload}
                   pagination={false}
                   dataSource={
                      Array.isArray(this.props.users) ? this.props.users : []
@@ -219,7 +225,7 @@ class Users extends Component {
    }
 }
 function mapStateToPrors(state) {
-   //console.log(state.users );
-   return { ...state.users };
+    const {loading,users} = state;
+   return { ...users,loading };
 }
 export default connect(mapStateToPrors)(Users);
