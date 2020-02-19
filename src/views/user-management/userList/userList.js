@@ -186,7 +186,7 @@ class Users extends Component {
                }else{
                   return <span>
                   <Tag color={"volcano"} key={tag}>
-                       {"disActive"}
+                       {"inactive "}
                     </Tag>
                  );
               </span>
