@@ -49,7 +49,6 @@ copy(conFig, target, err => {
     return console.log('copy error', err);
   } else {
     console.log('copy current env', conFig);
-
   }
 });
 

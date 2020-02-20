@@ -3,6 +3,7 @@ import { JSEncrypt } from 'jsencrypt';
 import dev from '../configs/dev';
 import moment from 'moment';
 export const aesPub = getAESKey();
+const ivKey = '1234567812345678';
 
 export function processRequest(params) {
     const nowtime = new Date();
@@ -23,12 +24,12 @@ export function processRequest(params) {
 }
 
 export function encryptData(data) {
-    const res = CryptoJS.enc.Utf8.parse(CryptoJS.AES.encrypt(JSON.stringify(data), '12345678'));
+    const res = CryptoJS.enc.Utf8.parse(CryptoJS.AES.encrypt(JSON.stringify(data), ivKey));
     return CryptoJS.enc.Base64.stringify(res);
 }
 export function decryptData(data) {
     const res = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
-    return JSON.parse(CryptoJS.AES.decrypt(res, '12345678').toString(CryptoJS.enc.Utf8));
+    return JSON.parse(CryptoJS.AES.decrypt(res, ivKey).toString(CryptoJS.enc.Utf8));
 }
 export function processResponse(data) {
     if (data) {
@@ -42,7 +43,7 @@ export function processResponse(data) {
 function decodeAES(value, aesPub) {
     const aesKey = CryptoJS.enc.Utf8.parse(aesPub);
     const decrypted = CryptoJS.AES.decrypt(value, aesKey, {
-        iv: CryptoJS.enc.Utf8.parse('1234567812345678'),
+        iv: CryptoJS.enc.Utf8.parse(ivKey),
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.ZeroPadding
     });
@@ -50,7 +51,7 @@ function decodeAES(value, aesPub) {
 }
 function encryptAES(value, aesPub) {
     return CryptoJS.enc.Base64.stringify(CryptoJS.AES.encrypt(value, CryptoJS.enc.Utf8.parse(aesPub), {
-        iv: CryptoJS.enc.Utf8.parse('1234567812345678'),
+        iv: CryptoJS.enc.Utf8.parse(ivKey),
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.ZeroPadding
     }).ciphertext);

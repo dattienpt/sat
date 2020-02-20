@@ -1,6 +1,4 @@
-const userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
-   ? JSON.parse(sessionStorage.getItem("userInfo"))
-   : {};
+const userInfo = JSON.parse(sessionStorage.getItem("userInfo")) ? JSON.parse(sessionStorage.getItem("userInfo")) : {};
 
 export default {
    namespace: "common",

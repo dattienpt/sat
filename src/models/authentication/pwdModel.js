@@ -1,5 +1,5 @@
 export default {
-   namespace: "handlePasswordModel",
+   namespace: "pwdModel",
    state: {
       changed: true
    },

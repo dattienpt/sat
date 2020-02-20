@@ -52,7 +52,7 @@ class AvatarDropdown extends React.Component {
          visible: false
       });
       app._store.dispatch({
-         type: "handlePasswordModel/setStatus",
+         type: "pwdModel/setStatus",
          changed: true
       });
    };
@@ -66,7 +66,7 @@ class AvatarDropdown extends React.Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
          if (!err) {
             dispatch({
-               type: "handlePasswordModel/changePassword",
+               type: "pwdModel/changePassword",
                payload: values,
                history: history
             });
@@ -218,7 +218,7 @@ class AvatarDropdown extends React.Component {
 const WrappedAvatarDropdown = Form.create({ name: "register" })(AvatarDropdown);
 const mapStateToProps = state => {
    const { acctName } = state.loginModel;
-   const { changed } = state.handlePasswordModel;
+   const { changed } = state.pwdModel;
    return { acctName, changed };
 };
 
