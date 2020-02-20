@@ -10,7 +10,6 @@ export default {
       total: 0,
       defaultCurrent: 1,
       user: {},
-      template: { availableRoles: [], allowedOffices: [] },
       namePage: "",
       addSuccess: null
    },
@@ -27,13 +26,6 @@ export default {
       },
       userDetail(state, { payload }) {
          return { ...state, user: payload };
-      },
-      template(state, { template }) {
-         template.allowedOffices = template.allowedOffices.map(item => {
-            return { value: item.id + "", label: item.name };
-         });
-         state.namePage = "";
-         return { ...state, template };
       },
       name(state, { namePage }) {
          state.namePage = namePage;
