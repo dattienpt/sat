@@ -19,7 +19,6 @@ export function processRequest(params) {
         encodeKey
     });
     result.sign = addSign(result);
-    console.log('Request Data after encrypt: ', result);
     return result;
 }
 
@@ -33,12 +32,10 @@ export function decryptData(data) {
 }
 export function processResponse(data) {
     if (data) {
-        if (typeof data == 'string') {
+        if (typeof data === 'string')
             return JSON.parse(decodeAES(data, aesPub));
-        }
-        else {
+        else
             return data;
-        }
     }
     return data;
 }

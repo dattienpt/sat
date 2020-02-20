@@ -1,5 +1,5 @@
 export const requestCode = {
-    success: '00000',
+    success: '000000',
     expired: '401',
     forceExpired: '400',
     alreadyExits: '90007'

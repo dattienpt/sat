@@ -25,7 +25,7 @@ class Users extends Component {
                payload: { id: id, defaultCurrent: 1 }
             });
          },
-         onCancel() {}
+         onCancel() { }
       });
    };
 

@@ -65,7 +65,7 @@ export class NetworkAxios {
                   Authorization: `Bearer ${this.token}`
                }
             }).then(response => {
-               if (response.data.code === requestCode.success) {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                return response.data;
@@ -81,9 +81,7 @@ export class NetworkAxios {
       }
    };
    static get = (url, data) => {
-      if (data) {
-         url += `?` + parseQuery(data);
-      }
+      if (data) { url += `?` + parseQuery(data); }
       addAesKeyParam(axiosInstance, aesPub);
       return new Promise((resolve, reject) => {
          axiosInstance
@@ -92,11 +90,10 @@ export class NetworkAxios {
                if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
-               console.log('Response data after decrypt: ', response.data);
                resolve(response.data);
             })
             .catch(error => {
-               if (error.response && error.response.status == 401)
+               if (error.response && error.response.status == requestCode.expired)
                   resolve(this.checkStatus(error.response));
                else
                   reject(error.response.data);
@@ -114,11 +111,10 @@ export class NetworkAxios {
                if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
-               console.log('Response data after decrypt: ', response.data);
                resolve(response.data);
             })
             .catch(error => {
-               if (error.response.status == 401)
+               if (error.response.status == requestCode.expired)
                   resolve(this.checkStatus(error.response));
                else
                   reject(error.response.data);
@@ -136,7 +132,7 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               if (error.response.status == 401)
+               if (error.response.status == requestCode.expired)
                   resolve(this.checkStatus(error.response));
                else
                   reject(error.response.data);
@@ -144,9 +140,7 @@ export class NetworkAxios {
       });
    };
    static delete = (url, data) => {
-      if (data) {
-         url += `?` + parseQuery(data);
-      }
+      if (data) { url += `?` + parseQuery(data); }
       addAesKeyParam(axiosInstance, aesPub);
       return new Promise((resolve, reject) => {
          axiosInstance.delete(url, { headers: { Authorization: `Bearer ${this.token}` } })
@@ -157,7 +151,7 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               if (error.response.status == 401)
+               if (error.response.status == requestCode.expired)
                   resolve(this.checkStatus(error.response));
                else
                   reject(error.response.data);
@@ -176,7 +170,7 @@ export class NetworkAxios {
                resolve(response.data);
             })
             .catch(error => {
-               if (error.response.status == 401)
+               if (error.response.status == requestCode.expired)
                   resolve(this.checkStatus(error.response));
                else
                   reject(error.response.data);

@@ -4,7 +4,7 @@ import Layout from "../layouts/proLayout/mainProlayout";
 import NotFound from "../views/notFound/notFound";
 import * as localStorageService from "../utils/localStorageService";
 import { Spin } from "antd";
-import { userList, userForm, userDetail, dashboard, ClientList, clientDetail, productList, LoginForm } from "./lazyLoad";
+import { userList, userForm, dashboard, LoginForm } from "./lazyLoad";
 
 const checkLogin = () => {
    const userLocal = localStorageService.getUserInfo();
@@ -31,15 +31,9 @@ function RouterConfig({ history }) {
                      <Switch>
                         <Route path="/" exact component={dashboard} />
                         <Route path="/dashboard" exact component={dashboard} />
-                        <Route path="/user-management/user-list" name="User list" exact={false} component={userList} />
-                        <Route path="/user-management/user-detail/:userId" component={userForm} />
-                        <Route path="/user-management/user-create" component={userForm} />
-                        <Route path="/clients" exact component={ClientList} />
-                        {/* <Route path="/user-management/user-detail/:userId" component={userDetail} /> */}
-                        {/* <Route path="/user-management/user-create" component={editUser} /> */}
-                        {/* <Route path="/clients" exact component={ClientList} />
-                        <Route path="/clients/:idClient" exact component={clientDetail} />
-                        <Route path="/products" exact component={productList} /> */}
+                        <Route path="/user-management/user-list" name="User list" exact component={userList} />
+                        <Route path="/user-management/user-detail/:userId" exact component={userForm} />
+                        <Route path="/user-management/user-create" exact component={userForm} />
                         <Route path="*" exact component={NotFound} />
                      </Switch>
                   </Layout>
