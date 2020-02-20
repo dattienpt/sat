@@ -19,7 +19,7 @@ export function processRequest(params) {
         encodeKey
     });
     result.sign = addSign(result);
-    console.log(result);
+    console.log('Request Data after encrypt: ', result);
     return result;
 }
 
@@ -82,7 +82,6 @@ function addSign(params) {
     source = source.slice(0, -2);
     return CryptoJS.SHA256(`{${source}}`).toString(CryptoJS.enc.Hex);
 }
-
 
 export function encryptPassToken(password) {
     const passwordTime = password + "$CurTime=" + (new Date().valueOf());

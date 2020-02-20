@@ -1,7 +1,7 @@
 import evnConfig from "../configs/env";
 import Axios from "axios";
 import { app } from "../index";
-import { requestStatus } from "./requestConfig";
+import { requestStatus, requestCode } from "./requestConfig";
 import { parseQuery } from "../utils/processData";
 import * as localStorageService from '../utils/localStorageService';
 import { aesPub, processRequest, processResponse } from './processEncrypt';
@@ -65,7 +65,7 @@ export class NetworkAxios {
                   Authorization: `Bearer ${this.token}`
                }
             }).then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code === requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                return response.data;
@@ -89,9 +89,10 @@ export class NetworkAxios {
          axiosInstance
             .get(url, { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
+               console.log('Response data after decrypt: ', response.data);
                resolve(response.data);
             })
             .catch(error => {
@@ -110,9 +111,10 @@ export class NetworkAxios {
             headers: { Authorization: `Bearer ${this.token}` }
          })
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
+               console.log('Response data after decrypt: ', response.data);
                resolve(response.data);
             })
             .catch(error => {
@@ -128,7 +130,7 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.put(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                resolve(response.data);
@@ -141,15 +143,15 @@ export class NetworkAxios {
             });
       });
    };
-   static delete = (url,data) => {
+   static delete = (url, data) => {
       if (data) {
          url += `?` + parseQuery(data);
       }
-      addAesKeyParam(axiosInstance,aesPub);
+      addAesKeyParam(axiosInstance, aesPub);
       return new Promise((resolve, reject) => {
-         axiosInstance.delete(url, { headers: { Authorization: `Bearer ${this.token}` } }, )
+         axiosInstance.delete(url, { headers: { Authorization: `Bearer ${this.token}` } })
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                resolve(response.data);
@@ -168,7 +170,7 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.patch(url, processRequest(data), { headers: { Authorization: `Bearer ${this.token}` } }, ...options)
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                resolve(response.data);
@@ -187,7 +189,7 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.post(url, processRequest(data))
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                resolve(response.data);
@@ -202,7 +204,7 @@ export class NetworkAxios {
       return new Promise((resolve, reject) => {
          axiosInstance.get(url, data)
             .then(response => {
-               if (response.data.code == "000000") {
+               if (response.data.code == requestCode.success) {
                   response.data.data = response.data.data && processResponse(response.data.data);
                }
                resolve(response.data);

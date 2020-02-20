@@ -1,11 +1,10 @@
 import API from "../../http/httpClientAxios";
 import {
    userTemplate,
-   clients,
+   USER_LIST,
    ADD_USER,
    UPDATE_USER
 } from "../../http/api/requestApi";
-import { app } from "../../index";
 export default {
    namespace: "users",
    state: {
@@ -70,13 +69,13 @@ export default {
       *getUsers({ payload }, { call, put }) {
          const current = payload.defaultCurrent;
          delete payload.defaultCurrent;
-         const response = yield call(API.get, clients, payload);
+         const response = yield call(API.get, USER_LIST, payload);
          response.data.defaultCurrent = current;
          yield put({ type: "save", payload: response.data });
       },
       *deleteUser({ payload }, { call, put }) {
-         const response = yield call(API.delete, clients + "/" + payload.id);
-         if (response.message == "Success") {
+         const response = yield call(API.delete, USER_LIST + "/" + payload.id);
+         if (response.code == "000000") {
             yield put({
                type: "getUsers",
                payload: {
@@ -89,7 +88,7 @@ export default {
       },
       *getUserDetail({ payload }, { call, put }) {
          if (payload) {
-            const response = yield call(API.get, clients + "/" + payload);
+            const response = yield call(API.get, USER_LIST + "/" + payload);
             if (response)
                yield put({ type: "userDetail", payload: response.data });
          } else {
